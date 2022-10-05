@@ -3,9 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-/* import firebase */
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+// Firbase deploy
+// https://www.youtube.com/watch?v=a-0W40NM0dI
 
 /* import fontawesome */
 import { library } from '@fortawesome/fontawesome-svg-core'
