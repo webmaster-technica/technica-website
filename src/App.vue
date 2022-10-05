@@ -1,30 +1,57 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  <app-header @openLoginModel="toggleLoginModal"/>
+  <login-modal v-if="showLoginModal" @closeLoginModal="toggleLoginModal"/>
   <router-view/>
+  <app-footer/>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  body {
+    margin: 0;
+  }
+  
+  #app {
+    font-family: Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
 
-nav {
-  padding: 30px;
-}
+  #header {
+    position: fixed;
+    top: 0;
+  }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  #footer {
+    position: fixed;
+    bottom: 0;
+  }
 
-nav a.router-link-exact-active {
-  color: #42b983;
-}
+  div .main > * {
+    display: block;
+    margin: 10px auto;
+  }
 </style>
+
+<script>
+  import AppHeader from '@/components/AppHeader.vue';
+  import AppFooter from '@/components/AppFooter.vue';
+  import LoginModal from '@/components/LoginModal.vue'
+  
+  export default {
+    components: {
+      AppHeader,
+      AppFooter,
+      LoginModal
+    },
+    data() {
+      return {
+        showLoginModal: false
+      }
+    },
+    methods: {
+      toggleLoginModal() { this.showLoginModal = ! this.showLoginModal }
+    }
+  }
+</script>
