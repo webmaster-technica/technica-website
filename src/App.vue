@@ -28,9 +28,25 @@
     bottom: 0;
   }
 
+  div .main {
+    max-width: 1280px;
+    margin: auto;
+  }
+
   div .main > * {
     display: block;
     margin: 10px auto;
+  }
+
+  button[disabled] {
+    opacity: 0.25;
+    cursor: not-allowed;
+  }
+
+  input, button, select {
+    padding: 10px 6px;
+    box-sizing: border-box;
+    color: #555;
   }
 </style>
 

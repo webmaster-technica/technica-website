@@ -2,10 +2,14 @@
 <template>
   <div class="backdrop" @click.self="closeLoginModal">
     <div class="modal">
-      <h1>Login</h1>
       <div class="main">
+        <h1>Login</h1>
         <div class="input-field">
-          <input v-model="user.username" type="text" class="input" placeholder="Gebruiker"/>
+          <select v-model="user.role">
+              <option value="webmaster">Webmaster</option>
+              <option value="praeses">Praeses</option>
+          </select>
+          <!-- <input v-model="user.username" type="text" class="input" placeholder="Gebruiker"/> -->
         </div>
         <div class="input-field">
           <input v-if="showPassword" v-model="user.password" type="text" class="input" placeholder="Wachtwoord"/>
@@ -26,7 +30,7 @@
     data() {
       return {
         showPassword: false,
-        user: { username: '', password: '' }
+        user: { role: 'webmaster', password: '' }
       }
     },
     methods: {
@@ -61,7 +65,7 @@
     display: flex;
   }
 
-  .input-field > input {
+  .input-field > *:not(button) {
     flex-grow: 1;
     flex-shrink: 1;
   }

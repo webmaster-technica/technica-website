@@ -1,10 +1,10 @@
 <template>
-  <h1>Lid worden</h1>
-  <p>
-    Indien u lid wilt worden, kunt u onderstaand formulier invullen. 
-    Zodra wij dit ontvangen hebben, zullen wij contact met u opnemen om alles te regelen; lidkaart, lidgeld, ...
-  </p>
   <div class="main">
+    <h1>Lid worden</h1>
+    <p>
+      Indien u lid wilt worden, kunt u onderstaand formulier invullen. 
+      Zodra wij dit ontvangen hebben, zullen wij contact met u opnemen om alles te regelen; lidkaart, lidgeld, ...
+    </p>
     <input v-model="member.name" type="text" ref="name" placeholder="Naam" class="input"/>
     <input v-model="member.birthday" type="date" ref="birthday" placeholder="Geboortedatum" class="input"/>
     <input v-model="member.study" type="text" ref="study" placeholder="Studierichting" class="input"/>
@@ -21,8 +21,8 @@
     </div>
     <div ref="dopen">
       Dopen
-      <label><input type="radio" id="one" value="Ja" v-model="member.dopen"/>Ja</label>
-      <label><input type="radio" id="one" value="Nee" v-model="member.dopen"/>Nee</label>
+      <label><input type="radio" value="Ja" v-model="member.dopen"/>Ja</label>
+      <label><input type="radio" value="Nee" v-model="member.dopen"/>Nee</label>
     </div>
     <div ref="privacy">
       <input v-model="member.privacy" type="checkbox" class="input"/>
