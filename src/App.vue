@@ -5,6 +5,28 @@
   <app-footer/>
 </template>
 
+<script>
+  import AppHeader from '@/components/AppHeader.vue';
+  import AppFooter from '@/components/AppFooter.vue';
+  import LoginModal from '@/components/LoginModal.vue'
+  
+  export default {
+    components: {
+      AppHeader,
+      AppFooter,
+      LoginModal
+    },
+    data() {
+      return {
+        showLoginModal: false
+      }
+    },
+    methods: {
+      toggleLoginModal() { this.showLoginModal = ! this.showLoginModal }
+    }
+  }
+</script>
+
 <style>
   body {
     margin: 0;
@@ -48,26 +70,15 @@
     box-sizing: border-box;
     color: #555;
   }
-</style>
 
-<script>
-  import AppHeader from '@/components/AppHeader.vue';
-  import AppFooter from '@/components/AppFooter.vue';
-  import LoginModal from '@/components/LoginModal.vue'
-  
-  export default {
-    components: {
-      AppHeader,
-      AppFooter,
-      LoginModal
-    },
-    data() {
-      return {
-        showLoginModal: false
-      }
-    },
-    methods: {
-      toggleLoginModal() { this.showLoginModal = ! this.showLoginModal }
-    }
+  input[type="checkbox"] {
+    width: 16px;
+    margin: 0 10px 0 0;
+    position: relative;
+    top: 2px;
   }
-</script>
+
+  a {
+    text-decoration: none;
+  }
+</style>
