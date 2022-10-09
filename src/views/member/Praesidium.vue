@@ -23,6 +23,15 @@
       </div>
     </div>
     <div v-else><p>Loading preasidium ...</p></div>
+    <div>
+      <!-- <input v-model="praes.name" type="text" ref="name" placeholder="Naam" required/>
+      <input v-model="praes.surname" type="date" ref="birthday" placeholder="Geboortedatum" required/>
+      <input v-model="praes.role" type="number" ref="yearOfStudy" placeholder="Jaar" required/>
+      <input v-model="praes.course" type="text" ref="study" placeholder="Studierichting" required/>
+      <input v-model="preas.drink" type="tel" ref="gsm" placeholder="Gsm nummer" required/>
+      <input v-model="preas.quote" type="tel" ref="gsm" placeholder="Gsm nummer" required/>
+      <input v-model="preas.mail" type="email" ref="email" placeholder="E-mail adres" required/> -->
+    </div>
   </div>
 </template>
 
@@ -45,7 +54,6 @@
       async getPraesidium() {
         const querySnapshot = await getDocs(query(this.praesidiumCol));
         querySnapshot.forEach((doc) => {
-          this.praesidium.push
           this.praesidium.push(new Praesidium(doc.id, doc.data()))
         });
         console.log(this.praesidium)
