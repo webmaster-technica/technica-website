@@ -16,7 +16,7 @@
     <input v-model="member.city" type="text" ref="city" placeholder="Stad" required/>
     <input v-model="member.postcode" type="number" ref="postcode" placeholder="Postcode" required/>
     <div ref="image">
-      Foto <input @change="onFileChange" type="file" accept="image/*" required/>
+      Foto <input @change="onFileChange" type="file" accept=".png, .jpg, .jpeg" required/>
       <img :src="member.image" v-if="member.image" alt="">
     </div>
     <div ref="dopen">
