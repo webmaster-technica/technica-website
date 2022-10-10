@@ -12,12 +12,13 @@ export const RoleEnum = Object.freeze({
   SOC:              {value: 9,  name: 'S.O.C.',           mail: 'soc@technica-antwerpen.be'},
   PR:               {value: 10, name: 'P.R.',             mail: 'pr@technica-antwerpen.be'},
   REDACTOR:         {value: 11, name: 'Redactor',         mail: 'redactor@technica-antwerpen.be'},
-  WEBMASTER:        {value: 12, name: 'Webmaster',        mail: 'webmaster@technica-antwerpen.be'},
-  RESIDENT_DJ:      {value: 13, name: 'Resident DJ',      mail: 'residentdj@technica-antwerpen.be'},
-  PETER:            {value: 14, name: 'Peter',            mail: null},
-  METER:            {value: 15, name: 'Meter',            mail: null},
-  ERE_LID:          {value: 16, name: 'Ere-Lid',          mail: null},
-  ERE_PRAESES:      {value: 17, name: 'Ere-Praeses',      mail: null}
+  MEDIA:            {value: 12, name: 'Media',            mail: 'media@technica-antwerpen.be'},
+  WEBMASTER:        {value: 13, name: 'Webmaster',        mail: 'webmaster@technica-antwerpen.be'},
+  RESIDENT_DJ:      {value: 14, name: 'Resident DJ',      mail: 'residentdj@technica-antwerpen.be'},
+  PETER:            {value: 15, name: 'Peter',            mail: null},
+  METER:            {value: 16, name: 'Meter',            mail: null},
+  ERE_LID:          {value: 17, name: 'Ere-Lid',          mail: null},
+  ERE_PRAESES:      {value: 18, name: 'Ere-Praeses',      mail: null}
 })
 
 export function getRoleEnumFromValue(value = 0){

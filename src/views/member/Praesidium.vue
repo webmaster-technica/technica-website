@@ -19,12 +19,12 @@
       <div class="image-div column-2">
         <img :src="praesidia.picture" v-if="praesidia.picture" alt="">
         <label for="picture" class="button-label">Foto</label>
-        <input @change="onFileChange($event, false)" id="picture" type="file" accept=".png, .jpg, .jpeg" required/>
+        <input @change="onFileChange($event, false)" id="picture" type="file" accept="image/*" required/>
       </div>
       <div class="image-div column-2">
         <img :src="praesidia.picture_alt" v-if="praesidia.picture_alt" alt="">
         <label for="picture_alt" class="button-label">Zotte foto</label>
-        <input @change="onFileChange($event, true)" id="picture_alt" type="file" accept=".png, .jpg, .jpeg" required/>
+        <input @change="onFileChange($event, true)" id="picture_alt" type="file" accept="image/*" required/>
       </div>
     </template>
   </data-modal>
@@ -34,9 +34,8 @@
       <div v-for="lid in praesidium" :key="lid.id" class="persons">
         <div class="person-wrap">
           <div class="person-image">
-            <img class="image-normal" src="https://firebasestorage.googleapis.com/v0/b/technica-website-defc6.appspot.com/o/praesidium%2F%23anoniem.png?alt=media&token=11f7dcb1-1a18-48c1-86b0-71b9f4f0a345" alt="">
-            <!-- <img class="image-normal" :src="lid.picture" />
-            <img class="image-zot" :src="lid.picture_alt" /> -->
+            <img class="image-normal" :src="lid.picture" />
+            <img class="image-zot" :src="lid.picture_alt" />
             <a v-if="lid.linkedin" :href="lid.linkedin"><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'linkedin' }"/></a>
           </div>
           <div class="person-details">
@@ -59,11 +58,13 @@
 </template>
 
 <script>
-  import { db } from '@/firebase';
+  import { db, storage } from '@/firebase';
   import { query, orderBy, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
+  import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'
   import { Praesidium, FirePraesidium } from '@/classes';
   import { RoleEnum } from '@/enums';
   import DataModal from '@/components/DataModal.vue';
+  import imageCompression from 'browser-image-compression';
 
   export default {
     data() {
@@ -79,8 +80,21 @@
       this.getPraesidium();
     },
     methods: {
+      async getPhotos(file) {
+        const storageRef = ref(storage, 'praesidium/' + file.name)
+        this.praesidia.picture = await getDownloadURL(storageRef)
+      },
+      async postPhotos(file) {
+        file = await imageCompression(file, { maxSizeMB: 1, maxWidthOrHeight: 1280, useWebWorker: true });
+        const storageRef = ref(storage, 'praesidium/' + file.name)
+        uploadBytes(storageRef, file)
+      },
+      async delPhotos(file) {
+        const storageRef = ref(storage, 'praesidium/' + file.name)
+        deleteObject(storageRef)
+      },
       async getPraesidium() {
-        const querySnapshot = await getDocs(query(collection(db, "praesidium"), orderBy('role')));
+        const querySnapshot = await getDocs(query(collection(db, 'praesidium'), orderBy('role')));
         querySnapshot.forEach((doc) => {
           this.praesidium.push(new FirePraesidium(doc.id, doc.data()));
         });
@@ -92,6 +106,7 @@
         this.$forceUpdate();
       },
       async putPraesidium() {
+        console.log(this.praesidia.json)
         await updateDoc(doc(db, "praesidium", this.praesidia.id), this.praesidia.json);
         this.$forceUpdate();
       },
@@ -103,7 +118,6 @@
         this.praesidia = lid ? lid : new Praesidium()
         this.modalTitle = this.praesidia.id ? "Praesidium aanpassen" : "Praesidium toevoegen"
         this.toggleDataModal()
-          this.$forceUpdate()
       },
       toggleDataModal() { this.showDataModal = !this.showDataModal; },
       confirm() {
@@ -112,12 +126,14 @@
       },
       onFileChange(event, alt) {
         var files = event.target.files;
-        if (!files.length)
-            return;
-        const reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        if (alt)  reader.onload = () => (this.praesidia.picture_alt = reader.result);
-        else      reader.onload = () => (this.praesidia.picture = reader.result);
+        if (!files.length) return;
+        // this.delPhotos(files[0])
+        this.postPhotos(files[0])
+        this.getPhotos(files[0])
+        // const reader = new FileReader();
+        // reader.readAsDataURL(files[0]);
+        // if (alt)  reader.onload = () => (this.praesidia.picture_alt = reader.result);
+        // else      reader.onload = () => (this.praesidia.picture = reader.result);
       }
     },
     components: { DataModal }
@@ -128,7 +144,7 @@
   .persons { display: inline-flex; }
   .person-wrap { width: 256px; }
   /* .person-wrap {
-    background: url('../images/grunge.png');
+    background: url('../images/grunge.png'); 
     width: 100%;
   } */
   .person-wrap .person-image {

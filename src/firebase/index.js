@@ -1,5 +1,8 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
+import { getStorage } from 'firebase/storage'
+
+// https://github.com/Donaldcwl/browser-image-compression
 
 // Initialize Firebase
 const app = initializeApp({
@@ -12,7 +15,7 @@ const app = initializeApp({
     measurementId: 'G-MDZ94Q2H70'
 })
 
-
 export const db = getFirestore(app)
+export const storage = getStorage(app)
 
 //https://www.koderhq.com/tutorial/vue/firebase-firestore/
