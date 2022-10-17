@@ -1,7 +1,9 @@
 import { getRoleEnumFromValue } from "../enums"
 
 export class Praesidium {
-  constructor(name = '', surname = '', role = null, course = '', drink = '', text = '', linkedin = '', picture = '@/assets/anoniem.png', picture_alt = '@/assets/anoniem.png') {
+  constructor(name = '', surname = '', role = null, course = '', drink = '', text = '', linkedin = '', 
+              picture = 'https://firebasestorage.googleapis.com/v0/b/technica-website-defc6.appspot.com/o/praesidium%2Fanoniem.png?alt=media&token=5862e3df-b5ed-4114-a20e-8c56ce8e2871', 
+              picture_alt = 'https://firebasestorage.googleapis.com/v0/b/technica-website-defc6.appspot.com/o/praesidium%2Fanoniem.png?alt=media&token=5862e3df-b5ed-4114-a20e-8c56ce8e2871') {
     this.name = name
     this.surname = surname
     this.role = getRoleEnumFromValue(role)

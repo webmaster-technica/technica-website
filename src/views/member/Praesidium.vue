@@ -1,6 +1,6 @@
 <template>
   <!-- The model is used to edit data -->
-  <data-modal v-if="showDataModal" :title="modalTitle" @closeDataModal="toggleDataModal($event)" @confirm="confirm">
+  <data-modal v-if="modal.show" :title="modal.title" @closeDataModal="toggleDataModal" @confirm="confirm">
     <!-- All input fields -->
     <template v-slot:inputs>
       <input class="column-2" v-model="praesidia.name" type="text" placeholder="Naam" required/>
@@ -34,8 +34,8 @@
       <div v-for="lid in praesidium" :key="lid.id" class="persons">
         <div class="person-wrap">
           <div class="person-image">
-            <img class="image-normal" :src="lid.picture" />
-            <img class="image-zot" :src="lid.picture_alt" />
+            <img class="image-normal" :src="lid.picture"/>
+            <img class="image-alt" :src="lid.picture_alt"/>
             <a v-if="lid.linkedin" :href="lid.linkedin"><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'linkedin' }"/></a>
           </div>
           <div class="person-details">
@@ -49,7 +49,7 @@
             </div>
           </div>
           <button @click="changeData($event, lid)">Edit</button>
-          <button @click="delPraesidium($event, lid.id)">Delete</button>
+          <button @click="delPraesidium($event, lid.id, `${lid.name}_${lid.surname}`)">Delete</button>
         </div>
       </div>
     </div>
@@ -58,82 +58,92 @@
 </template>
 
 <script>
-  import { db, storage } from '@/firebase';
-  import { query, orderBy, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
-  import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'
+  import { getData, postData, putData, delData, getPhoto, postPhoto, delPhoto } from '@/firebase';
   import { Praesidium, FirePraesidium } from '@/classes';
   import { RoleEnum } from '@/enums';
   import DataModal from '@/components/DataModal.vue';
-  import imageCompression from 'browser-image-compression';
+
+  // Picture problem
+  // Delete picture
 
   export default {
     data() {
       return {
         RoleEnum: RoleEnum,
         praesidium: [],
-        showDataModal: false,
-        modalTitle: '',
-        entityId: ''
+        modal: { show: false, title: '' },
+        picture: { normal: null, alt: null },
+        path: 'praesidium'
       };
     },
-    created() {
-      this.getPraesidium();
-    },
+    created() { this.getPraesidium() },
     methods: {
-      async getPhotos(file) {
-        const storageRef = ref(storage, 'praesidium/' + file.name)
-        this.praesidia.picture = await getDownloadURL(storageRef)
-      },
-      async postPhotos(file) {
-        file = await imageCompression(file, { maxSizeMB: 1, maxWidthOrHeight: 1280, useWebWorker: true });
-        const storageRef = ref(storage, 'praesidium/' + file.name)
-        uploadBytes(storageRef, file)
-      },
-      async delPhotos(file) {
-        const storageRef = ref(storage, 'praesidium/' + file.name)
-        deleteObject(storageRef)
-      },
+      // Firebase storage methods
+      async getPhoto(fileName = '') { return await getPhoto(this.path, fileName) },
+      async postPhoto(fileName = '', file = null) { return await postPhoto(this.path, fileName, file, 1280) },
+      async delPhoto(fileName = '') { await delPhoto(this.path, fileName) },
+
+      // Firebase database methods
       async getPraesidium() {
-        const querySnapshot = await getDocs(query(collection(db, 'praesidium'), orderBy('role')));
-        querySnapshot.forEach((doc) => {
-          this.praesidium.push(new FirePraesidium(doc.id, doc.data()));
-        });
+        const data = await getData(this.path)
+        data.forEach((doc) => { this.praesidium.push(new FirePraesidium(doc.id, doc.data())); })
         // console.log(this.praesidium);
       },
-      async postPraesidium() {
-        const docRef = await addDoc(collection(db, "praesidium"), this.praesidia.json);
-        // console.log("Document was created with ID:", docRef.id);
-        this.$forceUpdate();
+      async postPraesidium() { await postData(this.path, this.praesidia.json) },
+      async putPraesidium() { await putData(this.path, this.praesidia.id, this.praesidia.json) },
+      async delPraesidium(event, id, name) { 
+        await delData(this.path, id)
+        await delPhoto(this.path, `${name}.jpg`)
+        await delPhoto(this.path, `${name}_alt.jpg`)
       },
-      async putPraesidium() {
-        console.log(this.praesidia.json)
-        await updateDoc(doc(db, "praesidium", this.praesidia.id), this.praesidia.json);
-        this.$forceUpdate();
-      },
-      async delPraesidium(event, id) {
-        await deleteDoc(doc(db, "praesidium", id))
-        this.$forceUpdate();
-      },
+
+      // Local methods
       changeData(event, lid) {
         this.praesidia = lid ? lid : new Praesidium()
-        this.modalTitle = this.praesidia.id ? "Praesidium aanpassen" : "Praesidium toevoegen"
+        this.modal.title = this.praesidia.id ? "Praesidium aanpassen" : "Praesidium toevoegen"
+        this.picture.normal = null
+        this.picture.alt = null
         this.toggleDataModal()
       },
-      toggleDataModal() { this.showDataModal = !this.showDataModal; },
-      confirm() {
-        this.praesidia.id ? this.putPraesidium() : this.postPraesidium()
+      toggleDataModal() { this.modal.show = !this.modal.show; },
+      async confirm() {
+        // console.log(`Confirm: pre change data`, this.praesidia.json)
+        if (this.praesidia.name && this.praesidia.surname) {
+          // Change normal picture
+          if (this.picture.normal) {
+            // console.log(`Confirm: pre picture ${this.praesidia.picture}`)
+            var fileName = `${this.praesidia.name}_${this.praesidia.surname}.jpg`
+            fileName = await this.postPhoto(fileName, this.picture.normal)
+            this.praesidia.picture = await this.getPhoto(fileName)
+            // console.log(`Confirm: post picture ${this.praesidia.picture}`)
+          }
+          // Change alternative picture
+          if (this.picture.alt) {
+            // console.log(`Confirm: pre picture_alt ${this.praesidia.picture_alt}`)
+            var altFileName = `${this.praesidia.name}_${this.praesidia.surname}_alt.jpg`
+            fileName = await this.postPhoto(altFileName, this.picture.alt)
+            this.praesidia.picture_alt = await this.getPhoto(altFileName)
+            // console.log(`Confirm: post picture_alt ${this.praesidia.picture_alt}`)
+          }
+          // Change data
+          console.log(`Confirm: post change data`, this.praesidia.json)
+          this.praesidia.id ? this.putPraesidium() : this.postPraesidium()
+        }
         this.toggleDataModal()
+        this.$forceUpdate();
       },
       onFileChange(event, alt) {
         var files = event.target.files;
         if (!files.length) return;
-        // this.delPhotos(files[0])
-        this.postPhotos(files[0])
-        this.getPhotos(files[0])
-        // const reader = new FileReader();
-        // reader.readAsDataURL(files[0]);
-        // if (alt)  reader.onload = () => (this.praesidia.picture_alt = reader.result);
-        // else      reader.onload = () => (this.praesidia.picture = reader.result);
+        const reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        if (alt)  {
+          reader.onload = () => (this.praesidia.picture_alt = reader.result);
+          this.picture.alt = files[0]
+        } else {
+          reader.onload = () => (this.praesidia.picture = reader.result);
+          this.picture.normal = files[0]
+        }
       }
     },
     components: { DataModal }
@@ -152,8 +162,11 @@
     z-index: -1;
     padding: 9px;
   }
-  .person-image .image-zot {
+  .person-image .image-alt {
     display: none;
+  }
+  .person-image:hover .image-alt {
+    display: inline;
   }
   .person-wrap img {
     vertical-align: bottom;
