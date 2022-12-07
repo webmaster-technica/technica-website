@@ -2,10 +2,12 @@
 <template>
   <div class="backdrop" @click.self="closeDataModal">
     <div class="modal">
-      <h3>{{ title }}</h3>
-      <div><slot name="inputs"></slot></div>
-      <div><slot name="image"></slot></div>
-      <button @click="confirm">{{ title }}</button>
+      <div class="scrollable">
+        <h3>{{ title }}</h3>
+        <div><slot name="inputs"></slot></div>
+        <div><slot name="image"></slot></div>
+        <button @click="confirm">{{ title }}</button>
+      </div>
     </div>
   </div>
 </template>
@@ -25,21 +27,27 @@
   }
 </script>
 
+<!--scrollbar in modal: https://stackoverflow.com/a/34897879-->
 <style>
+  .backdrop {
+    top: 0;
+    position: fixed;
+    background: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100%;
+  }
+
   .modal {
     width: 512px;
     padding: 32px;
-    margin: 128px auto;
+    margin: 96px auto;
     background: white;
     border-radius: 16px;
   }
 
-  .backdrop {
-    top: 0;
-    position: absolute;
-    background: rgba(0,0,0,0.5);
-    width: 100%;
-    height: 100%;
+  .scrollable {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
   }
 
   .modal h3 { margin-top: 0%; }

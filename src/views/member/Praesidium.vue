@@ -11,7 +11,7 @@
       </select>
       <input class="column-2" v-model="praesidia.course" type="text" placeholder="Studierichting" required/>
       <input class="column-2" v-model="praesidia.drink" type="text" placeholder="Drankje" required/>
-      <input class="column-2" v-model="praesidia.linkedin" type="text" placeholder="LinkedIn" required/>
+      <input class="column-2" v-model="praesidia.link" type="text" placeholder="LinkedIn" required/>
       <textarea v-model="praesidia.text" placeholder="Tekst" required></textarea>
     </template>
     <!-- Image field -->
