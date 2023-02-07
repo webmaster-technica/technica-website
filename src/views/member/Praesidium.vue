@@ -1,59 +1,73 @@
 <template>
   <!-- The model is used to edit data -->
-  <data-modal v-if="modal.show" :title="modal.title" @closeDataModal="toggleDataModal" @confirm="confirm">
-    <!-- All input fields -->
+  <edit-modal v-if="EditModal.show" :title="EditModal.title" @closeEditModal="toggleEditModal" @confirm="confirm">
+    <!-- Input fields -->
     <template v-slot:inputs>
-      <input class="column-2" v-model="praesidia.name" type="text" placeholder="Naam" required/>
-      <input class="column-2" v-model="praesidia.surname" type="text" placeholder="Achternaam" required/>
-      <select class="column-2" v-model="praesidia.role">
+      <input class="column-2" v-model="praesidium.name" type="text" placeholder="Naam" required/>
+      <input class="column-2" v-model="praesidium.surname" type="text" placeholder="Achternaam" required/>
+      <select class="column-2" v-model="praesidium.role">
         <option disabled selected value="undefined">Functie</option>
         <option v-for="role in RoleEnum" :value="role">{{ role.name }}</option>
       </select>
-      <input class="column-2" v-model="praesidia.course" type="text" placeholder="Studierichting" required/>
-      <input class="column-2" v-model="praesidia.drink" type="text" placeholder="Drankje" required/>
-      <input class="column-2" v-model="praesidia.link" type="text" placeholder="LinkedIn" required/>
-      <textarea v-model="praesidia.text" placeholder="Tekst" required></textarea>
+      <input class="column-2" v-model="praesidium.course" type="text" placeholder="Studierichting" required/>
+      <input class="column-2" v-model="praesidium.drink" type="text" placeholder="Drankje" required/>
+      <input class="column-2" v-model="praesidium.link" type="text" placeholder="LinkedIn" required/>
+      <textarea v-model="praesidium.text" placeholder="Tekst" required></textarea>
     </template>
     <!-- Image field -->
     <template v-slot:image>
-      <div class="image-div column-2">
-        <img :src="praesidia.picture" v-if="praesidia.picture" alt="">
+      <div class="column-2">
+        <img :src="praesidium.picture" v-if="praesidium.picture" alt="">
         <label for="picture" class="button-label">Foto</label>
         <input @change="onFileChange($event, false)" id="picture" type="file" accept="image/*" required/>
       </div>
-      <div class="image-div column-2">
-        <img :src="praesidia.picture_alt" v-if="praesidia.picture_alt" alt="">
+      <div class="column-2">
+        <img :src="praesidium.picture_alt" v-if="praesidium.picture_alt" alt="">
         <label for="picture_alt" class="button-label">Zotte foto</label>
         <input @change="onFileChange($event, true)" id="picture_alt" type="file" accept="image/*" required/>
       </div>
     </template>
-  </data-modal>
-  <div class="main">
-    <button @click="changeData($event)">Add</button>
-    <div v-if="praesidium.length">
-      <div v-for="lid in praesidium" :key="lid.id" class="persons">
-        <div class="person-wrap">
-          <div class="person-image">
-            <img class="image-normal" :src="lid.picture"/>
-            <img class="image-alt" :src="lid.picture_alt"/>
-            <a v-if="lid.linkedin" :href="lid.linkedin"><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'linkedin' }"/></a>
-          </div>
-          <div class="person-details">
-            <h3>{{ lid.name }} {{ lid.surname }}</h3>
-            <h4><b>{{ lid.role.name }}</b> - {{ lid.course }}</h4><br>
-            <p><font-awesome-icon :icon="{ prefix: 'fas', iconName: 'beer' }"/> {{ lid.drink }}</p>
-            <p>{{ lid.text }}</p>
-            <div>
-              <font-awesome-icon :icon="{ prefix: 'fas', iconName: 'envelope' }" size="1x"/>
-              <a :href="'mailto:' + lid.mail">{{ lid.role.mail }}</a>
-            </div>
-          </div>
-          <button @click="changeData($event, lid)">Edit</button>
-          <button @click="delPraesidium($event, lid.id, `${lid.name}_${lid.surname}`)">Delete</button>
+  </edit-modal>
+
+  <!-- The model is used to view data -->
+  <view-modal v-if="ViewModal.show" :title="ViewModal.title" @closeViewModal="toggleViewModal">
+    <template v-slot:image>
+      <hover-image :image="praesidium.picture" :image-alt="praesidium.picture_alt"></hover-image>
+    </template>
+    <template v-slot:data>
+      <h4>
+        <span class="title">{{ praesidium.name }} {{ praesidium.surname }}</span>
+        <a v-if="praesidium.link" :href="praesidium.link">
+          <font-awesome-icon class="icon" :icon="{ prefix: 'fab', iconName: 'linkedin' }"/>
+        </a>
+      </h4>
+      <h5 class="sub-title"><b>{{ praesidium.role.name }}</b> - {{ praesidium.course }}</h5>
+      <p><font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'beer' }"/>{{ praesidium.drink }}</p>
+      <p>{{ praesidium.text }}</p>
+      <div>
+        <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'envelope' }"/>
+        <a :href="'mailto:' + praesidium.mail">{{ praesidium.role.mail }}</a>
+      </div>
+    </template>
+    <template v-slot:buttons>
+      <div class="column-2"><button @click="changeData($event, praesidium)">Edit</button></div>
+      <div class="column-2"><button @click="delPraesidium($event, praesidium.id, `${praesidium.name}_${praesidium.surname}`)">Delete</button></div>
+    </template>
+  </view-modal>
+
+  <!-- The main view -->
+  <div id="main">
+    <div v-if="praesidia.length">
+      <div v-for="lid in praesidia" :key="lid.id" class="persons">
+        <div class="person-wrap" @click="selectData($event, lid)">
+          <hover-image :image="lid.picture" :image-alt="lid.picture_alt"></hover-image>
+          <h3 class="title">{{ lid.name }} {{ lid.surname }}</h3>
+          <h3 class="sub-title">{{ lid.role.name }}</h3>
         </div>
       </div>
+      <div><button @click="changeData($event)" class="fixedButton">Add</button></div>
     </div>
-    <div v-else><p>Loading preasidium ...</p></div>
+    <div v-else><h3 class="loading">Loading preasidium ...</h3></div>
   </div>
 </template>
 
@@ -61,7 +75,9 @@
   import { getData, postData, putData, delData, getPhoto, postPhoto, delPhoto } from '@/firebase';
   import { Praesidium, FirePraesidium } from '@/classes';
   import { RoleEnum } from '@/enums';
-  import DataModal from '@/components/DataModal.vue';
+  import HoverImage from '@/components/HoverImage.vue';
+  import EditModal from '@/components/modals/EditModal.vue';
+  import ViewModal from '@/components/modals/ViewModal.vue';
 
   // Picture problem
   // Delete picture
@@ -70,9 +86,13 @@
     data() {
       return {
         RoleEnum: RoleEnum,
-        praesidium: [],
-        modal: { show: false, title: '' },
+        praesidia: [],
+        praesidium: null,
         picture: { normal: null, alt: null },
+
+        EditModal: { show: false, title: '' },
+        ViewModal: { show: false, title: '' },
+
         path: 'praesidium'
       };
     },
@@ -86,51 +106,61 @@
       // Firebase database methods
       async getPraesidium() {
         const data = await getData(this.path)
-        data.forEach((doc) => { this.praesidium.push(new FirePraesidium(doc.id, doc.data())); })
-        // console.log(this.praesidium);
+        data.forEach((doc) => { this.praesidia.push(new FirePraesidium(doc.id, doc.data())); })
+        // console.log(this.praesidia);
       },
-      async postPraesidium() { await postData(this.path, this.praesidia.json) },
-      async putPraesidium() { await putData(this.path, this.praesidia.id, this.praesidia.json) },
+      async postPraesidium() { await postData(this.path, this.praesidium.json) },
+      async putPraesidium() { await putData(this.path, this.praesidium.id, this.praesidium.json) },
       async delPraesidium(event, id, name) { 
         await delData(this.path, id)
         await delPhoto(this.path, `${name}.jpg`)
         await delPhoto(this.path, `${name}_alt.jpg`)
+        // TODO: Change roload
+        this.$router.go(this.$router.currentRoute)
       },
 
       // Local methods
+      toggleViewModal() { this.ViewModal.show = !this.ViewModal.show; },
+      selectData(event, lid) {
+        this.praesidium = lid
+        // console.log(lid)
+        this.toggleViewModal()
+      },
+
+      toggleEditModal() { this.EditModal.show = !this.EditModal.show; },
       changeData(event, lid) {
-        this.praesidia = lid ? lid : new Praesidium()
-        this.modal.title = this.praesidia.id ? "Praesidium aanpassen" : "Praesidium toevoegen"
+        this.praesidium = lid ? lid : new Praesidium()
+        // console.log(lid)
+        this.EditModal.title = this.praesidium.id ? "Praesidium aanpassen" : "Praesidium toevoegen"
         this.picture.normal = null
         this.picture.alt = null
-        this.toggleDataModal()
+        this.toggleEditModal()
       },
-      toggleDataModal() { this.modal.show = !this.modal.show; },
+
       async confirm() {
-        // console.log(`Confirm: pre change data`, this.praesidia.json)
-        if (this.praesidia.name && this.praesidia.surname) {
+        // console.log(`Confirm: pre change data`, this.praesidium.json)
+        if (this.praesidium.name && this.praesidium.surname) {
           // Change normal picture
           if (this.picture.normal) {
-            // console.log(`Confirm: pre picture ${this.praesidia.picture}`)
-            var fileName = `${this.praesidia.name}_${this.praesidia.surname}.jpg`
+            // console.log(`Confirm: pre picture ${this.praesidium.picture}`)
+            var fileName = `${this.praesidium.name}_${this.praesidium.surname}.jpg`
             fileName = await this.postPhoto(fileName, this.picture.normal)
-            this.praesidia.picture = await this.getPhoto(fileName)
-            // console.log(`Confirm: post picture ${this.praesidia.picture}`)
+            this.praesidium.picture = await this.getPhoto(fileName)
+            // console.log(`Confirm: post picture ${this.praesidium.picture}`)
           }
           // Change alternative picture
           if (this.picture.alt) {
-            // console.log(`Confirm: pre picture_alt ${this.praesidia.picture_alt}`)
-            var altFileName = `${this.praesidia.name}_${this.praesidia.surname}_alt.jpg`
+            // console.log(`Confirm: pre picture_alt ${this.praesidium.picture_alt}`)
+            var altFileName = `${this.praesidium.name}_${this.praesidium.surname}_alt.jpg`
             fileName = await this.postPhoto(altFileName, this.picture.alt)
-            this.praesidia.picture_alt = await this.getPhoto(altFileName)
-            // console.log(`Confirm: post picture_alt ${this.praesidia.picture_alt}`)
+            this.praesidium.picture_alt = await this.getPhoto(altFileName)
+            // console.log(`Confirm: post picture_alt ${this.praesidium.picture_alt}`)
           }
           // Change data
-          console.log(`Confirm: post change data`, this.praesidia.json)
-          this.praesidia.id ? this.putPraesidium() : this.postPraesidium()
+          console.log(`Confirm: post change data`, this.praesidium.json)
+          await this.praesidium.id ? this.putPraesidium() : this.postPraesidium()
         }
-        this.toggleDataModal()
-        this.$forceUpdate();
+        this.toggleEditModal()
       },
       onFileChange(event, alt) {
         var files = event.target.files;
@@ -138,78 +168,29 @@
         const reader = new FileReader();
         reader.readAsDataURL(files[0]);
         if (alt)  {
-          reader.onload = () => (this.praesidia.picture_alt = reader.result);
+          reader.onload = () => (this.praesidium.picture_alt = reader.result);
           this.picture.alt = files[0]
         } else {
-          reader.onload = () => (this.praesidia.picture = reader.result);
+          reader.onload = () => (this.praesidium.picture = reader.result);
           this.picture.normal = files[0]
         }
       }
     },
-    components: { DataModal }
+    components: { EditModal, ViewModal, HoverImage }
 }
 </script>
 
 <style scoped>
+  h3 { 
+    color: #ffffff;
+    transform: translateY(-96px);
+  }
+  .title { font-size: x-large; }
+  .sub-title { font-size: large; }
+
   .persons { display: inline-flex; }
-  .person-wrap { width: 256px; }
-  /* .person-wrap {
-    background: url('../images/grunge.png'); 
-    width: 100%;
-  } */
-  .person-wrap .person-image {
-    position: relative;
-    z-index: -1;
-    padding: 9px;
-  }
-  .person-image .image-alt {
-    display: none;
-  }
-  .person-image:hover .image-alt {
-    display: inline;
-  }
-  .person-wrap img {
-    vertical-align: bottom;
-    width: 100%;
-  }
-  .person-wrap .person-image a{
-    position: absolute;
-    top: 90%;
-    left: 11%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    color:#353535;
-    font-size: 2em;
-    /* display:none; */
-  }
-  .person-wrap .person-details {
-    padding: 10px;
-  }
-  .person-wrap .person-details p {
-    font-size: 17px;
-    font-style: italic;
-    line-height: 1.2;
-    color: #252525;
-  }
-  .person-wrap .person-details svg {
-    color: #115F9A;
-    margin-right: 5px;
-    margin-left: 1px;
-    font-size: 18px;
-  }
-  .person-wrap .person-details h3 {
-    font-size: 26px;
-    margin-top: 0;
-    margin-bottom: 0;
-    color: #115F9A;
-  }
-  .person-wrap .person-details h4 {
-    text-transform: none;
-    font-family: 'Hind', sans-serif;
-    margin-top: 8px;
-    margin-bottom: 0;
-    font-size: 18px;
-    font-weight: 300;
-    height: 40px;
+  .person-wrap { 
+    width: 320px;
+    padding: 8px;
   }
 </style>

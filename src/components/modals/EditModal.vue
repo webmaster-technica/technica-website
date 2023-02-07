@@ -1,37 +1,33 @@
 <!-- https://www.youtube.com/watch?v=KM1U6DqZf8M -->
 <template>
-  <div class="backdrop" @click.self="closeDataModal">
+  <div class="backdrop" @click.self="closeEditModal">
     <div class="modal">
       <div class="scrollable">
         <h3>{{ title }}</h3>
-        <div><slot name="inputs"></slot></div>
-        <div><slot name="image"></slot></div>
+        <div id="inputs"><slot name="inputs"></slot></div>
+        <div id="image"><slot name="image"></slot></div>
         <button @click="confirm">{{ title }}</button>
       </div>
     </div>
   </div>
 </template>
-  
+
 <script>
   export default {
     props: ['title'],
-    data() {
-      return {
-        showPassword: false
-      }
-    },
     methods: {
-      closeDataModal() { this.$emit('closeDataModal') },
+      closeEditModal() { this.$emit('closeEditModal') },
       confirm() { this.$emit('confirm') }
     }
   }
 </script>
 
 <!--scrollbar in modal: https://stackoverflow.com/a/34897879-->
-<style>
+<style scoped>
   .backdrop {
     top: 0;
     position: fixed;
+    z-index: 16;
     background: rgba(0,0,0,0.5);
     width: 100%;
     height: 100%;
@@ -45,28 +41,25 @@
     border-radius: 16px;
   }
 
+  .modal::v-deep div { display: inline-block; }
+  .modal button { margin-top: 8px; }
+
   .scrollable {
     max-height: calc(100vh - 210px);
     overflow-y: auto;
   }
+  .scrollable::v-deep div > * { width: 100%; }
+  .scrollable::v-deep div > .column-2 { width: 50%; }
 
-  .modal h3 { margin-top: 0%; }
+  #inputs::v-deep div textarea { height: 128px; }
 
-  .modal div > * { width: 100%; }
-  .modal div > .column-2 { width: 50%; }
-  .modal div textarea { height: 128px; }
-
-  .modal .image-div { display: inline-block; }
-  .modal .image-div > * { border-radius: 3px; }
-  .modal .image-div input { display: none; }
-  .modal .image-div label {
+  #image::v-deep div > * { border-radius: 3px; }
+  #image::v-deep div input { display: none; }
+  #image::v-deep div label {
     display: block;
-    padding: 10px 6px;
-    box-sizing: border-box;
-    color: #555;
     border: 1px solid #555;
     background-color: #e7e7e7;
     width: 100%;
   }
-  .modal .image-div label:hover { background-color: #e0e0e0; }
+  #image::v-deep div label:hover { background-color: #e0e0e0; }
 </style>

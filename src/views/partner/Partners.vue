@@ -1,7 +1,7 @@
 <template>
-  <h1>This is an partner page</h1>
+  <h1>This is a partner page</h1>
   <div v-for="event in events" :key="event.name">
-    <router-link :to="{ name: 'EventDetails', params: { id: event.name } }">
+    <router-link :to="{ name: 'PartnerDetail', params: { id: event.name } }">
       <h3>{{ event.name }}</h3>
     </router-link>
   </div>

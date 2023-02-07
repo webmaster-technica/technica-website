@@ -18,9 +18,14 @@ const routes = [
     name: 'Contact',
     component: () => import('../views/Contact.vue')
   },{                                                             // Event Folder
+    path: '/events/:id',
+    name: 'EventDetail',
+    component: () => import('../views/event/EventDetails.vue'),
+    props: true
+  },{
     path: '/events',
     name: 'Events',
-    component: () => import('../views/Event.vue'),
+    component: () => import('../views/event/Events.vue'),
     props: true
   },{                                                             // Member Folder
     path: '/join',

@@ -1,7 +1,7 @@
 import { getRoleEnumFromValue } from "../enums"
 
 export class BaseObject {
-  constructor(name = '', link = '', text = '', picture = '') {
+  constructor(name = '', link = '', text = '', picture = 'https://firebasestorage.googleapis.com/v0/b/technica-website-defc6.appspot.com/o/praesidium%2Fanoniem.png?alt=media&token=5862e3df-b5ed-4114-a20e-8c56ce8e2871') {
     this.name = name
     this.link = link
     this.text = text

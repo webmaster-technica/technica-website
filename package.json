@@ -20,6 +20,7 @@
     "browser-image-compression": "^2.0.0",
     "core-js": "^3.8.3",
     "firebase": "^9.11.0",
+    "request": "^2.79.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"

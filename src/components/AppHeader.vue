@@ -9,6 +9,7 @@
       </div>
     </nav>
   </header>
+  <div id="headerBack"></div>
 </template>
 <!--https://www.youtube.com/watch?v=jWf4xpdCXsM-->
 <script>
@@ -33,8 +34,15 @@
 
 <style scoped>
   nav {
-    padding: 16px;
+    /* Position */
+    /* position: fixed;
+    z-index: 8;
+    top: 0; */
+
+    /* Shape */
     background-color: #3272b0;
+    padding: 16px;
+    /* width: 100%; */
   }
 
   nav div {
@@ -45,7 +53,6 @@
     font-weight: bold;
     color: #ffffff;
     text-decoration: none;
-
   }
 
   nav a.router-link-exact-active {

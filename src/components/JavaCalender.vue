@@ -23,8 +23,8 @@ export default {
         initialView: 'dayGridMonth',
         dateClick: this.handleDateClick,
         events: [
-          { title: 'event 1', date: '2023-01-10' },
-          { title: 'event 2', date: '2022-12-10' }
+          { title: 'event 1', date: '2023-02-08' },
+          { title: 'event 2', date: '2023-02-16' }
         ],
         eventClick: this.handleEventClick
       }

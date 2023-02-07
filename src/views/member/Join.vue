@@ -2,19 +2,56 @@
   <div class="main">
     <h1>Lid worden</h1>
     <p>
-      Indien u lid wilt worden, kunt u onderstaand formulier invullen. 
+      Indien u lid wilt worden, kunt u onderstaand formulier invullen. <br>
       Zodra wij dit ontvangen hebben, zullen wij contact met u opnemen om alles te regelen; lidkaart, lidgeld, ...
     </p>
-    <input v-model="member.name" type="text" ref="name" placeholder="Naam" required/>
-    <input v-model="member.birthday" type="date" ref="birthday" placeholder="Geboortedatum" required/>
-    <input v-model="member.study" type="text" ref="study" placeholder="Studierichting" required/>
-    <input v-model="member.yearOfStudy" type="number" ref="yearOfStudy" placeholder="Jaar" required/>
-    <input v-model="member.email" type="email" ref="email" placeholder="E-mail adres" required/>
-    <input v-model="member.gsm" type="tel" ref="gsm" placeholder="Gsm nummer" required/>
-    <input v-model="member.street" type="text" ref="street" placeholder="Straat" required/>
-    <input v-model="member.houseNr" type="number" ref="houseNr" placeholder="Huis nr" required/>
-    <input v-model="member.city" type="text" ref="city" placeholder="Stad" required/>
-    <input v-model="member.postcode" type="number" ref="postcode" placeholder="Postcode" required/>
+    <div>
+      <span>Voornaam</span>
+      <input v-model="member.name" type="text" ref="name" required/>
+    </div>
+    <div>
+      <span>Achternaam</span>
+      <input v-model="member.name" type="text" ref="surname" required/>
+    </div>
+    <div>
+      <span>Geboortedatum</span>
+      <input v-model="member.birthday" type="date" ref="birthday" required/>
+    </div>
+    <div>
+      <span>Studierichting</span>
+      <input v-model="member.study" type="text" ref="study" placeholder="" required/>
+    </div>
+    <div>
+      <span>Jaar in studierichting</span>
+      <input v-model="member.yearOfStudy" type="number" ref="yearOfStudy" required/>
+    </div>
+    <div>
+      <span>Email</span>
+      <input v-model="member.email" type="email" ref="email" required/>
+    </div>
+    <div>
+      <span>GSM Nr.</span>
+      <input v-model="member.gsm" type="tel" ref="gsm" required/>
+    </div>
+    <div>
+      <span>Straat</span>
+      <input v-model="member.street" type="text" ref="street" required/>
+    </div>
+    <div>
+      <span>Huisnummer</span>
+      <input v-model="member.houseNr" type="number" ref="houseNr" required/>
+    </div>
+    <div>
+      <span>Stad</span>
+      <input v-model="member.city" type="text" ref="city" required/>
+    </div>
+    <div>
+      <span>Postcode</span>
+      <input v-model="member.postcode" type="number" ref="postcode" required/>
+    </div>
+    <div>
+      <span></span>
+    </div>
     <div ref="image">
       Foto <input @change="onFileChange" type="file" accept=".png, .jpg, .jpeg" required/>
       <img :src="member.image" v-if="member.image" alt="">
@@ -38,7 +75,7 @@
   export default {
     data() {
       return {
-        member: { name: '', birthday: null, study: '', yearOfStudy: 0, email: '', gsm: '', 
+        member: { name: '', surname: '', birthday: null, study: '', yearOfStudy: 0, email: '', gsm: '', 
                   street: '', houseNr: 0, city: '', postcode: 0, image: null, dopen: 'Nee', privacy: false, }
       }
     },
@@ -63,9 +100,10 @@
   }
 </script>
 
-<style>
+<style scoped>
   .not-filled {
     border-color: crimson;
     color: crimson
+    
   }
 </style>
