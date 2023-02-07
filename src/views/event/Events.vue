@@ -29,7 +29,7 @@
       returns a click event for change data
     -->
     <java-calender @eventClick="onClickEvent"></java-calender>
-    <div><button @click="changeData($event)" class="fixedButton">Add</button></div>
+    <corner-button title="Add" @confirm="changeData($event)"></corner-button>
   </div>
   <!--<router-link :to="{ name: 'EventDetails', params: { id: event.name } }">
     <h3>{{ event.name }} - {{ event.partner }}</h3>
@@ -40,6 +40,8 @@
   import { TechnicaEvent, FireTechnicaEvent } from '@/classes'
   import JavaCalender from '@/components/JavaCalender.vue';
   import DataModal from '@/components/modals/EditModal.vue';
+  import CornerButton from '@/components/CornerButton.vue';
+
   export default {
     props: ["id"],
     data() {
@@ -75,7 +77,7 @@
       },
       toggleDataModal() { this.modal.show = !this.modal.show; },
     },
-    components: { JavaCalender, DataModal }
+    components: { JavaCalender, CornerButton, DataModal }
 }
 </script>
 

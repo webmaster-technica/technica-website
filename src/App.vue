@@ -70,20 +70,6 @@
     padding: auto;
   }
 
-  .fixedButton {
-    /* Position */
-    position: absolute;
-    right: 0;
-    transform: translate(-32px, -40px);
-    z-index: 8;
-
-    /* Shape */
-    background-color: #3272b0;
-    color: #ffffff;
-    font-size: larger;
-    border-radius: 4px;
-  }
-
   button[disabled] {
     /* Disable button */
     opacity: 0.25;
@@ -98,13 +84,16 @@
 
   input[type="checkbox"] {
     width: 16px;
-    margin: 0 8px 0 0;
     position: relative;
     top: 2px;
   }
 
+  input[type="file"] {
+    display: none;
+  }
+
   a { text-decoration: none; }
-  image { width: 100%; }
+  img { width: 100%; }
 
   @media screen and (max-width: 960px) {
     .topnav a {

@@ -41,25 +41,24 @@
     border-radius: 16px;
   }
 
-  .modal::v-deep div { display: inline-block; }
+  .modal:deep(div) { display: inline-block; }
   .modal button { margin-top: 8px; }
 
   .scrollable {
     max-height: calc(100vh - 210px);
     overflow-y: auto;
   }
-  .scrollable::v-deep div > * { width: 100%; }
-  .scrollable::v-deep div > .column-2 { width: 50%; }
+  .scrollable:deep(div > *) { width: 100%; }
+  .scrollable:deep(div > .column-2) { width: 50%; }
 
-  #inputs::v-deep div textarea { height: 128px; }
+  #inputs:deep( > textarea) { height: 128px; }
 
-  #image::v-deep div > * { border-radius: 3px; }
-  #image::v-deep div input { display: none; }
-  #image::v-deep div label {
+  #image:deep(> *) { border-radius: 4px; }
+  #image:deep(label) {
     display: block;
     border: 1px solid #555;
     background-color: #e7e7e7;
     width: 100%;
   }
-  #image::v-deep div label:hover { background-color: #e0e0e0; }
+  #image:deep(label:hover) { background-color: #e0e0e0; }
 </style>

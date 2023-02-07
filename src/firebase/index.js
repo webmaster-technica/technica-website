@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore, query, orderBy, collection, doc, getDocs, addDoc, updateDoc, deleteDoc } from 'firebase/firestore'
-import { getStorage, ref, getDownloadURL, uploadBytes, deleteObject } from 'firebase/storage'
+import { getStorage, ref, getDownloadURL, uploadBytes, deleteObject, getBlob } from 'firebase/storage'
 import imageCompression from 'browser-image-compression';
 
 // Initialize Firebase
@@ -16,15 +16,47 @@ const app = initializeApp({
 const db = getFirestore(app)
 export const storage = getStorage(app)
 
+/* Excel */
+export async function getExcel(fileName = '') {
+  const storageRef = ref(storage, `leden/${fileName}`)
+  const blob = await getBlob(storageRef)
+    .then((blob) => { return blob.text() })
+    .catch((error) => { return null });
+  //const file = new File([blob], fileName, {type: 'text/csv'});
+  return blob
+}
+export async function getExcelLink(fileName = '') {
+  const storageRef = ref(storage, `leden/${fileName}`)
+  const url = await getDownloadURL(storageRef)
+    .then((url) => { return url })
+    .catch((error) => { return null });
+  return url
+}
+export async function postExcel(fileName = '', file = null) {
+  // https://stackoverflow.com/a/46327909
+  var blob = file.slice(0, file.size, 'text/csv'); 
+  file = new File([blob], fileName, {type: 'text/csv'});
+
+  const storageRef = ref(storage, `leden/${fileName}`)
+  const uBytes = await uploadBytes(storageRef, file)
+  return uBytes.metadata.name
+}
+export async function delExcel(fileName = '') {
+  const storageRef = ref(storage, `leden/${fileName}`)
+  deleteObject(storageRef)
+}
+
+/* Photo */
 export async function getPhoto(storageName = '', fileName = '') {
   const storageRef = ref(storage, `${storageName}/${fileName}`)
-  const url =  await getDownloadURL(storageRef)
+  const url = await getDownloadURL(storageRef)
   return url
 }
 export async function postPhoto(storageName = '', fileName = '', file = null, maxPxSize = 1280) {
   // https://stackoverflow.com/a/46327909
   var blob = file.slice(0, file.size, 'image/*'); 
   file = new File([blob], fileName, {type: 'image/*'});
+
   // https://github.com/Donaldcwl/browser-image-compression
   file = await imageCompression(file, { maxSizeMB: 1, maxWidthOrHeight: maxPxSize, useWebWorker: true });
   const storageRef = ref(storage, `${storageName}/${fileName}`)
@@ -35,6 +67,8 @@ export async function delPhoto(storageName = '', fileName = '') {
   const storageRef = ref(storage, `${storageName}/${fileName}`)
   deleteObject(storageRef)
 }
+
+/* Data */
 export async function getData(collectionName = '') {
   var data = []
   const querySnapshot = await getDocs(query(collection(db, collectionName), orderBy('role')));

@@ -51,18 +51,18 @@
   #container { display: flex; }
 
   #image {
-    flex: 0 0 256; /* 8 + 256 + 8 */
+    flex: 0 0 256;
     align-self: center;
   }
 
   #data {
-    flex: 0 0 504px;
+    flex: 0 0 504px; /* 768 - 256 - 8 */
     align-self: center;
     margin-left: 8px;
     text-align: initial;
   }
-  #data::v-deep * > * { vertical-align: middle; }
-  #data::v-deep .icon {
+  #data:deep(* > *) { vertical-align: middle; }
+  #data:deep(.icon) {
     font-size: 1.6em;
     margin: 4px;
     color: #3272b0;
@@ -73,11 +73,11 @@
   }
 
   #buttons { display: flex; }
-  #buttons::v-deep div button { width: 100%; }
+  #buttons:deep(div button) { width: 100%; }
 
-  #buttons::v-deep .column-2 { width: 50%; }
-  #buttons::v-deep .column-3 { width: 33%; }
-  #buttons::v-deep .column-4 { width: 25%; }
-  #buttons::v-deep .column-5 { width: 20%; }
+  #buttons:deep(.column-2) { width: 50%; }
+  #buttons:deep(.column-3) { width: 33%; }
+  #buttons:deep(.column-4) { width: 25%; }
+  #buttons:deep(.column-5) { width: 20%; }
 
 </style>

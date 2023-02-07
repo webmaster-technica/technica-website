@@ -65,7 +65,7 @@
           <h3 class="sub-title">{{ lid.role.name }}</h3>
         </div>
       </div>
-      <div><button @click="changeData($event)" class="fixedButton">Add</button></div>
+      <corner-button title="Add" @confirm="changeData($event)"></corner-button>
     </div>
     <div v-else><h3 class="loading">Loading preasidium ...</h3></div>
   </div>
@@ -76,6 +76,7 @@
   import { Praesidium, FirePraesidium } from '@/classes';
   import { RoleEnum } from '@/enums';
   import HoverImage from '@/components/HoverImage.vue';
+  import CornerButton from '@/components/CornerButton.vue';
   import EditModal from '@/components/modals/EditModal.vue';
   import ViewModal from '@/components/modals/ViewModal.vue';
 
@@ -115,7 +116,7 @@
         await delData(this.path, id)
         await delPhoto(this.path, `${name}.jpg`)
         await delPhoto(this.path, `${name}_alt.jpg`)
-        // TODO: Change roload
+        // TODO: Change reload
         this.$router.go(this.$router.currentRoute)
       },
 
@@ -176,8 +177,8 @@
         }
       }
     },
-    components: { EditModal, ViewModal, HoverImage }
-}
+    components: { EditModal, ViewModal, CornerButton, HoverImage }
+  }
 </script>
 
 <style scoped>
