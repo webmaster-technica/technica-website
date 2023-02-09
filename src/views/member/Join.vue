@@ -5,107 +5,115 @@
       Zodra wij dit ontvangen hebben, zullen wij contact met u opnemen om alles te regelen; lidkaart, lidgeld, ...
     </div>
 
-    <div class="flex-medium">  <!-- Input -->
-      <div class="data padded-block">
-        <h3 ref="name">Voornaam*</h3>
-        <input v-model="member.name" type="text" required/>
+    <form ref="form" @submit.prevent="submitForm">
+      <div class="flex-medium">  <!-- Input -->
+        <div class="data padded-block">
+          <h3 ref="name">Voornaam*</h3>
+          <input v-model="member.name" name="name" type="text" required/>
+        </div>
       </div>
-    </div>
-    <div class="flex-medium">
-      <div class="data padded-block">
-        <h3 ref="surname">Achternaam*</h3>
-        <input v-model="member.surname" type="text" required/>
+      <div class="flex-medium">
+        <div class="data padded-block">
+          <h3 ref="surname">Achternaam*</h3>
+          <input v-model="member.surname" name="surname" type="text" required/>
+        </div>
       </div>
-    </div>
-    <div class="flex-full">
-      <div class="data padded-block">
-        <h3 ref="birthday">Geboortedatum*</h3>
-        <input v-model="member.birthday" type="date" required/>
-      </div>
-    </div>
-    <div class="flex-large">
-      <div class="data padded-block">
-        <h3 ref="study">Studierichting*</h3>
-        <input v-model="member.study" type="text" placeholder="" required/>
-      </div>
-    </div>
-    <div class="flex-small">
-      <div class="data padded-block">
-        <h3 ref="yearOfStudy">Jaar in studierichting*</h3>
-        <input v-model="member.yearOfStudy" type="number" required/>
-      </div>
-    </div>
-    <div class="flex-large">
-      <div class="data padded-block">
-        <h3 ref="email">Email*</h3>
-        <input v-model="member.email" type="email" required/>
-      </div>
-    </div>
-    <div class="flex-small">
-      <div class="data padded-block">
-        <h3 ref="gsm">GSM nr*</h3>
-        <input v-model="member.gsm" type="tel" required/>
-      </div>
-    </div>
-    <div class="flex-large">
-      <div class="data padded-block">
-        <h3 ref="street">Straat*</h3>
-        <input v-model="member.street" type="text" required/>
-      </div>
-    </div>
-    <div class="flex-small">
-      <div class="data padded-block">
-        <h3 ref="houseNr">Huis nr*</h3>
-        <input v-model="member.houseNr" type="number" required/>
-      </div>
-    </div>
-    <div class="flex-large">
-      <div class="data padded-block">
-        <h3 ref="city">Stad*</h3>
-        <input v-model="member.city" type="text" required/>
-      </div>
-    </div>
-    <div class="flex-small">
-      <div class="data padded-block">
-        <h3 ref="postcode">Postcode*</h3>
-        <input v-model="member.postcode" type="number" required/>
-      </div>
-    </div>
 
-    <div class="flex-smaller"> <!-- Image -->
-      <div id="image" class="padded-block" ref="image">
-        <label for="picture">Foto*</label>
-        <input @change="onFileChange" id="picture" type="file" accept=".png, .jpg, .jpeg" required/>
+      <div class="flex-full">
+        <div class="data padded-block">
+          <h3 ref="birthday">Geboortedatum*</h3>
+          <input v-model="member.birthday" name="birthday" type="date" required/>
+        </div>
       </div>
-    </div>
-    <div class="flex-larger">
-      <div class="padded-block">
-        <img :src="member.image" v-if="member.image" alt="">
-      </div>
-    </div>
 
-    <div class="flex-smaller" ref="dopen"><label for="">Dopen*</label></div> <!-- Dopen -->
-    <div class="flex-larger">
-      <div id="dopen" class="padded-block">
-        <label><input type="radio" value="Ja" v-model="member.dopen" required/>Ja</label>
-        <label><input type="radio" value="Nee" v-model="member.dopen" required/>Nee</label>
+      <div class="flex-large">
+        <div class="data padded-block">
+          <h3 ref="study">Studierichting*</h3>
+          <input v-model="member.study" name="study" type="text" required/>
+        </div>
       </div>
-    </div>
-
-    <div class="flex-smallest"> <!-- Privacy -->
-      <input v-model="member.privacy" type="checkbox" required/>
-    </div>
-    <div class="flex-largest">
-      <div class="data padded-block" ref="privacy">
-        Ik ga akkoord met de algemene voorwaarden en het 
-        <a href="http://www.technica-antwerpen.be/assets/privacy_policy.pdf">Privacybeleid</a> 
-        van Technica*
+      <div class="flex-small">
+        <div class="data padded-block">
+          <h3 ref="yearOfStudy">Jaar in studierichting*</h3>
+          <input v-model="member.yearOfStudy" name="yearOfStudy" type="number" required/>
+        </div>
       </div>
-    </div>
 
-    <div class="flex-full"> <!-- Confirm -->
-      <button @click="sendMail" type="submit" class="call-to-action">Verstuur</button>
-    </div>
+      <div class="flex-large">
+        <div class="data padded-block">
+          <h3 ref="email">Email*</h3>
+          <input v-model="member.email" name="email" type="email" required/>
+        </div>
+      </div>
+      <div class="flex-small">
+        <div class="data padded-block">
+          <h3 ref="gsm">GSM nr*</h3>
+          <input v-model="member.gsm" name="gsm" type="tel" required/>
+        </div>
+      </div>
+
+      <div class="flex-large">
+        <div class="data padded-block">
+          <h3 ref="street">Straat*</h3>
+          <input v-model="member.street" name="street" type="text" required/>
+        </div>
+      </div>
+      <div class="flex-small">
+        <div class="data padded-block">
+          <h3 ref="houseNr">Huis nr*</h3>
+          <input v-model="member.houseNr" name="houseNr" type="number" required/>
+        </div>
+      </div>
+
+      <div class="flex-large">
+        <div class="data padded-block">
+          <h3 ref="city">Stad*</h3>
+          <input v-model="member.city" name="city" type="text" required/>
+        </div>
+      </div>
+      <div class="flex-small">
+        <div class="data padded-block">
+          <h3 ref="postcode">Postcode*</h3>
+          <input v-model="member.postcode" name="postcode" type="number" required/>
+        </div>
+      </div>
+
+      <div class="flex-smaller"> <!-- Image -->
+        <div id="image" class="padded-block" ref="image">
+          <label for="picture">Foto*</label>
+          <input @change="onFileChange" id="picture" type="file" accept=".png, .jpg, .jpeg" required/>
+        </div>
+      </div>
+      <div class="flex-larger">
+        <div class="padded-block">
+          <img :src="member.image" v-if="member.image" alt="">
+        </div>
+      </div>
+
+      <div class="flex-smaller" ref="dopen"><label for="">Dopen*</label></div> <!-- Dopen -->
+      <div class="flex-larger">
+        <div id="dopen" class="padded-block">
+          <label><input type="radio" value="Ja" name="dopen(ja)" v-model="member.dopen" required/>Ja</label>
+          <label><input type="radio" value="Nee" name="dopen(nee)" v-model="member.dopen" required/>Nee</label>
+        </div>
+      </div>
+
+      <div class="flex-smallest"> <!-- Privacy -->
+        <input v-model="member.privacy" type="checkbox" required/>
+      </div>
+      <div class="flex-largest">
+        <div class="data padded-block" ref="privacy">
+          Ik ga akkoord met de algemene voorwaarden en het 
+          <a href="http://www.technica-antwerpen.be/assets/privacy_policy.pdf">Privacybeleid</a> 
+          van Technica*
+        </div>
+      </div>
+
+      <div class="flex-full"> <!-- Confirm -->
+        <button @click="submitForm" type="submit" class="call-to-action">Verstuur</button>
+      </div>
+    </form>
+    
     <corner-button title="Download Ledenlijst" @confirm="downloadData"></corner-button>
   </div>
 </template>
@@ -113,10 +121,12 @@
 <script>
   import { getExcel, getExcelLink, postExcel, delExcel } from '@/firebase';
   import CornerButton from '@/components/CornerButton.vue';
+  import emailjs from '@emailjs/browser';
 
   export default {
     data() {
       return {
+        /* CSV Methods */
         member: { name: '', surname: '', birthday: null, study: '', yearOfStudy: 0, email: '', gsm: '', 
                   street: '', houseNr: 0, city: '', postcode: 0, image: null, dopen: 'Nee', privacy: false },
         filledForm: false
@@ -130,7 +140,7 @@
         reader.readAsDataURL(files[0])
         reader.onload = () => (this.member.image = reader.result)
       },
-      sendMail(event) {
+      submitForm(event) {
         if (this.member) {
           this.filledForm = true
           for (let [key, value] of Object.entries(this.member)) {
@@ -139,8 +149,9 @@
             } else {
               this.$refs[key].classList.add('not-filled')
               this.filledForm = false
-            } 
+            }
           }
+          this.sendEmail()
           if (this.filledForm) {
             // console.log(this.member);
             this.addData();
@@ -190,6 +201,15 @@
         const today = new Date();
         if (today.getMonth() < 8) return `ledenlijst${today.getFullYear() - 1}-${today.getFullYear()}.csv`;
         else                      return `ledenlijst${today.getFullYear()}-${today.getFullYear() + 1}.csv`;
+      },
+
+      /* Email */
+      sendEmail() {
+        console.log(this.$refs.form)
+        emailjs.sendForm('service_yzmct1n', 'template_pc73wn5', this.$refs.form, 'zMoLN4-4D5U7o0vup').then(
+          (result) => { console.log('SUCCESS!', result.text); },
+          (error) => { console.log('FAILED...', error.text); }
+        );
       }
     },
     components: { CornerButton }
@@ -197,10 +217,12 @@
 </script>
 
 <style scoped>
-  #main {
+  #main { max-width: 512px; }
+
+  form {
     display: flex;
     flex-wrap: wrap;
-    max-width: 512px;
+    margin: 0%;
   }
 
   .flex-full { flex: 0 0 512px; }

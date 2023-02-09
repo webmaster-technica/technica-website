@@ -36,7 +36,7 @@
     methods: {
       closeLoginModal() { this.$emit('closeLoginModal') },
       toggleShow() { this.showPassword = !this.showPassword; },
-      login(event) {
+      login(event) { 
         alert(`Username: ${this.user.username}\nPassword: ${this.user.password}`)
       }
     }

@@ -61,8 +61,8 @@
     margin-left: 8px;
     text-align: initial;
   }
-  #data:deep(* > *) { vertical-align: middle; }
-  #data:deep(.icon) {
+  #data :slotted(* > *) { vertical-align: middle; }
+  #data :slotted(.icon) {
     font-size: 1.6em;
     margin: 4px;
     color: #3272b0;
@@ -73,11 +73,11 @@
   }
 
   #buttons { display: flex; }
-  #buttons:deep(div button) { width: 100%; }
+  #buttons :slotted(div button) { width: 100%; }
 
-  #buttons:deep(.column-2) { width: 50%; }
-  #buttons:deep(.column-3) { width: 33%; }
-  #buttons:deep(.column-4) { width: 25%; }
-  #buttons:deep(.column-5) { width: 20%; }
+  #buttons :slotted(.column-2) { width: 50%; }
+  #buttons :slotted(.column-3) { width: 33%; }
+  #buttons :slotted(.column-4) { width: 25%; }
+  #buttons :slotted(.column-5) { width: 20%; }
 
 </style>

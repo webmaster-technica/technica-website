@@ -27,7 +27,7 @@
       ] }
     },
     methods: {
-      openLoginModal() { this.$emit('openLoginModel') }
+      openLoginModal() { this.$emit('openLoginModal') }
     }
   }
 </script>

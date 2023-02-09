@@ -1,5 +1,5 @@
 <template>
-  <app-header @openLoginModel="toggleLoginModal"/>
+  <app-header @openLoginModal="toggleLoginModal"/>
   <div id="root">
     <login-modal v-if="showLoginModal" @closeLoginModal="toggleLoginModal"/>
     <router-view/>

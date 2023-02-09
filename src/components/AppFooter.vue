@@ -13,7 +13,7 @@
       <div class="hover"><a href="https://www.instagram.com/technica_antwerpen/?hl=en"><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'instagram' }" size="2x"/></a></div>
       <div class="hover"><a href="https\:\/\/goo.gl/maps/3VBnaTRSVANoru719"><font-awesome-icon :icon="{ prefix: 'fas', iconName: 'location-dot' }" size="2x"/></a></div>
       <div class="hover"><a href="mailto:info@technica-antwerpen.be"><font-awesome-icon :icon="{ prefix: 'fas', iconName: 'envelope' }" size="2x"/></a></div>
-      <div class="hover"><a href="https://www.dropbox.com/sh/jph775hz85epmkr/AADbc3p1jESUHQ8oQ8qlx_ZVa?dl=0"><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'dropbox' }" size="2x"/></a></div>
+      <div class="hover"><a href="https://drive.google.com/drive/folders/1hltcKz-RDNDvl2MAdCu7YHbSWM3ZtEol?usp=share_link"><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'google-drive' }" size="2x"/></a></div>
     </div>
     &emsp;&emsp;
     <div>
