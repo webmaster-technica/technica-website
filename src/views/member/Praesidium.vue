@@ -106,7 +106,7 @@
 
       // Firebase database methods
       async getPraesidium() {
-        const data = await getData(this.path)
+        const data = await getData(this.path, '', '', 'role')
         data.forEach((doc) => { this.praesidia.push(new FirePraesidium(doc.id, doc.data())); })
         // console.log(this.praesidia);
       },

@@ -151,10 +151,10 @@
               this.filledForm = false
             }
           }
-          this.sendEmail()
           if (this.filledForm) {
             // console.log(this.member);
             this.addData();
+            this.sendEmail()
           }
         }
       },

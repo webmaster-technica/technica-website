@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore, query, orderBy, collection, doc, getDocs, addDoc, updateDoc, deleteDoc } from 'firebase/firestore'
+import { getFirestore, query, where, limit, orderBy, collection, doc, getDocs, addDoc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { getStorage, ref, getDownloadURL, uploadBytes, deleteObject, getBlob } from 'firebase/storage'
 import imageCompression from 'browser-image-compression';
 
@@ -69,16 +69,25 @@ export async function delPhoto(storageName = '', fileName = '') {
 }
 
 /* Data */
-export async function getData(collectionName = '') {
+export async function getData(collectionName = '', filtering = '', equals = '', ordering = '') {
   var data = []
-  const querySnapshot = await getDocs(query(collection(db, collectionName), orderBy('role')));
+  var querySnapshot;
+  if (filtering && ordering) {
+    querySnapshot = await getDocs(query(collection(db, collectionName), where(filtering, '==', equals), orderBy(ordering)));
+  } else if (filtering) {
+    querySnapshot = await getDocs(query(collection(db, collectionName), where(filtering, '==', equals)));
+  } else if (ordering) {
+    querySnapshot = await getDocs(query(collection(db, collectionName), orderBy(ordering)));
+  } else {
+    querySnapshot = await getDocs(query(collection(db, collectionName)));
+  }
   querySnapshot.forEach((doc) => { data.push(doc); });
   return data
 }
 export async function postData(collectionName = '', jsonData = null) {
   //console.log(jsonData)
   const docRef = await addDoc(collection(db, collectionName), jsonData);
-  //console.log("Document was created with ID:", docRef.id);
+  console.log("Document was created with ID:", docRef.id);
 }
 export async function putData(collectionName = '', id = '', jsonData = null) {
   //console.log(jsonData)

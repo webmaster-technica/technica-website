@@ -1,6 +1,6 @@
 <!-- https://www.youtube.com/watch?v=KM1U6DqZf8M -->
 <template>
-  <div class="backdrop" @click.self="closeLoginModal">
+  <div class="backdrop" @click.self="toggleLoginModal">
     <div class="modal">
       <div class="main">
         <h1>Login</h1>
@@ -33,8 +33,9 @@
         user: { role: 'webmaster', password: '' }
       }
     },
+    emits: ["toggleLoginModal"],
     methods: {
-      closeLoginModal() { this.$emit('closeLoginModal') },
+      toggleLoginModal() { this.$emit('toggleLoginModal') },
       toggleShow() { this.showPassword = !this.showPassword; },
       login(event) { 
         alert(`Username: ${this.user.username}\nPassword: ${this.user.password}`)
@@ -44,6 +45,15 @@
 </script>
 
 <style scoped>
+  .backdrop {
+    top: 0;
+    position: fixed;
+    z-index: 12;
+    background: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100%;
+  }
+
   .modal {
     width: 400px;
     padding: 20px;
@@ -52,18 +62,7 @@
     border-radius: 10px;
   }
 
-  .backdrop {
-    top: 0;
-    position: fixed;
-    background: rgba(0,0,0,0.5);
-    width: 100%;
-    height: 100%;
-  }
-
-  .input-field {
-    width: 80%;
-    display: flex;
-  }
+  .input-field { display: flex; }
 
   .input-field > *:not(button) {
     flex-grow: 1;

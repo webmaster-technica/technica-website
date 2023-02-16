@@ -5,11 +5,10 @@
         <router-link :to="{ name: route.name }">{{ route.title }}</router-link> &emsp;
       </div>
       <div>
-        <a @click="openLoginModal">Login</a>
+        <a @click="toggleLoginModal">Login</a>
       </div>
     </nav>
   </header>
-  <div id="headerBack"></div>
 </template>
 <!--https://www.youtube.com/watch?v=jWf4xpdCXsM-->
 <script>
@@ -26,28 +25,25 @@
         { name: 'Jobs', title: 'Vacature' },
       ] }
     },
-    methods: {
-      openLoginModal() { this.$emit('openLoginModal') }
+    emits: ["toggleLoginModal"],
+    methods: { 
+      toggleLoginModal() { this.$emit('toggleLoginModal'); },
+      currentRouteName() { return this.$route.name; }
     }
   }
 </script>
 
 <style scoped>
-  nav {
-    /* Position */
-    /* position: fixed;
-    z-index: 8;
-    top: 0; */
+  header { margin: 0 0 auto 0; }
 
+  nav {
     /* Shape */
     background-color: #3272b0;
     padding: 16px;
     /* width: 100%; */
   }
 
-  nav div {
-    display: inline-block;
-  }
+  nav div { display: inline-block; }
 
   nav a {
     font-weight: bold;

@@ -1,7 +1,7 @@
 <template>
   <h1>This is an job page</h1>
   <div v-for="event in events" :key="event.name">
-    <router-link :to="{ name: 'EventDetails', params: { id: event.name } }">
+    <router-link :to="{ name: 'EventDetail', params: { id: event.name } }">
       <h3>{{ event.name }} - {{ event.partner }}</h3>
     </router-link>
   </div>

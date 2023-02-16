@@ -53,6 +53,6 @@
     color: #929292;
     background-color: #292929;
     padding: 16px 0px 16px 0px;
-    margin: 0;
+    margin: auto 0 0 0;
   }
 </style>

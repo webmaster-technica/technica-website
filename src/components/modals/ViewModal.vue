@@ -16,7 +16,8 @@
 
 <script>
   export default {
-    props: ['picture'],
+    props: ['picture', 'onCloseViewModal', 'onConfirm'],
+    emits: ["closeViewModal", "confirm"],
     methods: {
       closeViewModal() { this.$emit('closeViewModal') },
       confirm() { this.$emit('confirm') }
@@ -29,7 +30,7 @@
   .backdrop {
     top: 0;
     position: fixed;
-    z-index: 12;
+    z-index: 10;
     background: rgba(0,0,0,0.5);
     width: 100%;
     height: 100%;

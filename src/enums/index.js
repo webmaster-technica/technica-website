@@ -38,3 +38,29 @@ export function getRoleEnumName(name = 'Praeses'){
     }
   }
 }
+
+export const EventEnum = Object.freeze({
+  CANTOR:           {value: 0,  name: 'Cantus',     color: '#a2242f' },
+  SCHACHTENMEESTER: {value: 1,  name: 'Schachten',  color: '#ff8c00' },
+  FEEST:            {value: 2,  name: 'Feest',      color: '#50C878' },
+  SOC:              {value: 3,  name: 'S.O.C.',     color: '#3788d8' },
+  PR:               {value: 4,  name: 'P.R.',       color: '#46295a' }
+})
+
+export function getEventEnumFromValue(value = 0){
+  for (var Event in EventEnum){
+    if (EventEnum[Event].value == value) {
+      // console.log(EventEnum[Event])
+      return EventEnum[Event]
+    }
+  }
+}
+
+export function getEventEnumName(name = 'Praeses'){
+  for (var Event in RoleEnum){
+    if (EventEnum[Event].name == name) {
+      // console.log(EventEnum[Event])
+      return EventEnum[Event]
+    }
+  }
+}

@@ -5,6 +5,7 @@
 <script>
   export default {
     props: ['title'],
+    emits: ["confirm"],
     methods: {
       confirm() { this.$emit('confirm') }
     }
@@ -17,7 +18,7 @@
     position: absolute;
     right: 0;
     transform: translate(-32px, -40px);
-    z-index: 8;
+    z-index: 10;
 
     /* Shape */
     background-color: #3272b0;

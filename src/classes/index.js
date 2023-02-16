@@ -1,4 +1,4 @@
-import { getRoleEnumFromValue } from "../enums"
+import { getRoleEnumFromValue, getEventEnumFromValue } from "../enums"
 
 export class BaseObject {
   constructor(name = '', link = '', text = '', picture = 'https://firebasestorage.googleapis.com/v0/b/technica-website-defc6.appspot.com/o/praesidium%2Fanoniem.png?alt=media&token=5862e3df-b5ed-4114-a20e-8c56ce8e2871') {
@@ -8,6 +8,7 @@ export class BaseObject {
     this.picture = picture
   }
 }
+
 
 export class Praesidium extends BaseObject {
   constructor(name = '', surname = '', role = null, course = '', drink = '', text = '', linkedin = '', 
@@ -45,10 +46,11 @@ export class FirePraesidium extends Praesidium {
 
 
 export class TechnicaEvent {
-  constructor(name = '', fbLink = '', type = null, formsLink = '', date = '', time = '', location = '', price = 0.0, text = '', picture = '') {
+  constructor(name = '', fbLink = '', type = null, formsLink = '', date = '', time = '', 
+              location = '', price = 0.0, text = '', picture = '') {
     this.name = name
     this.fbLink = fbLink
-    this.type = getRoleEnumFromValue(type)
+    this.type = getEventEnumFromValue(type)
     this.formsLink = formsLink
     this.date = date
     this.time = time
@@ -62,7 +64,7 @@ export class TechnicaEvent {
     return {
       name: this.name,
       fbLink: this.fbLink,
-      role: this.role.value,
+      type: this.type.value,
       formsLink: this.formsLink,
       date: this.date,
       time: this.time,
@@ -75,8 +77,39 @@ export class TechnicaEvent {
 }
 
 export class FireTechnicaEvent extends TechnicaEvent {
-  constructor(id = '', {name, fbLink, type, formsLink, date, time, location, price, text, picture_alt} = null) {
-    super(name, fbLink, type, formsLink, date, time, location, price, text, picture_alt)
+  constructor(id = '', {name, fbLink, type, formsLink, date, time, location, price, text, picture} = null) {
+    super(name, fbLink, type, formsLink, date, time, location, price, text, picture)
     this.id = id
+  }
+  
+}
+
+export class FullCalenderEvent {
+  // https://fullcalendar.io/docs/event-object
+  constructor(id = '', start = null, end = null, title = '', color = '#3788d8', textColor = '#fff') {
+    this.id = id,                 // String
+    this.start = start,           // String
+    this.end = end,               // String
+    this.title = title,           // String
+    this.backgroundColor = color, // String
+    this.borderColor = color,     // String
+    this.textColor = textColor    // String
+  }
+
+  get json(){
+    return {
+      id: this.id,
+      groupId: this.groupId,
+      start: this.start,
+      end: this.end,
+      startStr: this.startStr,
+      endStr: this.endStr,
+      title: this.title,
+      classNames: this.classNames,
+      backgroundColor: this.backgroundColor,
+      borderColor: this.borderColor,
+      textColor: 'D3D3D3',
+      eventClassNames: [ 'bold' ]
+    }
   }
 }

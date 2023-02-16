@@ -14,7 +14,8 @@
 
 <script>
   export default {
-    props: ['title'],
+    props: ['title', 'onCloseEditModal', 'onConfirm'],
+    emits: ["closeEditModal, confirm"],
     methods: {
       closeEditModal() { this.$emit('closeEditModal') },
       confirm() { this.$emit('confirm') }
@@ -27,7 +28,7 @@
   .backdrop {
     top: 0;
     position: fixed;
-    z-index: 16;
+    z-index: 12;
     background: rgba(0,0,0,0.5);
     width: 100%;
     height: 100%;

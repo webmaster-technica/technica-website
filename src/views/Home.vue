@@ -1,7 +1,7 @@
 <template>
   <div class="top-header-homepage">
     <div class="left-align">
-      <h1>TECHNICA,<br />De faculteitsvereniging in Antwerpen</h1>
+      <h1>TECHNICA,<br/>De faculteitsvereniging in Antwerpen</h1>
       <p>Elektromechanica, Integrale veiligheid, Energiemanagement en Elektronica-ICT</p>
       <p>Elektromechanische systemen, HVAC-Systemen-Klimatiesatiesystemen, Werforganisatie en Internet of Things</p>
       <br><br><br><br>
