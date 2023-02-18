@@ -35,7 +35,7 @@
       returns a click event for change data
     -->
     <div v-if="events.length">
-      <java-calender @eventClick="onClickEvent" :calender-events="events"></java-calender>
+      <FullCalendar :options="calendarOptions"/>
       <corner-button title="Add" @confirm="changeData($event)"></corner-button>
     </div>
     <div v-else><h3 class="loading">Loading events ...</h3></div>
@@ -47,28 +47,21 @@
 
 <script>
   import { getData, postData, putData, delData, getPhoto, postPhoto, delPhoto } from '@/firebase';
-  import { TechnicaEvent, FireTechnicaEvent } from '@/classes'
+  import { TechnicaEvent, FireTechnicaEvent, FullCalenderEvent } from '@/classes'
   import { EventEnum } from '@/enums';
-  import JavaCalender from '@/components/JavaCalender.vue';
+
   import EditModal from '@/components/modals/EditModal.vue';
   import ViewModal from '@/components/modals/ViewModal.vue';
   import CornerButton from '@/components/CornerButton.vue';
 
+  import '@fullcalendar/core/vdom' // solves problem with Vite
+  import FullCalendar from '@fullcalendar/vue3'
+  import dayGridPlugin from '@fullcalendar/daygrid'
+  import interactionPlugin from '@fullcalendar/interaction'
+  import nlLocale from '@fullcalendar/core/locales/nl';
+
   export default {
-    data() {
-      return {
-        EventEnum: EventEnum,
-        events: [],
-        event: null,
-        picture: null,
-
-        EditModal: { show: false, title: '' },
-        ViewModal: { show: false, title: '' },
-
-        path: 'events'
-      };
-    },
-    created() { this.getTechnicaEvent() },
+    components: { EditModal, ViewModal, CornerButton, FullCalendar },
     methods: {
       // Firebase storage methods
       async getPhoto(fileName = '') { return await getPhoto(this.path, fileName) },
@@ -80,6 +73,7 @@
         const data = await getData(this.path, '', '', '')
         data.forEach((doc) => { this.events.push(new FireTechnicaEvent(doc.id, doc.data())); })
         // console.log(this.events);
+        this.addEventsToCalender()
       },
       async postTechnicaEvent() { await postData(this.path, this.event.json) },
       async putTechnicaEvent() { await putData(this.path, this.event.id, this.event.json) },
@@ -127,11 +121,47 @@
         reader.readAsDataURL(files[0]);
         reader.onload = () => (this.event.picture = reader.result);
         this.picture = files[0]
+      },
+
+      handleDateClick: function(arg) { /* alert('date click! ' + arg.dateStr) */ },
+      handleEventClick: function(arg) {
+        arg.jsEvent.preventDefault(); // don't let the browser navigate
+        this.onClickEvent(arg.event);
+      },
+      addEventsToCalender(){
+        this.calendarOptions.events = []
+        this.events.forEach(event => {
+          let calenderEvent = new FullCalenderEvent(event.id, event.date, event.date, event.name, event.type ? event.type.color : '#3788d8')
+          this.calendarOptions.events.push(calenderEvent.json)
+        });
       }
     },
-    components: { EditModal, ViewModal, CornerButton, JavaCalender }
+    data() {
+      return {
+        EventEnum: EventEnum,
+        events: [],
+        event: null,
+        picture: null,
+
+        EditModal: { show: false, title: '' },
+        ViewModal: { show: false, title: '' },
+
+        path: 'events',
+
+        calendarOptions: {
+          plugins: [ dayGridPlugin, interactionPlugin ],
+          locale: nlLocale,
+          initialView: 'dayGridMonth',
+          dateClick: this.handleDateClick,
+          events: [ /* { title: 'event 1', start: '2023-02-08', end: '2023-02-09' }, */ ],
+          eventClick: this.handleEventClick
+        }
+      };
+    },
+    created() { this.getTechnicaEvent() }
 }
 </script>
 
 <style scoped>
+.fc-event-title { font-weight: bold; }
 </style>

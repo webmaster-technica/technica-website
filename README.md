@@ -22,6 +22,10 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 See [Configuration Reference](https://firebase.google.com/docs/storage/web/download-files).
 gsutil cors set ~\technica-antwerpen\cors.json gs://**your-cloud-storage-bucket**
 
+## domain tests
+get free [domain](https://www.noip.com/).
+[website domain link](http://technica1961.ddns.net)
+
 
 ## TODO
 - Change join form into woth form tags (Join.vue)
@@ -44,6 +48,10 @@ gsutil cors set ~\technica-antwerpen\cors.json gs://**your-cloud-storage-bucket*
 ### FullCalender
  - https://fullcalendar.io/docs/vue
    - npm install --save @fullcalendar/core @fullcalendar/vue3
+   - init fullcalander: https://fullcalendar.io/docs/vue
+   - documentation: https://fullcalendar.io/docs/intro
+   - event click: https://fullcalendar.io/docs/eventClick
+   - event object: https://fullcalendar.io/docs/event-object
 
 ### EmailJS
  - https://www.freecodecamp.org/news/send-emails-from-your-vue-application/
