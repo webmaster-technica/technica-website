@@ -9,15 +9,18 @@ export class BaseObject {
   }
 }
 
-
 export class Praesidium extends BaseObject {
-  constructor(name = '', surname = '', role = null, course = '', drink = '', text = '', linkedin = '', 
+  constructor(name = '', surname = '', role = -1, secondRole = -1, nickname = '', course = '', division = '', school = '', drink = '', text = '', linkedin = '', 
               picture = 'https://firebasestorage.googleapis.com/v0/b/technica-website-defc6.appspot.com/o/praesidium%2Fanoniem.png?alt=media&token=5862e3df-b5ed-4114-a20e-8c56ce8e2871', 
               picture_alt = 'https://firebasestorage.googleapis.com/v0/b/technica-website-defc6.appspot.com/o/praesidium%2Fanoniem.png?alt=media&token=5862e3df-b5ed-4114-a20e-8c56ce8e2871') {
     super(name, linkedin, text, picture)
     this.surname = surname
     this.role = getRoleEnumFromValue(role)
+    this.secondRole = getRoleEnumFromValue(secondRole)
+    this.nickname = nickname
     this.course = course
+    this.division = division
+    this.school = school
     this.drink = drink
     this.picture_alt = picture_alt
   }
@@ -27,6 +30,7 @@ export class Praesidium extends BaseObject {
       name: this.name,
       surname: this.surname,
       role: this.role.value,
+      secondRole: this.secondRole.value,
       course: this.course,
       drink: this.drink,
       text: this.text,
@@ -36,10 +40,34 @@ export class Praesidium extends BaseObject {
     }
   }
 }
-
 export class FirePraesidium extends Praesidium {
-  constructor(id = '', {name, surname, role, course, drink, text, linkedin, picture, picture_alt} = null) {
-    super(name, surname, role, course, drink, text, linkedin, picture, picture_alt)
+  constructor(id = '', {name, surname, role, secondRole, nickname, course, division, school, drink, text, linkedin, picture, picture_alt} = null) {
+    super(name, surname, role, secondRole, nickname, course, division, school, drink, text, linkedin, picture, picture_alt)
+    this.id = id
+  }
+}
+
+export class Member {
+  constructor(name = '', surname = '', roles = [], approved = false) {
+    this.name = name
+    this.surname = surname
+    roles.forEach(role => { role.role = getRoleEnumFromValue(role.role) })
+    this.roles = roles
+    this.approved = approved
+  }
+
+  get json(){
+    return {
+      name: this.name,
+      surname: this.surname,
+      roles: this.roles,
+      approved: this.approved,
+    }
+  }
+}
+export class FireMember extends Member {
+  constructor(id = '', {name, surname, roles, approved} = null) {
+    super(name, surname, roles, approved)
     this.id = id
   }
 }
@@ -75,13 +103,11 @@ export class TechnicaEvent {
     }
   }
 }
-
 export class FireTechnicaEvent extends TechnicaEvent {
   constructor(id = '', {name, fbLink, type, formsLink, date, time, location, price, text, picture} = null) {
     super(name, fbLink, type, formsLink, date, time, location, price, text, picture)
     this.id = id
   }
-  
 }
 
 export class FullCalenderEvent {

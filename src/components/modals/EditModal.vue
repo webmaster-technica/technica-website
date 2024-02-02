@@ -6,7 +6,7 @@
         <h3>{{ title }}</h3>
         <div id="inputs"><slot name="inputs"></slot></div>
         <div id="image"><slot name="image"></slot></div>
-        <button @click="confirm">{{ title }}</button>
+        <div id="buttons"><slot name="buttons"></slot></div>
       </div>
     </div>
   </div>
@@ -49,11 +49,16 @@
     max-height: calc(100vh - 210px);
     overflow-y: auto;
   }
-  .scrollable :slotted(div > *) { width: 100%; }
+  .scrollable :slotted(div > .column-1) { width: 100%; }
   .scrollable :slotted(div > .column-2) { width: 50%; }
 
+  /* Inputs */
   #inputs :slotted( > textarea) { height: 128px; }
+  .button-column { display: flex; }
+  .button-column :slotted( > button) { width: 36px; }
+  .button-column :slotted( > *:not(button)) { width: 220px; }
 
+  /* Image */
   #image :slotted(> *) { border-radius: 4px; }
   #image :slotted(label) {
     display: block;
@@ -62,4 +67,13 @@
     width: 100%;
   }
   #image :slotted(label:hover) { background-color: #e0e0e0; }
+
+  /* Buttons */
+  /* #buttons { display: flex; } */
+  #buttons :slotted(div button) { width: 100%; }
+
+  #buttons :slotted(.column-2) { width: 50%; }
+  #buttons :slotted(.column-3) { width: 33%; }
+  #buttons :slotted(.column-4) { width: 25%; }
+  #buttons :slotted(.column-5) { width: 20%; }
 </style>

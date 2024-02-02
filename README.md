@@ -14,6 +14,7 @@
 
 ### Deploy to Firebase
 ```firebase deploy```
+[hosting](https://technica-website-defc6.firebaseapp.com/)
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

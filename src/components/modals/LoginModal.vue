@@ -6,8 +6,10 @@
         <h1>Login</h1>
         <div class="input-field">
           <select v-model="user.role">
-              <option value="webmaster">Webmaster</option>
-              <option value="praeses">Praeses</option>
+            <option disabled selected value="">Functie</option>
+            <template v-for="role in RoleEnum">
+              <option v-if="role.value <= 13 && role.value != -1" :value="role.value">{{ role.name }}</option>
+            </template>
           </select>
           <!-- <input v-model="user.username" type="text" class="input" placeholder="Gebruiker"/> -->
         </div>
@@ -25,20 +27,39 @@
   </div>
 </template>
 
-<script>  
+<script>
+import { RoleEnum } from '@/enums';
+
   export default {
     data() {
       return {
+        RoleEnum: RoleEnum,
         showPassword: false,
-        user: { role: 'webmaster', password: '' }
+        user: { role: 13, password: '' },
+        roles: [
+          { name: 'webmaster', label: 'Webmaster' },
+          { name: 'praeses', label: 'Praeses' },
+          { name: 'vice_praeses', label: 'Vice-Praeses' },
+          { name: 'quaestor', label: 'Quaestor' },
+          { name: 'cantor', label: 'Cantor' },
+          { name: 'ab_actis', label: 'Ab-Actis' },
+          { name: 'schachtenmeester', label: 'Schachtenmeester' },
+          { name: 'schachtentemmer', label: 'Schachtentemmer' },
+          { name: 'zedenmeester', label: 'Zedenmeester' },
+          { name: 'Feest', label: 'feest' },
+          { name: '', label: '' },
+          { name: '', label: '' },
+          { name: '', label: '' },
+          { name: '', label: '' },
+        ]
       }
     },
     emits: ["toggleLoginModal"],
     methods: {
       toggleLoginModal() { this.$emit('toggleLoginModal') },
       toggleShow() { this.showPassword = !this.showPassword; },
-      login(event) { 
-        alert(`Username: ${this.user.username}\nPassword: ${this.user.password}`)
+      login(event) {
+        alert(`Username: ${this.user.role}\nPassword: ${this.user.password}`)
       }
     }
   }
@@ -63,6 +84,7 @@
   }
 
   .input-field { display: flex; }
+  .input-field > button { width: 36px; }
 
   .input-field > *:not(button) {
     flex-grow: 1;

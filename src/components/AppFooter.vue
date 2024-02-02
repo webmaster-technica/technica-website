@@ -1,10 +1,16 @@
 <template>
   <footer>
     <div>
-      &copy; {{ year }} Technica |
-      <div class="hover"><a class="hover" href="http://www.technica-antwerpen.be/assets/privacy_policy.pdf">APP</a></div> |
-      <div class="hover"><a class="hover" href="https://www.dropbox.com/s/jhpuezp8jiuddqm/Technica-App.apk?dl=1">Privacybeleid</a></div> |
-      <div class="hover"><a class="hover" href="http://www.technica-antwerpen.be/assets/privacy_policy.pdf">Statuten</a></div>
+      &copy; 2024 - {{ year }} Technica |
+      <!--
+        Open pdf
+        https://medium.com/@d.steinberg79/adding-webpack-a-legacy-vue-js-application-ee48f0ca049
+        https://stackoverflow.com/questions/70823149/webpack-cannot-load-pdf-file-module-parse-failed-you-may-need-an-appropriate-lo
+        https://stackoverflow.com/questions/55500187/how-to-download-a-pdf-in-vue
+      -->
+      <div class="hover"><a class="hover" href="#">APP</a></div> |
+      <div class="hover"><a class="hover" href="/assets/pdfs/privacy_policy.pdf" target="_blank">Privacybeleid</a></div> |
+      <div class="hover"><a class="hover" href="/assets/pdfs/statuten.pdf" target="_blank">Statuten</a></div>
     </div>
     &emsp;&emsp;
     <div>
@@ -24,7 +30,7 @@
 
 <script>
   import { computed } from 'vue'
-  
+
   export default {
     setup() {
       const year = computed(() => new Date().getFullYear())
@@ -34,6 +40,8 @@
 </script>
 
 <style scoped>
+  footer { text-align: center; }
+
   a {
     color: #C6C6C6;
     margin: 4px;

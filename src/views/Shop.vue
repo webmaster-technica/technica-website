@@ -1,5 +1,5 @@
 <template>
-  <h1>This is an contact page</h1>
+  <h1>This is an shop page</h1>
 </template>
 
 <script>

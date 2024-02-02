@@ -78,7 +78,7 @@
         </div>
       </div>
 
-      <div class="flex-smaller"> <!-- Image -->
+      <!-- <div class="flex-smaller"> <!- Image ->
         <div id="image" class="padded-block" ref="image">
           <label for="picture">Foto*</label>
           <input @change="onFileChange" id="picture" type="file" accept=".png, .jpg, .jpeg" required/>
@@ -88,9 +88,9 @@
         <div class="padded-block">
           <img :src="member.image" v-if="member.image" alt="">
         </div>
-      </div>
+      </div> -->
 
-      <div class="flex-smaller" ref="dopen"><label for="">Dopen*</label></div> <!-- Dopen -->
+      <div class="flex-smaller" style="padding-top: 16px;" ref="dopen"><label for="">Dopen*</label></div> <!-- Dopen -->
       <div class="flex-larger">
         <div id="dopen" class="padded-block">
           <label><input type="radio" value="Ja" name="dopen(ja)" v-model="member.dopen" required/>Ja</label>
@@ -98,13 +98,13 @@
         </div>
       </div>
 
-      <div class="flex-smallest"> <!-- Privacy -->
+      <div class="flex-smallest" style="padding-top: 12px;"> <!-- Privacy -->
         <input v-model="member.privacy" type="checkbox" required/>
       </div>
       <div class="flex-largest">
         <div class="data padded-block" ref="privacy">
           Ik ga akkoord met de algemene voorwaarden en het 
-          <a href="http://www.technica-antwerpen.be/assets/privacy_policy.pdf">Privacybeleid</a> 
+          <b><a href="/assets/pdfs/privacy_policy.pdf" target="_blank">Privacybeleid</a></b> 
           van Technica*
         </div>
       </div>
@@ -114,7 +114,7 @@
       </div>
     </form>
     
-    <corner-button title="Download Ledenlijst" @confirm="downloadData"></corner-button>
+    <corner-button title="Download Ledenlijst" icon="download" @confirm="downloadData"></corner-button>
   </div>
 </template>
 
@@ -128,18 +128,18 @@
       return {
         /* CSV Methods */
         member: { name: '', surname: '', birthday: null, study: '', yearOfStudy: 0, email: '', gsm: '', 
-                  street: '', houseNr: 0, city: '', postcode: 0, image: null, dopen: 'Nee', privacy: false },
+                  street: '', houseNr: 0, city: '', postcode: 0, /*image: null,*/ dopen: 'Nee', privacy: false },
         filledForm: false
       }
     },
     methods: {
-      onFileChange(event) {
-        var files = event.target.files
-        if (!files.length) return
-        const reader = new FileReader()
-        reader.readAsDataURL(files[0])
-        reader.onload = () => (this.member.image = reader.result)
-      },
+      // onFileChange(event) {
+      //   var files = event.target.files
+      //   if (!files.length) return
+      //   const reader = new FileReader()
+      //   reader.readAsDataURL(files[0])
+      //   reader.onload = () => (this.member.image = reader.result)
+      // },
       submitForm(event) {
         if (this.member) {
           this.filledForm = true
@@ -204,13 +204,13 @@
       },
 
       /* Email */
-      sendEmail() {
-        console.log(this.$refs.form)
-        emailjs.sendForm('service_yzmct1n', 'template_pc73wn5', this.$refs.form, 'zMoLN4-4D5U7o0vup').then(
-          (result) => { console.log('SUCCESS!', result.text); },
-          (error) => { console.log('FAILED...', error.text); }
-        );
-      }
+      // sendEmail() {
+      //   console.log(this.$refs.form)
+      //   emailjs.sendForm('service_yzmct1n', 'template_pc73wn5', this.$refs.form, 'zMoLN4-4D5U7o0vup').then(
+      //     (result) => { console.log('SUCCESS!', result.text); },
+      //     (error) => { console.log('FAILED...', error.text); }
+      //   );
+      // }
     },
     components: { CornerButton }
   }
@@ -243,16 +243,17 @@
   }
   .data > input { width: 100%; }
 
-  #image > label {
+  /* #image > label {
     display: block;
     border: 1px solid #555;
     background-color: #e7e7e7;
     width: 100%;
-  }
+  } */
 
   #dopen { display: flex; }
 
   #dopen > label { width: 50%; }
 
   .not-filled { color: crimson !important; }
+  
 </style>

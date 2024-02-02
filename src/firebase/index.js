@@ -69,30 +69,36 @@ export async function delPhoto(storageName = '', fileName = '') {
 }
 
 /* Data */
-export async function getData(collectionName = '', filtering = '', equals = '', ordering = '') {
+// Filtering = [{ field: string, operator: operator, value: number }]
+// Operators: - Logic: <, <=, == >, >=, !=
+//            - Database (array) & value (value): array-contains, array-contains-any
+//            - Database (value) & value (array): in, not-in
+export async function getData(collectionName = '', filtering = [], ordering = '') {
+  // Base query to the collection
+  let baseQuery = query(collection(db, collectionName));
+
+  // Filter the queried data if needed
+  if (filtering) filtering.forEach(filter => {
+    baseQuery = query(baseQuery, where(filter.field, filter.operator.value, filter.value))
+  })
+
+  // Order the queried data if needed
+  if (ordering) baseQuery = query(baseQuery, orderBy(ordering))
+  
   var data = []
-  var querySnapshot;
-  if (filtering && ordering) {
-    querySnapshot = await getDocs(query(collection(db, collectionName), where(filtering, '==', equals), orderBy(ordering)));
-  } else if (filtering) {
-    querySnapshot = await getDocs(query(collection(db, collectionName), where(filtering, '==', equals)));
-  } else if (ordering) {
-    querySnapshot = await getDocs(query(collection(db, collectionName), orderBy(ordering)));
-  } else {
-    querySnapshot = await getDocs(query(collection(db, collectionName)));
-  }
+  const querySnapshot = await getDocs(baseQuery)
   querySnapshot.forEach((doc) => { data.push(doc); });
   return data
 }
 export async function postData(collectionName = '', jsonData = null) {
-  //console.log(jsonData)
+  // console.log(jsonData)
   const docRef = await addDoc(collection(db, collectionName), jsonData);
-  console.log("Document was created with ID:", docRef.id);
+  // console.log("Document was created with ID:", docRef.id);
+  return docRef.id
 }
 export async function putData(collectionName = '', id = '', jsonData = null) {
   //console.log(jsonData)
   await updateDoc(doc(db, collectionName, id), jsonData);
-  //console.log("Document was created with ID:", docRef.id);
 }
 export async function delData(collectionName = '', id = '') {
   await deleteDoc(doc(db, collectionName, id))

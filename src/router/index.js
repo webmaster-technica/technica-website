@@ -14,9 +14,22 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },{
-    path: '/contact',
-    name: 'Contact',
-    component: () => import('../views/Contact.vue')
+    path: '/shop',
+    name: 'Shop',
+    component: () => import('../views/Shop.vue')
+  },{                                                             // Member Folder
+    path: '/join',
+    name: 'Join',
+    component: () => import('../views/member/Join.vue')
+  },{
+    path: '/praesidium/:id?',
+    name: 'Praesidium',
+    component: () => import('../views/member/Praesidium.vue'),
+    props: true
+  },{
+    path: '/history',
+    name: 'History',
+    component: () => import('../views/member/History.vue')
   },{                                                             // Event Folder
     path: '/events/:id',
     name: 'EventDetail',
@@ -27,15 +40,11 @@ const routes = [
     name: 'Events',
     component: () => import('../views/event/Events.vue'),
     props: true
-  },{                                                             // Member Folder
-    path: '/join',
-    name: 'Join',
-    component: () => import('../views/member/Join.vue')
-  },{
-    path: '/praesidium',
-    name: 'Praesidium',
-    component: () => import('../views/member/Praesidium.vue')
   },{                                                             // Partner Folder
+    path: '/partners/:id',
+    name: 'PartnerDetail',
+    component: () => import('../views/partner/PartnerDetails.vue')
+  },{
     path: '/jobs/:id',
     name: 'JobDetail',
     component: () => import('../views/partner/JobDetails.vue'),
@@ -45,16 +54,12 @@ const routes = [
     name: 'Jobs',
     component: () => import('../views/partner/Jobs.vue')
   },{
-    path: '/partners/:id',
-    name: 'PartnerDetail',
-    component: () => import('../views/partner/PartnerDetails.vue')
-  },{
     path: '/partners',
     name: 'Partners',
     component: () => import('../views/partner/Partners.vue')
   },{                                                             // Catchall 404
     path: '/:catchAll(.*)',
-    name: 'Notfound',
+    name: 'NotFound',
     component: () => import('../views/NotFound.vue')
   }
 ]

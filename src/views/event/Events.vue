@@ -36,7 +36,7 @@
     -->
     <div v-if="events.length">
       <FullCalendar :options="calendarOptions"/>
-      <corner-button title="Add" @confirm="changeData($event)"></corner-button>
+      <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button>
     </div>
     <div v-else><h3 class="loading">Loading events ...</h3></div>
   </div>

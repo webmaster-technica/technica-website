@@ -1,13 +1,13 @@
 import { createStore } from 'vuex'
 
 export default createStore({
-  state: {
+  state: {      // Global data storage
   },
-  getters: {
+  getters: {    // Global getters
   },
-  mutations: {
+  mutations: {  // Global methods to update the data (synchronous)
   },
-  actions: {
+  actions: {    // Global methods to update the data (asynchronous)
   },
   modules: {
   }
