@@ -11,10 +11,11 @@
 - Data over onze campus (locatie), huidig stamcafe (locatie), clublied ... (stap 5)
 - Voeg stamcafe's toe (stap 5)
 
-# Praesidium
-- Zorg ervoor dat de bar in een transitie verschijnt en verdwijnt (stap 1)
+# Praesidium (Done)
+- View data layout
 
 # Geschiedenis (Done)
+- Correct sizing
 
 # Evenementen
 - Voeg evenementen toe aan de google calender met basisinfo (naam, plaats, tijdstip, fb-link, prijs ...) (stap 6)
@@ -37,3 +38,6 @@
 
 # Login
 - Zorg dat de authenticatie werkt (stap 7)
+
+# Error (Done)
+- Correct sizing

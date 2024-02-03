@@ -55,11 +55,12 @@
 
   <!-- The main view -->
   <div id="main">
-    <div v-if="praesidia.length">
-      <div v-for="lid in praesidia" :key="lid.id" class="persons">
+    <div v-if="grid.length">
+      <div v-for="lid in grid" :key="lid.id" class="person">
+
+        <!-- Praesidium Item -->
         <div v-if="lid.name != ''">
-          <!-- Praesidium image -->
-          <div class="person-wrap" @dblclick="changeData($event, lid)" @click="toggleData($event, lid)" >
+          <div class="person-wrap" @dblclick="changeData($event, lid)" @click="showData($event, lid)">
             <hover-image :image="lid.picture" :image-alt="lid.picture_alt"></hover-image>
             <h3 class="title top-shift">{{ lid.name }} {{ lid.surname }}</h3>
             <h3 class="sub-title bottom-shift">
@@ -68,12 +69,13 @@
             </h3>
           </div>
         </div>
+
+        <!-- Data Row -->
         <div v-else>
-          <!-- Data field -->
-          <div id="data-box">
-            <div>
-              <hover-image :image="praesidium.picture" :image-alt="praesidium.picture_alt" id="data-image"></hover-image>
-              <div id="data-field">
+          <div class="data-row">
+            <div v-if="praesidium">
+              <hover-image :image="praesidium.picture" :image-alt="praesidium.picture_alt" class="data-image"></hover-image>
+              <div class="data-field">
                 <h4>
                   <span class="title">
                     {{ praesidium.name }} {{ praesidium.surname }}
@@ -90,6 +92,13 @@
                     <a :href="'mailto:' + praesidium.mail">{{ praesidium.role.mail }}</a>
                   </a>
                 </h5>
+                <h5 class="sub-title" v-if="praesidium.secondRole.value != -1">
+                  <b>{{ praesidium.secondRole.name }}</b>
+                  <a v-if="praesidium.secondRole.mail"> - 
+                    <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'envelope' }"/>
+                    <a :href="'mailto:' + praesidium.mail">{{ praesidium.secondRole.mail }}</a>
+                  </a>
+                </h5>
                 <div>
                   <span>{{ praesidium.course }}</span>
                   <a v-if="praesidium.division">: {{ praesidium.division }}</a>
@@ -101,6 +110,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
     <div v-else><h3 class="loading">Loading preasidium ...</h3></div>
@@ -129,20 +139,19 @@
         praesidium: null,
         picture: { normal: null, alt: null },
 
+        path: 'praesidium',
         EditModal: { show: false, existingItem: false, title: '' },
 
-        path: 'praesidium',
-
-        viewData: { show: false, item: null },
-        showFiller: [],
+        grid: [],
+        columnSize: 0,
       };
     },
-    async created() { 
+    async created() {
       await this.getPraesidium()
       this.applyRouteID(this.id)
     },
-    mounted() { this.$nextTick(() => { window.addEventListener('resize', this.toggleData); }) },
-    beforeDestroy() { window.removeEventListener('resize', this.toggleData); },
+    mounted() { this.$nextTick(() => { window.addEventListener('resize', this.changeGrid); }) },
+    beforeDestroy() { window.removeEventListener('resize', this.changeGrid); },
     methods: {
       // Firebase storage methods
       async getPhoto(fileName = '') { return await getPhoto(this.path, fileName) },
@@ -151,20 +160,18 @@
 
       // Firebase database methods
       async getPraesidium() {
+        this.changeColumnSize()
         const data = await getData(this.path, [], 'role')
         data.forEach((doc) => { this.praesidia.push(new FirePraesidium(doc.id, doc.data())); })
-        this.praesidia.forEach(() => this.showFiller.push(false))
+        this.setGrid()
       },
       async postPraesidium() {
         // Add data remotely
         const id = await postData(this.path, this.praesidium.json)
 
         // Add data locally
-        // const index = this.praesidia.findIndex(praesidium => praesidium.id == id)
         this.praesidia.push(this.praesidium)
         this.praesidia.sort(function(a, b) { return a.role.value - b.role.value })
-
-        this.showFiller.push(false)
       },
       async putPraesidium() {
         // Change data remotely
@@ -173,8 +180,6 @@
         // Change data locally
         const index = this.praesidia.findIndex(praesidium => praesidium.id == this.praesidium.id)
         this.praesidia[index] = this.praesidium
-
-        this.showFiller.push(false)
       },
       async delPraesidium(event, id, name) {
         // Delete member locally
@@ -191,57 +196,77 @@
 
       // Edit values
       getTitle() { return this.EditModal.existingItem ? 'Lid aanpassen' : 'Lid toevoegen' },
+      changeColumnSize() {
+        const windowWidth = window.innerWidth
+        const columns = Math.floor(windowWidth / 336) // a column is 336 pixels wide
+        this.columnSize = columns > 3 ? 3 : columns   // the maximum amount of columns is 3
+      },
 
       // Grid layout
-      toggleData(event, lid) {
-        // If statement for onClick
-        if (lid) {
-          this.praesidium = lid
+      setGrid() {
+        // Get an array
+        this.grid = []
+        this.grid = this.praesidia.slice()
+        const gridSize = this.grid.length
 
-          var tempPraesidia = []
-          this.praesidia.findIndex(praesidium => { if (praesidium.name != '') tempPraesidia.push(praesidium) })
-          const index = tempPraesidia.findIndex(praesidium => praesidium.id == this.praesidium.id)
+        // Find indexes at which data blocks should be inserted
+        let inserts = []
+        for (let index = 0; index < gridSize; index += this.columnSize) { inserts.push(index + this.columnSize) }
 
-          // Add filler space
-          if (this.showFiller[index]) this.showFiller[index] = false // Toggle if needed
-          else
-            for (let i = 0; i < this.showFiller.length; i++) this.showFiller[i] = (i == index)
-        }
-
-        // If statement for eventListener (that will active on screen width change)
-        if (this.praesidium) { this.toggleDataBoxSpace() }
+        // Apply insertions in reverse order so they don't intervene with each other
+        inserts.reverse()
+        inserts.forEach(insertion => {this.grid.splice(Math.min(insertion, gridSize), 0, new Praesidium())})
       },
-      toggleDataBoxSpace() {
-        // Remove previous filler node (if it exists)
-        const pIndex = this.praesidia.findIndex(praesidium => praesidium.name == '')
-        if (pIndex != -1) this.praesidia.splice(pIndex, 1)
+      changeGrid() {
+        // Change the amount of columns
+        this.changeColumnSize()
 
-        // Add new filled node (if needed)
-        const index = this.showFiller.findIndex(filler => filler == true)
-        if (index != -1) {
-          const windowWidth = window.innerWidth
-          var columns = Math.floor(windowWidth / 336) // a column is 336 pixels wide
-          columns = columns > 3 ? 3 : columns         // the maximum amount of columns is 3
-          const atRow = (Math.floor(index / columns) + 1)
-          this.praesidia.splice(atRow * columns, 0, new Praesidium())
-        }
+        // Change the grid layout
+        this.setGrid()
 
-        //this.waitForElementToExist('.data-box', (element) => element.classList.add(visible))
-
-        //   // Transition
-        //   dataField.style.visibility = 'visible'
-        //   dataField.style.transition = 'height 5s ease-in-out'
-        //   dataField.style.height = '336px'
-      },
-      waitForElementToExist(selector, callback) {
-        const element = document.querySelector(selector);
-
-        if (element !== null) {
-          // Element found, execute callback
-          callback(element);
+        if (this.praesidium && this.praesidium.name != 0) {
+          // There was a data row shown before the grid change
+          this.showData(null, this.praesidium)
         } else {
-          // Element not found yet, wait and try again
-          setTimeout(() => {this.waitForElementToExist(selector, callback);}, 100);
+          // No data was shown
+        }
+      },
+      delay(time, callback) { setTimeout(function(){ callback() }.bind(this), time); },
+      showData(event, lid) {
+        // Get index of selected item
+        const itemIndex = this.praesidia.findIndex(praesidium => praesidium.id == lid.id)
+        const rowIndex = Math.floor(itemIndex / this.columnSize)
+
+        if (this.praesidium) {
+          if (this.praesidium && this.praesidium.id != lid.id) {
+            // Show new data
+            const rows = document.querySelectorAll('.data-row');
+            // Close old window
+            rows.forEach(row => { if (row.classList.contains('visible')) row.classList.remove('visible'); });
+            // Open new window
+            const newData = lid
+
+            // Execute code after 1.1 second (1100 ms)
+            this.delay(1100, () => {
+              // We first need to make the object null so the image can rerender
+              this.praesidium = null
+              
+              this.delay(100, () => {
+                this.praesidium = newData
+                rows[rowIndex].classList.add('visible');
+              })
+            })
+          } else {
+            // Hide old data
+            const rows = document.querySelectorAll('.visible');
+            rows.forEach(row => { if (row.classList.contains('visible')) row.classList.remove('visible'); });
+            this.delay(1100, () => {this.praesidium = null})
+          }
+        } else {
+          // Show data (reveal row)
+          this.praesidium = lid
+          const rows = document.querySelectorAll('.data-row');
+          rows[rowIndex].classList.add('visible');
         }
       },
 
@@ -265,7 +290,7 @@
           })
 
           // If the ID is valid (index != -1) then continue with value
-          if (index != -1) { this.toggleData(null, this.praesidia[index]) }
+          if (index != -1) { this.showData(null, this.praesidia[index]) }
         }
       },
       
@@ -326,51 +351,52 @@
 </script>
 
 <style scoped>
-  h3 { color: #ffffff; }
-  .title { font-size: x-large; }
+  h3 { color: #ffffff; font-family: 'Cabin Condensed', sans-serif; }
+  .title { font-size: x-large; font-weight: bold; }
   .sub-title { font-size: large; }
   .top-shift { margin-top: -96px; }
   .bottom-shift { margin-bottom: 48px; }
 
-  .persons { display: inline-flex; }
-  .person-wrap { 
+  .person { display: inline-flex; }
+  .person-wrap {
     width: 320px;
     padding: 8px;
   }
 
-  #test { height: 500px; }
-  #data-box {
-    height: 320px;
+  .data-row {
+    height: 0px;
     width: 992px;
-    padding: 8px;
-    background-color: navy;
-    transition: height 5s ease-in-out;
+    background-color: #115F9A;
+    transition: height 1s ease-in-out;
+    overflow: hidden;
   }
-  #data-box.visible { height: 320px;
-    background-color: maroon; }
-  #data-box > div { display: flex; }
-  #data-image { 
+  .data-row > * { visibility: visible; }
+  .data-row > div { display: flex; padding: 8px; overflow: block; }
+  .data-row.visible { height: 336px; }
+
+  .data-image {
     width: 320px;
     height: 320px;
-    visibility: visible;
     padding-right: 20px;
+    justify-content: center;
+    transition: width 1s ease-in-out;
   }
-  #data-field {
+  .data-field {
     text-align: left;
     font-size: 20px;
     color: #ffffff;;
     /* color: #353535; */
   }
-  #data-field svg { margin-right: 4px; }
+  .data-field svg { margin-right: 4px; }
 
 
   @media screen and (max-width: 1008px) {
-    #data-box { width: 656px; }
-    #data-image { visibility: collapse; }
+    .data-row { width: 656px; }
+    .data-image { visibility: collapse; }
   }
   @media screen and (max-width: 672px) {
-    #data-box { width: 320px; }
-    #data-image { visibility: collapse; }
+    .data-row { width: 320px; }
+    .data-image { visibility: collapse; }
   }
 </style>
 <!--https://stackoverflow.com/a/8331169-->
