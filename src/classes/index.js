@@ -1,27 +1,25 @@
 import { getRoleEnumFromValue, getEventEnumFromValue } from "../enums"
 
-export class BaseObject {
-  constructor(name = '', link = '', text = '', picture = 'https://firebasestorage.googleapis.com/v0/b/technica-website-defc6.appspot.com/o/praesidium%2Fanoniem.png?alt=media&token=5862e3df-b5ed-4114-a20e-8c56ce8e2871') {
-    this.name = name
-    this.link = link
-    this.text = text
-    this.picture = picture
-  }
-}
+export class Praesidium {
+  constructor(name = '', surname = '', nickname= '', role = -1, secondRole = -1, course = '', division = '', school = '', drink = '', text = '', linkedin = '', picture = 'https://firebasestorage.googleapis.com/v0/b/technica-website-defc6.appspot.com/o/praesidium%2Fanoniem.png?alt=media&token=5862e3df-b5ed-4114-a20e-8c56ce8e2871', 
+  picture_alt = 'https://firebasestorage.googleapis.com/v0/b/technica-website-defc6.appspot.com/o/praesidium%2Fanoniem.png?alt=media&token=5862e3df-b5ed-4114-a20e-8c56ce8e2871') {
 
-export class Praesidium extends BaseObject {
-  constructor(name = '', surname = '', role = -1, secondRole = -1, nickname = '', course = '', division = '', school = '', drink = '', text = '', linkedin = '', 
-              picture = 'https://firebasestorage.googleapis.com/v0/b/technica-website-defc6.appspot.com/o/praesidium%2Fanoniem.png?alt=media&token=5862e3df-b5ed-4114-a20e-8c56ce8e2871', 
-              picture_alt = 'https://firebasestorage.googleapis.com/v0/b/technica-website-defc6.appspot.com/o/praesidium%2Fanoniem.png?alt=media&token=5862e3df-b5ed-4114-a20e-8c56ce8e2871') {
-    super(name, linkedin, text, picture)
+    this.name = name
     this.surname = surname
+    this.nickname = nickname
+
     this.role = getRoleEnumFromValue(role)
     this.secondRole = getRoleEnumFromValue(secondRole)
-    this.nickname = nickname
+
     this.course = course
     this.division = division
     this.school = school
+
     this.drink = drink
+    this.text = text
+    this.linkedin = linkedin
+
+    this.picture = picture
     this.picture_alt = picture_alt
   }
 
@@ -29,20 +27,27 @@ export class Praesidium extends BaseObject {
     return {
       name: this.name,
       surname: this.surname,
+      nickname: this.nickname,
+
       role: this.role.value,
       secondRole: this.secondRole.value,
+
       course: this.course,
+      division: this.division,
+      school: this.school,
+
       drink: this.drink,
       text: this.text,
-      linkedin: this.link,
+      linkedin: this.linkedin,
+
       picture: this.picture,
       picture_alt: this.picture_alt
     }
   }
 }
 export class FirePraesidium extends Praesidium {
-  constructor(id = '', {name, surname, role, secondRole, nickname, course, division, school, drink, text, linkedin, picture, picture_alt} = null) {
-    super(name, surname, role, secondRole, nickname, course, division, school, drink, text, linkedin, picture, picture_alt)
+  constructor(id = '', {name, surname, nickname, role, secondRole, course, division, school, drink, text, linkedin, picture, picture_alt} = null) {
+    super(name, surname, nickname, role, secondRole, course, division, school, drink, text, linkedin, picture, picture_alt)
     this.id = id
   }
 }
@@ -72,6 +77,30 @@ export class FireMember extends Member {
   }
 }
 
+export class Partner {
+  constructor(name = '', website = '', index = 0, logo = 'https://firebasestorage.googleapis.com/v0/b/technica-website-defc6.appspot.com/o/praesidium%2Fanoniem.png?alt=media&token=5862e3df-b5ed-4114-a20e-8c56ce8e2871') {
+
+    this.name = name
+    this.website = website
+    this.index = index
+    this.logo = logo
+  }
+
+  get json(){
+    return {
+      name: this.name,
+      website: this.website,
+      index: this.index,
+      logo: this.logo,
+    }
+  }
+}
+export class FirePartner extends Partner {
+  constructor(id = '', {name, website, index, logo} = null) {
+    super(name, website, index, logo)
+    this.id = id
+  }
+}
 
 export class TechnicaEvent {
   constructor(name = '', fbLink = '', type = null, formsLink = '', date = '', time = '', 

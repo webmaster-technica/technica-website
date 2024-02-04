@@ -31,32 +31,20 @@ const routes = [
     name: 'History',
     component: () => import('../views/member/History.vue')
   },{                                                             // Event Folder
-    path: '/events/:id',
-    name: 'EventDetail',
-    component: () => import('../views/event/EventDetails.vue'),
-    props: true
-  },{
-    path: '/events',
+    path: '/events/:id?',
     name: 'Events',
     component: () => import('../views/event/Events.vue'),
     props: true
   },{                                                             // Partner Folder
-    path: '/partners/:id',
-    name: 'PartnerDetail',
-    component: () => import('../views/partner/PartnerDetails.vue')
-  },{
-    path: '/jobs/:id',
-    name: 'JobDetail',
-    component: () => import('../views/partner/JobDetails.vue'),
+    path: '/partners/:id?',
+    name: 'Partners',
+    component: () => import('../views/partner/Partners.vue'),
     props: true
   },{
-    path: '/jobs',
+    path: '/jobs/:id?',
     name: 'Jobs',
-    component: () => import('../views/partner/Jobs.vue')
-  },{
-    path: '/partners',
-    name: 'Partners',
-    component: () => import('../views/partner/Partners.vue')
+    component: () => import('../views/partner/Jobs.vue'),
+    props: true
   },{                                                             // Catchall 404
     path: '/:catchAll(.*)',
     name: 'NotFound',

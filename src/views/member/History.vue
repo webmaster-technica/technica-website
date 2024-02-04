@@ -246,10 +246,10 @@
 
       async confirm() {
         if (this.newRole.year || this.newRole.role) alert("Add the new role")
-        //console.log(`Confirm: pre change data`, this.member.json)
         else if (this.member.name && this.member.surname) {
           // Sort data
           this.member.roles.sort(function(a, b) { return 64 * (a.year - b.year) + (a.role.value - b.role.value) })
+          // console.log(`Confirm: pre change data`, this.member.json)
 
           // Change data for database
           this.member.roles.forEach(role => role.role = role.role.value)
@@ -304,4 +304,3 @@
     background-image: url("../../assets/images/grunge.png");
   }
 </style>
-<!--https://stackoverflow.com/a/8331169-->

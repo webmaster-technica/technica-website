@@ -23,11 +23,11 @@
         </template>
       </select>
       <!-- Study -->
-      <input class="column-2" v-model="praesidium.course" type="text" placeholder="Studierichting" required/>
+      <input class="column-2" v-model="praesidium.course" type="text" placeholder="Studierichting/Job" required/>
       <input class="column-2" v-model="praesidium.division" type="text" placeholder="Deelrichting" required/>
-      <input class="column-2" v-model="praesidium.school" type="text" placeholder="School" required/>
+      <input class="column-2" v-model="praesidium.school" type="text" placeholder="School/Bedrijf" required/>
       <!-- LinkedIn -->
-      <input class="column-2" v-model="praesidium.link" type="text" placeholder="LinkedIn" required/>
+      <input class="column-2" v-model="praesidium.linkedin" type="text" placeholder="LinkedIn" required/>
       <!-- Text -->
       <textarea class="column-1" v-model="praesidium.text" placeholder="Tekst" required></textarea>
     </template>
@@ -73,39 +73,41 @@
         <!-- Data Row -->
         <div v-else>
           <div class="data-row">
-            <div v-if="praesidium">
-              <hover-image :image="praesidium.picture" :image-alt="praesidium.picture_alt" class="data-image"></hover-image>
+            <div v-if="gridItem">
+              <hover-image :image="gridItem.picture" :image-alt="gridItem.picture_alt" class="data-image"></hover-image>
               <div class="data-field">
-                <h4>
+                <h4 v-if="columnSize > 1">
                   <span class="title">
-                    {{ praesidium.name }} {{ praesidium.surname }}
-                    <a v-if="praesidium.nickname"> ({{ praesidium.nickname }})</a>
+                    {{ gridItem.name }} {{ gridItem.surname }}
+                    <a v-if="gridItem.nickname"> ({{ gridItem.nickname }})</a>
                   </span>
-                  <a v-if="praesidium.link" :href="praesidium.link">
+                  <a v-if="gridItem.linkedin" :href="gridItem.linkedin">
                     <font-awesome-icon class="icon" :icon="{ prefix: 'fab', iconName: 'linkedin' }"/>
                   </a>
                 </h4>
                 <h5 class="sub-title">
-                  <b>{{ praesidium.role.name }}</b>
-                  <a v-if="praesidium.role.mail"> - 
+                  <b v-if="columnSize > 1">{{ gridItem.role.name }}</b>
+                  <a v-if="gridItem.role.mail">
+                    <span v-if="columnSize > 1"> - </span>
                     <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'envelope' }"/>
-                    <a :href="'mailto:' + praesidium.mail">{{ praesidium.role.mail }}</a>
+                    <a :href="'mailto:' + gridItem.role.mail">{{ gridItem.role.mail }}</a>
                   </a>
                 </h5>
-                <h5 class="sub-title" v-if="praesidium.secondRole.value != -1">
-                  <b>{{ praesidium.secondRole.name }}</b>
-                  <a v-if="praesidium.secondRole.mail"> - 
+                <h5 class="sub-title" v-if="gridItem.secondRole.value != -1">
+                  <b v-if="columnSize > 1">{{ gridItem.secondRole.name }}</b>
+                  <a v-if="gridItem.secondRole.mail">
+                    <span v-if="columnSize > 1"> - </span>
                     <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'envelope' }"/>
-                    <a :href="'mailto:' + praesidium.mail">{{ praesidium.secondRole.mail }}</a>
+                    <a :href="'mailto:' + gridItem.mail">{{ gridItem.secondRole.mail }}</a>
                   </a>
                 </h5>
                 <div>
-                  <span>{{ praesidium.course }}</span>
-                  <a v-if="praesidium.division">: {{ praesidium.division }}</a>
-                  <a v-if="praesidium.school">, {{ praesidium.school }}</a>
+                  <span>{{ gridItem.course }}</span>
+                  <a v-if="gridItem.division">: {{ gridItem.division }}</a>
+                  <a v-if="gridItem.school">, {{ gridItem.school }}</a>
                 </div>
-                <p><font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'beer' }"/>{{ praesidium.drink }}</p>
-                <p>{{ praesidium.text }}</p>
+                <p><font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'beer' }"/>{{ gridItem.drink }}</p>
+                <p>{{ gridItem.text }}</p>
               </div>
             </div>
           </div>
@@ -127,9 +129,6 @@
   import CornerButton from '@/components/CornerButton.vue';
   import EditModal from '@/components/modals/EditModal.vue';
 
-  // Picture problem
-  // Delete picture
-
   export default {
     props: ['id'],
     data() {
@@ -143,6 +142,7 @@
         EditModal: { show: false, existingItem: false, title: '' },
 
         grid: [],
+        gridItem: null,
         columnSize: 0,
       };
     },
@@ -198,8 +198,7 @@
       getTitle() { return this.EditModal.existingItem ? 'Lid aanpassen' : 'Lid toevoegen' },
       changeColumnSize() {
         const windowWidth = window.innerWidth
-        const columns = Math.floor(windowWidth / 336) // a column is 336 pixels wide
-        this.columnSize = columns > 3 ? 3 : columns   // the maximum amount of columns is 3
+        this.columnSize = windowWidth > 1008 ? 3 : windowWidth > 672 ? 2 : 1
       },
 
       // Grid layout
@@ -224,9 +223,9 @@
         // Change the grid layout
         this.setGrid()
 
-        if (this.praesidium && this.praesidium.name != 0) {
+        if (this.gridItem && this.gridItem.name != 0) {
           // There was a data row shown before the grid change
-          this.showData(null, this.praesidium)
+          this.showData(null, this.gridItem)
         } else {
           // No data was shown
         }
@@ -234,39 +233,38 @@
       delay(time, callback) { setTimeout(function(){ callback() }.bind(this), time); },
       showData(event, lid) {
         // Get index of selected item
-        const itemIndex = this.praesidia.findIndex(praesidium => praesidium.id == lid.id)
+        const itemIndex = this.praesidia.findIndex(gridItem => gridItem.id == lid.id)
         const rowIndex = Math.floor(itemIndex / this.columnSize)
 
-        if (this.praesidium) {
-          if (this.praesidium && this.praesidium.id != lid.id) {
-            // Show new data
-            const rows = document.querySelectorAll('.data-row');
-            // Close old window
-            rows.forEach(row => { if (row.classList.contains('visible')) row.classList.remove('visible'); });
-            // Open new window
-            const newData = lid
-
-            // Execute code after 1.1 second (1100 ms)
-            this.delay(1100, () => {
-              // We first need to make the object null so the image can rerender
-              this.praesidium = null
-              
-              this.delay(100, () => {
-                this.praesidium = newData
-                rows[rowIndex].classList.add('visible');
-              })
-            })
-          } else {
-            // Hide old data
-            const rows = document.querySelectorAll('.visible');
-            rows.forEach(row => { if (row.classList.contains('visible')) row.classList.remove('visible'); });
-            this.delay(1100, () => {this.praesidium = null})
-          }
-        } else {
+        if (this.gridItem == null) {
           // Show data (reveal row)
-          this.praesidium = lid
+          this.gridItem = lid
           const rows = document.querySelectorAll('.data-row');
-          rows[rowIndex].classList.add('visible');
+          this.delay(100, () => {rows[rowIndex].classList.add('visible');})
+
+        } else if (this.gridItem.id != lid.id) {
+          // Show new data
+          const rows = document.querySelectorAll('.data-row');
+          // Close old window
+          rows.forEach(row => { if (row.classList.contains('visible')) row.classList.remove('visible'); });
+          // Open new window
+          const newData = lid
+
+          // Execute code after 1.1 second (1100 ms)
+          this.delay(1100, () => {
+            // We first need to make the object null so the image can rerender
+            this.gridItem = null
+            
+            this.delay(100, () => {
+              this.gridItem = newData
+              rows[rowIndex].classList.add('visible');
+            })
+          })
+        } else {
+          // Hide old data
+          const rows = document.querySelectorAll('.visible');
+          rows.forEach(row => { if (row.classList.contains('visible')) row.classList.remove('visible'); });
+          this.delay(1100, () => {this.gridItem = null})
         }
       },
 
@@ -275,18 +273,18 @@
         if (id) {
           console.log(id)
           // Find the value
-          const index = this.praesidia.findIndex(praesidium => {
+          const index = this.praesidia.findIndex(gridItem => {
             const lowerID = String(id).toLowerCase()
             // Try first name
-            if (praesidium.name.toLowerCase() == lowerID) return true
+            if (gridItem.name.toLowerCase() == lowerID) return true
             // Try last name
-            if (praesidium.surname.toLowerCase() == lowerID) return true
+            if (gridItem.surname.toLowerCase() == lowerID) return true
             // Try first and last name (without space)
-            if ((praesidium.name + praesidium.surname).toLowerCase() == lowerID) return true
+            if ((gridItem.name + gridItem.surname).toLowerCase() == lowerID) return true
             // Try first and last name (with space)
-            if ((praesidium.name + ' ' + praesidium.surname).toLowerCase() == lowerID) return true
+            if ((gridItem.name + ' ' + gridItem.surname).toLowerCase() == lowerID) return true
             // Try role
-            if (praesidium.role.name.toLowerCase() == lowerID) return true
+            if (gridItem.role.name.toLowerCase() == lowerID) return true
           })
 
           // If the ID is valid (index != -1) then continue with value
@@ -327,7 +325,7 @@
           }
 
           // Change data
-          // console.log(`Confirm: post change data`, this.praesidium.json)
+          //console.log(`Confirm: post change data`, this.praesidium.json)
           await this.praesidium.id ? this.putPraesidium() : this.postPraesidium()
         }
         this.toggleEditModal()
@@ -356,11 +354,21 @@
   .sub-title { font-size: large; }
   .top-shift { margin-top: -96px; }
   .bottom-shift { margin-bottom: 48px; }
+  
+  a:link { color: #ffffff; }    /* unvisited link */
+  a:visited { color: #ffffff; } /* visited link */
+  a:hover { color: #ffffff; }   /* mouse over link */
+  a:active { color: #ffffff; }  /* selected link */
 
   .person { display: inline-flex; }
   .person-wrap {
     width: 320px;
     padding: 8px;
+    transition: all 0.25s ease-in-out;
+  }
+  .person-wrap:hover {
+    width: 324px;
+    padding: 4px;
   }
 
   .data-row {
@@ -371,7 +379,7 @@
     overflow: hidden;
   }
   .data-row > * { visibility: visible; }
-  .data-row > div { display: flex; padding: 8px; overflow: block; }
+  .data-row > div { display: flex; padding: 8px; }
   .data-row.visible { height: 336px; }
 
   .data-image {
@@ -390,13 +398,14 @@
   .data-field svg { margin-right: 4px; }
 
 
-  @media screen and (max-width: 1008px) {
+  @media screen and (max-width: 960px) {
     .data-row { width: 656px; }
-    .data-image { visibility: collapse; }
+    .data-row.visible { height: 160px; }
+    .data-image { visibility: collapse; height: 0px; }
   }
-  @media screen and (max-width: 672px) {
-    .data-row { width: 320px; }
+  @media screen and (max-width: 640px) {
+    .data-row { width: 320px; margin-top: -8px; }
+    .data-row.visible { height: 160px; }
     .data-image { visibility: collapse; }
   }
 </style>
-<!--https://stackoverflow.com/a/8331169-->

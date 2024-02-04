@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <div>
+    <div class="footer-text">
       &copy; 2024 - {{ year }} Technica |
       <!--
         Open pdf
@@ -22,7 +22,7 @@
       <div class="hover"><a href="https://drive.google.com/drive/folders/1hltcKz-RDNDvl2MAdCu7YHbSWM3ZtEol?usp=share_link"><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'google-drive' }" size="2x"/></a></div>
     </div>
     &emsp;&emsp;
-    <div>
+    <div class="footer-text">
       Website door <div class="hover"><a class="hover" href="https://www.linkedin.com/in/thomas-kramp-0bb52220a/">Thomas Kramp</a></div>
     </div>
   </footer>
@@ -40,7 +40,15 @@
 </script>
 
 <style scoped>
-  footer { text-align: center; }
+  footer { 
+    color: #929292;
+    background-color: #292929;
+    text-align: center;
+    padding: 16px 0px 16px 0px;
+    margin: auto 0 0 0;
+  }
+
+  /* .footer-text { padding-bottom: 25px; } */
 
   a {
     color: #C6C6C6;
@@ -48,19 +56,7 @@
     text-decoration: none;
   }
 
-  div {
-    display:inline;
-    vertical-align: middle;
-  }
+  div { display:inline; }
 
-  div .hover :hover {
-    color: #3272b0;
-  }
-
-  footer {
-    color: #929292;
-    background-color: #292929;
-    padding: 16px 0px 16px 0px;
-    margin: auto 0 0 0;
-  }
+  div .hover :hover { color: #3272b0; }
 </style>

@@ -61,6 +61,7 @@
   import nlLocale from '@fullcalendar/core/locales/nl';
 
   export default {
+    props: ['id'],
     components: { EditModal, ViewModal, CornerButton, FullCalendar },
     methods: {
       // Firebase storage methods

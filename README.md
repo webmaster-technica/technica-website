@@ -59,3 +59,7 @@ get free [domain](https://www.noip.com/).
    - npm install emailjs-com --save
  - https://dashboard.emailjs.com/admin
  - https://www.youtube.com/watch?v=NgWGllOjkbs
+
+### Swiper
+ - https://swiperjs.com/element#install--register-from-npm
+ - https://swiperjs.com/swiper-api#param-initialSlide
