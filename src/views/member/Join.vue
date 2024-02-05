@@ -120,10 +120,11 @@
 
 <script>
   import { getExcel, getExcelLink, postExcel, delExcel } from '@/firebase';
-  import CornerButton from '@/components/CornerButton.vue';
+  import CornerButton from '@/components/button/CornerButton.vue';
   import emailjs from '@emailjs/browser';
 
   export default {
+    components: { CornerButton },
     data() {
       return {
         /* CSV Methods */
@@ -211,8 +212,7 @@
       //     (error) => { console.log('FAILED...', error.text); }
       //   );
       // }
-    },
-    components: { CornerButton }
+    }
   }
 </script>
 

@@ -11,15 +11,14 @@
               <option v-if="role.value <= 13 && role.value != -1" :value="role.value">{{ role.name }}</option>
             </template>
           </select>
-          <!-- <input v-model="user.username" type="text" class="input" placeholder="Gebruiker"/> -->
         </div>
         <div class="input-field">
-          <input v-if="showPassword" v-model="user.password" type="text" class="input" placeholder="Wachtwoord"/>
-          <input v-else v-model="user.password" type="password" class="input" placeholder="Wachtwoord"/>
-          <button @click="toggleShow">
-            <font-awesome-icon v-if="showPassword" :icon="{ prefix: 'fas', iconName: 'eye-slash' }"/>
-            <font-awesome-icon v-else :icon="{ prefix: 'fas', iconName: 'eye' }"/>
-          </button>
+          <input-button-field v-if="showPassword" :altField="true" icon="eye-slash" @buttonClick="toggleShow()">
+            <template v-slot:altInput><input v-model="user.password" type="text" class="input" placeholder="Wachtwoord"/></template>
+          </input-button-field>
+          <input-button-field v-else :altField="true" icon="eye" @buttonClick="toggleShow()">
+            <template v-slot:altInput><input v-model="user.password" type="password" class="input" placeholder="Wachtwoord"/></template>
+          </input-button-field>
         </div>
         <button @click="login" type="submit" class="call-to-action">Login</button>
       </div>
@@ -28,9 +27,12 @@
 </template>
 
 <script>
-import { RoleEnum } from '@/enums';
+  import { RoleEnum } from '@/enums';
+  import InputButtonField from '@/components/button/InputButtonField.vue';
 
   export default {
+    emits: ["toggleLoginModal"],
+    components: { InputButtonField },
     data() {
       return {
         RoleEnum: RoleEnum,
@@ -54,7 +56,6 @@ import { RoleEnum } from '@/enums';
         ]
       }
     },
-    emits: ["toggleLoginModal"],
     methods: {
       toggleLoginModal() { this.$emit('toggleLoginModal') },
       toggleShow() { this.showPassword = !this.showPassword; },

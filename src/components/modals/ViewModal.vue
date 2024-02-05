@@ -69,10 +69,6 @@
     color: #3272b0;
   }
 
-  #text {
-    
-  }
-
   #buttons { display: flex; }
   #buttons :slotted(div button) { width: 100%; }
 

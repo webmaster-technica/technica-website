@@ -42,7 +42,7 @@
     border-radius: 16px;
   }
 
-  .modal :slotted(div) { display: inline-block; }
+  .modal :slotted(div:not(.input-button-field)) { display: inline-block; }
   .modal button { margin-top: 8px; }
 
   .scrollable {
@@ -54,9 +54,6 @@
 
   /* Inputs */
   #inputs :slotted( > textarea) { height: 128px; }
-  .button-column { display: flex; }
-  .button-column :slotted( > button) { width: 36px; }
-  .button-column :slotted( > *:not(button)) { width: 220px; }
 
   /* Image */
   #image :slotted(> *) { border-radius: 4px; }

@@ -13,11 +13,7 @@
   import LoginModal from '@/components/modals/LoginModal.vue';
   
   export default {
-    components: {
-      AppHeader,
-      AppFooter,
-      LoginModal
-    },
+    components: { AppHeader, AppFooter, LoginModal },
     data() {
       return {
         showLoginModal: false
@@ -67,6 +63,12 @@
   #main > * {
     /* Center main's children */
     margin: auto;
+  }
+
+  h2 {
+    font-size: 50px;
+    font-weight: 512;
+    text-transform: uppercase;
   }
 
   h3.loading {

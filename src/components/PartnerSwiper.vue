@@ -15,9 +15,7 @@
   import { getData } from '@/firebase';
   import { FirePartner } from '@/classes';
   import { register } from 'swiper/element/bundle';
-  import 'swiper/swiper-bundle.css';
-
-  register();
+  import 'swiper/swiper-bundle.css'; register();
   
   export default {
     data() {

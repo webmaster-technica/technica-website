@@ -6,13 +6,14 @@
 # Global
 - Zorg voor een mail systeem (nadien)
 - Vindt nog wat header foto's (nadien)
+- Replace dark-mode with fade down effect (like in modular)
 
 # Home
 - Voeg 'Upcomming Events' bar toe. Toon de eerstvolgende SOC, Cantus, Feest ... event. (stap 6)
 
 # Over Ons
+- https://vue-map.netlify.app/docs/
 - Data over onze campus (locatie), huidig stamcafe (locatie), clublied ... (stap 5)
-- Voeg stamcafe's toe (stap 5)
 
 # Praesidium (Done)
 - View data layout

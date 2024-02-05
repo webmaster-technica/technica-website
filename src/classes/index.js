@@ -66,7 +66,7 @@ export class Member {
       name: this.name,
       surname: this.surname,
       roles: this.roles,
-      approved: this.approved,
+      approved: this.approved
     }
   }
 }
@@ -91,13 +91,40 @@ export class Partner {
       name: this.name,
       website: this.website,
       index: this.index,
-      logo: this.logo,
+      logo: this.logo
     }
   }
 }
 export class FirePartner extends Partner {
   constructor(id = '', {name, website, index, logo} = null) {
     super(name, website, index, logo)
+    this.id = id
+  }
+}
+
+export class Job {
+  constructor(name = '', course = '', location = '', partnerID = '', pdf = '') {
+
+    this.name = name
+    this.course = course
+    this.location = location
+    this.partnerID = partnerID
+    this.pdf = pdf
+  }
+
+  get json(){
+    return {
+      name: this.name,
+      course: this.course,
+      location: this.location,
+      partnerID: this.partnerID,
+      pdf: this.pdf
+    }
+  }
+}
+export class FireJob extends Job {
+  constructor(id = '', {name, course, location, partnerID, pdf} = null) {
+    super(name, course, location, partnerID, pdf)
     this.id = id
   }
 }

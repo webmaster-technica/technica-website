@@ -52,7 +52,7 @@
 
   import EditModal from '@/components/modals/EditModal.vue';
   import ViewModal from '@/components/modals/ViewModal.vue';
-  import CornerButton from '@/components/CornerButton.vue';
+  import CornerButton from '@/components/button/CornerButton.vue';
 
   import '@fullcalendar/core/vdom' // solves problem with Vite
   import FullCalendar from '@fullcalendar/vue3'

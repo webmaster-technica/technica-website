@@ -48,11 +48,12 @@
 <script>
   import { getData, postData, putData, delData, getPhoto, postPhoto, delPhoto } from '@/firebase';
   import { Partner, FirePartner } from '@/classes';
-  import CornerButton from '@/components/CornerButton.vue';
+  import CornerButton from '@/components/button/CornerButton.vue';
   import EditModal from '@/components/modals/EditModal.vue';
 
   export default {
     props: ['id'],
+    components: { EditModal, CornerButton },
     data() {
       return {
         partners: [],
@@ -178,8 +179,7 @@
         reader.onload = () => (this.partner.logo = reader.result);
         this.logo = files[0]
       }
-    },
-    components: { EditModal, CornerButton }
+    }
   }
 </script>
 
@@ -194,12 +194,12 @@
   .partner-wrap {
     max-width: 296px;
     max-height: 170px;
-    padding: 12px;
+    margin: 12px;
     transition: all 0.25s ease-in-out;
   }
   .partner-wrap:hover {
     max-width: 300px;
     max-height: 172px;
-    padding: 8px;
+    margin: 8px;
   }
 </style>

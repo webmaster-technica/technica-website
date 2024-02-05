@@ -126,11 +126,12 @@
   import { Praesidium, FirePraesidium } from '@/classes';
   import { RoleEnum } from '@/enums';
   import HoverImage from '@/components/HoverImage.vue';
-  import CornerButton from '@/components/CornerButton.vue';
+  import CornerButton from '@/components/button/CornerButton.vue';
   import EditModal from '@/components/modals/EditModal.vue';
 
   export default {
     props: ['id'],
+    components: { EditModal, CornerButton, HoverImage },
     data() {
       return {
         RoleEnum: RoleEnum,
@@ -343,8 +344,7 @@
           this.picture.normal = files[0]
         }
       }
-    },
-    components: { EditModal, CornerButton, HoverImage }
+    }
   }
 </script>
 

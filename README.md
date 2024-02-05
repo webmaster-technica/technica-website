@@ -63,3 +63,7 @@ get free [domain](https://www.noip.com/).
 ### Swiper
  - https://swiperjs.com/element#install--register-from-npm
  - https://swiperjs.com/swiper-api#param-initialSlide
+
+### Google Maps
+ - https://vue-map.netlify.app/docs/
+ - https://console.cloud.google.com/projectselector2/google/maps-apis/credentials?utm_source=Docs_CreateAPIKey&utm_content=Docs_maps-backend&authuser=3&rapt=AEjHL4OgRNZdd9WRQPUAqbRZur9tLkeg62GV4no42I4Utv2m74B855pkMcmHZN-GyHoXiyy0WkZMFc2aAVBAbBiirfN6m1fWc91u2nn54JqbIml-q7FLQeA

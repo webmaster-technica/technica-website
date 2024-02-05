@@ -14,10 +14,7 @@
         </template>
       </select>
       <div class="column-2 button-column">
-        <input v-model="newRole.year" type="number" placeholder="Jaar (semester 1)" required/>
-        <button @click="addRole()">
-          <font-awesome-icon :icon="{ prefix: 'fas', iconName: 'plus' }"/>
-        </button>
+        <input-button-field type="number" placeholder="Jaar (semester 1)" icon="plus" @buttonClick="addRole($event)"/>
       </div>
       <!-- Roles -->
       <template v-for="(mRole, index) in member.roles">
@@ -28,10 +25,11 @@
           </template>
         </select>
         <div class="column-2 button-column">
-          <input v-model="member.roles[index].year" type="number" placeholder="Jaar (semester 1)" required/>
-          <button @click="delRole(index)">
-            <font-awesome-icon :icon="{ prefix: 'fas', iconName: 'trash-can' }"/>
-          </button>
+          <input-button-field :altField="true" icon="trash-can" @buttonClick="delRole($event, index)">
+            <template v-slot:altInput>
+              <input v-model="member.roles[index].year" type="number" placeholder="Jaar (semester 1)" required/>
+            </template>
+          </input-button-field>
         </div>
       </template>
       <!-- Allowed -->
@@ -55,32 +53,20 @@
   <div id="main">
     <!-- Search functions -->
     <div id="search">
-      <div class="search-field">
-        <input v-model="filter.name" type="text" placeholder="Firstname" required/>
-        <button @click="searchMembers($event, 'name')">
-          <font-awesome-icon :icon="{ prefix: 'fas', iconName: 'magnifying-glass' }"/>
-        </button>
-      </div>
-      <div class="search-field">
-        <select v-model="filter.role">
-          <option disabled selected value="">Functie</option>
-          <template v-for="role in RoleEnum">
-            <option v-if="role.value != -1" :value="role">{{ role.name }}</option>
-          </template>
-        </select>
-        <button @click="searchMembers($event, 'role')">
-          <font-awesome-icon :icon="{ prefix: 'fas', iconName: 'magnifying-glass' }"/>
-        </button>
-      </div>
-      <div class="search-field">
-        <input v-model="filter.year" type="number" placeholder="Jaar (semester 1)" required/>
-        <button @click="searchMembers($event, 'year')">
-          <font-awesome-icon :icon="{ prefix: 'fas', iconName: 'magnifying-glass' }"/>
-        </button>
-      </div>
-      <div class="search-field checkbox">
-        <div style="transform: translateY(10px);">See all: </div>
-        <div style="transform: translateY(6px);"><input v-model="filter.seeAll" type="checkbox" required/></div>
+      <input-button-field type="text" placeholder="Firstname" icon="magnifying-glass" @buttonClick="searchMembers($event, 'name')"/>
+      <input-button-field :altField="true" icon="magnifying-glass" @buttonClick="searchMembers($event, 'role')">
+        <template v-slot:altInput>
+          <select v-model="filter.role">
+            <option disabled selected value="">Functie</option>
+            <template v-for="role in RoleEnum">
+              <option v-if="role.value != -1" :value="role">{{ role.name }}</option>
+            </template>
+          </select>
+        </template>
+      </input-button-field>
+      <input-button-field type="number" placeholder="Jaar (semester 1)" icon="magnifying-glass" @buttonClick="searchMembers($event, 'year')"/>
+      <div id="checkbox">
+        See all: <div style="transform: translateY(-5px);"><input v-model="filter.seeAll" type="checkbox" required/></div>
       </div>
     </div>
 
@@ -100,7 +86,7 @@
     </div>
     <div v-else><h3 class="loading">Loading history ...</h3></div>
     <!-- Add button -->
-    <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button>
+    <corner-button title="Add" icon="plus" @confirm="changeData($event)"/>
   </div>
 </template>
 
@@ -108,10 +94,12 @@
   import { getData, postData, putData, delData } from '@/firebase';
   import { Member, FireMember } from '@/classes';
   import { QueryEnum, RoleEnum, getRoleEnumFromValue } from '@/enums';
-  import CornerButton from '@/components/CornerButton.vue';
+  import CornerButton from '@/components/button/CornerButton.vue';
+  import InputButtonField from '@/components/button/InputButtonField.vue';
   import EditModal from '@/components/modals/EditModal.vue';
 
   export default {
+    components: { CornerButton, InputButtonField, EditModal },
     data() {
       return {
         RoleEnum: RoleEnum,
@@ -120,7 +108,7 @@
 
         EditModal: { show: false, existingItem: false },
         newRole: { role: null, year: null },
-        filter: { name: null, role: null, year: null, seeAll: false },
+        filter: { role: null, seeAll: false },
 
         path: 'history',
       };
@@ -179,8 +167,10 @@
       async putMember() { await putData(this.path, this.member.id, this.member.json) },
       async delMember(event, id) {
         // Delete member locally
-        const index = this.members.findIndex(member => member.id = id)
+        const index = this.members.findIndex(member => member.id == id)
+        //console.log(id, this.members)
         if (index != -1) this.members.splice(index, 1)
+        //console.log(index, this.members)
         // Delete member remotely
         await delData(this.path, id)
 
@@ -192,7 +182,7 @@
         let queryFilter = null
         switch (queryType) {
           case 'name':
-              queryFilter = {field: 'name', operator: QueryEnum.EQUAL, value: this.filter.name}
+              queryFilter = {field: 'name', operator: QueryEnum.EQUAL, value: event}
             break;
           case 'role':
               // Get current date
@@ -209,8 +199,9 @@
               // Create all values on which one can filter (All functions of that year)
               var values = []
               for (const role in RoleEnum) if (RoleEnum.hasOwnProperty(role) && RoleEnum[role] != RoleEnum.NULL) {
-                values.push({ role: RoleEnum[role].value, year: this.filter.year })
+                values.push({ role: RoleEnum[role].value, year: event })
               }
+              console.log(event)
               queryFilter = {field: 'roles', operator: QueryEnum.DB_ARRAY_CONTAINS_ANY, value: values}
             break;
           default: break;
@@ -226,7 +217,8 @@
       incrementYear(year) { return parseInt(year) + 1 },
 
       // Role management
-      addRole() {
+      addRole(event) {
+        this.newRole.year = event
         if (this.newRole.year && this.newRole.role) {
           this.member.roles.push({ year: this.newRole.year, role: getRoleEnumFromValue(this.newRole.role.value)})
           this.member.roles.sort(function(a, b) { return 64 * (a.year - b.year) + (a.role.value - b.role.value) })
@@ -270,8 +262,7 @@
           this.toggleEditModal()
         }
       }
-    },
-    components: { EditModal, CornerButton }
+    }
   }
 </script>
 
@@ -287,13 +278,11 @@
   .top-shift { margin-top: -96px; }
   .bottom-shift { margin-bottom: 48px; }
 
-  #search { display: inline-flex; }
-  .search-field { padding: 8px; }
-  .search-field button { width: 36px; }
-  .search-field > :not(div):first-child { width: 224px; }
-  #search .checkbox { 
-    display: flex;
-    min-width: 96x;
+  #search > * { display: inline-flex; }
+  #search .input-button-field { width: 260px; padding: 8px; }
+  #search #checkbox {
+    width: 96x;
+    padding: 8px;
   }
 
   .persons { display: inline-flex; }
