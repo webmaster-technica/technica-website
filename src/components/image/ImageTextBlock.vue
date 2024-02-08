@@ -1,7 +1,7 @@
 <template>
   <div :class="'image-text align-' + imageAlign">
     <div class="image-column"><slot name="image"></slot></div>
-    <div class="text-column"><slot name="text"></slot></div>
+    <div class="text-column"><h6><slot name="text"></slot></h6></div>
   </div>
 </template>
 
@@ -12,10 +12,7 @@
 </script>
 
 <style>
-  .image-text {
-    display: flex;
-    margin-top: 32px;
-  }
+  .image-text { display: flex; }
 
   .align-left > :nth-child(1) { order: 1; }
   .align-left > :nth-child(2) { order: 2; }
@@ -23,19 +20,17 @@
   .align-right > :nth-child(1) { order: 2; }
   .align-right > :nth-child(2) { order: 1; }
 
-  .image-text .image-column > * { 
+  .image-text .image-column * { 
     width: 320px;
     height: 320px;
   }
 
   .image-text .text-column {
     text-align: left;
-    font-size: 20px;
-    padding: 0 32px 0 32px;
     color: #35597E;
   }
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1008px) {
     .image-text .image-column { display: none; }
     .image-text .text-column { text-align: center; }
   }

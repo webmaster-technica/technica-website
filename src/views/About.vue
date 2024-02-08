@@ -108,6 +108,9 @@
     margin: 24px 0;
   }
 
+  /* Overwrite modal */
+  #cafe h2, #cafe p, #campus h2, #campus p { padding: 0 32px 0 32px; }
+
   #cafe { background-image: linear-gradient(rgba(0, 0, 0, 0.69), rgba(0, 0, 0, 0.69)), url('../assets/images/background/t_vervolg.jpg'); }
   #cafe h2 { color: #ffffff; }
   #cafe p { color: #ffffff; }

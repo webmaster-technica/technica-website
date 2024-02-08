@@ -35,5 +35,6 @@
 
 # Login
 - Zorg dat de authenticatie werkt (stap 7)
+- - betere styling
 
 # Error (Done)

@@ -83,6 +83,9 @@
     max-width: 1280px;
   }
 
+  /* Overwrite modal */
+  #praeses p { padding: 0 32px 0 32px; }
+
   #praeses {
     margin: 24px;
     

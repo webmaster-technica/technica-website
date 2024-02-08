@@ -74,41 +74,45 @@
         <div v-else>
           <div class="data-row">
             <div v-if="gridItem">
-              <hover-image :image="gridItem.picture" :image-alt="gridItem.picture_alt" class="data-image"></hover-image>
-              <div class="data-field">
-                <h4 v-if="columnSize > 1">
-                  <span class="title">
-                    {{ gridItem.name }} {{ gridItem.surname }}
-                    <a v-if="gridItem.nickname"> ({{ gridItem.nickname }})</a>
-                  </span>
-                  <a v-if="gridItem.linkedin" :href="gridItem.linkedin">
-                    <font-awesome-icon class="icon" :icon="{ prefix: 'fab', iconName: 'linkedin' }"/>
-                  </a>
-                </h4>
-                <h6 class="sub-title">
-                  <b v-if="columnSize > 1">{{ gridItem.role.name }}</b>
-                  <a v-if="gridItem.role.mail">
-                    <span v-if="columnSize > 1"> - </span>
-                    <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'envelope' }"/>
-                    <a :href="'mailto:' + gridItem.role.mail">{{ gridItem.role.mail }}</a>
-                  </a>
-                </h6>
-                <h6 class="sub-title" v-if="gridItem.secondRole.value != -1">
-                  <b v-if="columnSize > 1">{{ gridItem.secondRole.name }}</b>
-                  <a v-if="gridItem.secondRole.mail">
-                    <span v-if="columnSize > 1"> - </span>
-                    <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'envelope' }"/>
-                    <a :href="'mailto:' + gridItem.mail">{{ gridItem.secondRole.mail }}</a>
-                  </a>
-                </h6>
-                <div>
-                  <span>{{ gridItem.course }}</span>
-                  <a v-if="gridItem.division">: {{ gridItem.division }}</a>
-                  <a v-if="gridItem.school">, {{ gridItem.school }}</a>
-                </div>
-                <p><font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'beer' }"/>{{ gridItem.drink }}</p>
-                <p>{{ gridItem.text }}</p>
-              </div>
+              <image-text-block imageAlign="left">
+                <template v-slot:image>
+                  <hover-image :image="gridItem.picture" :image-alt="gridItem.picture_alt" class="data-image"></hover-image>
+                </template>
+                <template v-slot:text>
+                  <h4 v-if="columnSize > 1">
+                    <span class="title">
+                      {{ gridItem.name }} {{ gridItem.surname }}
+                      <a v-if="gridItem.nickname"> ({{ gridItem.nickname }})</a>
+                    </span>
+                    <a v-if="gridItem.linkedin" :href="gridItem.linkedin">
+                      <font-awesome-icon class="icon" :icon="{ prefix: 'fab', iconName: 'linkedin' }"/>
+                    </a>
+                  </h4>
+                  <h6 class="sub-title">
+                    <b v-if="columnSize > 1">{{ gridItem.role.name }}</b>
+                    <a v-if="gridItem.role.mail">
+                      <span v-if="columnSize > 1"> - </span>
+                      <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'envelope' }"/>
+                      <a :href="'mailto:' + gridItem.role.mail">{{ gridItem.role.mail }}</a>
+                    </a>
+                  </h6>
+                  <h6 class="sub-title" v-if="gridItem.secondRole.value != -1">
+                    <b v-if="columnSize > 1">{{ gridItem.secondRole.name }}</b>
+                    <a v-if="gridItem.secondRole.mail">
+                      <span v-if="columnSize > 1"> - </span>
+                      <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'envelope' }"/>
+                      <a :href="'mailto:' + gridItem.mail">{{ gridItem.secondRole.mail }}</a>
+                    </a>
+                  </h6>
+                  <div>
+                    <span>{{ gridItem.course }}</span>
+                    <a v-if="gridItem.division">: {{ gridItem.division }}</a>
+                    <a v-if="gridItem.school">, {{ gridItem.school }}</a>
+                  </div>
+                  <p><font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'beer' }"/>{{ gridItem.drink }}</p>
+                  <p>{{ gridItem.text }}</p>
+                </template>
+              </image-text-block>
             </div>
           </div>
         </div>
@@ -135,7 +139,7 @@
 
   export default {
     props: ['id'],
-    components: { CornerButton, HoverImage, EditModal, LoadingBar },
+    components: { CornerButton, HoverImage, ImageTextBlock, EditModal, LoadingBar },
     data() {
       return {
         RoleEnum: RoleEnum,
@@ -375,9 +379,15 @@
     padding: 4px;
   }
 
+  /* Overwrite modal */
+  .image-text .text-column * { 
+    text-align: left;
+    color: #ffffff;
+  }
+
   .data-row {
     height: 0px;
-    width: 992px;
+    width: 1008px;
     background-color: #115F9A;
     transition: height 1s ease-in-out;
     overflow: hidden;
@@ -385,31 +395,15 @@
   .data-row > * { visibility: visible; }
   .data-row > div { display: flex; padding: 8px; }
   .data-row.visible { height: 336px; }
-
-  .data-image {
-    width: 320px;
-    height: 320px;
-    padding-right: 20px;
-    justify-content: center;
-    transition: width 1s ease-in-out;
-  }
-  .data-field {
-    text-align: left;
-    font-size: 20px;
-    color: #ffffff;;
-    /* color: #353535; */
-  }
-  .data-field svg { margin-right: 4px; }
+  .data-row svg { margin-right: 4px; }
 
 
-  @media screen and (max-width: 960px) {
-    .data-row { width: 656px; }
+  @media screen and (max-width: 1008px) {
+    .data-row { width: 672px; }
     .data-row.visible { height: 160px; }
-    .data-image { display: none; }
   }
-  @media screen and (max-width: 640px) {
-    .data-row { width: 320px; margin-top: -8px; }
+  @media screen and (max-width: 672px) {
+    .data-row { width: 336px; }
     .data-row.visible { height: 160px; }
-    .data-image { display: none; }
   }
 </style>
