@@ -28,7 +28,6 @@
 # Partners (Done)
 
 # Vacatures
-- Neem de code uit geschiedenis component en pas aan (stap 4)
 
 # Shop
 - Nope (nadien)
