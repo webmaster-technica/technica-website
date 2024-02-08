@@ -10,8 +10,8 @@
 - Voeg 'Upcomming Events' bar toe. Toon de eerstvolgende SOC, Cantus, Feest ... event. (stap 6)
 
 # Over Ons
-- https://vue-map.netlify.app/docs/
-- Data over onze campus (locatie), huidig stamcafe (locatie), clublied ... (stap 5)
+- [Maps toevoegen] (https://vue-map.netlify.app/docs/)
+- Tekst over campus en stamcafe toevoegen
 
 # Praesidium (Done)
 
@@ -34,6 +34,6 @@
 
 # Login
 - Zorg dat de authenticatie werkt (stap 7)
-- - betere styling
+- betere styling
 
 # Error (Done)
