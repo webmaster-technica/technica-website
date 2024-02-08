@@ -54,7 +54,6 @@
 
   import CornerButton from '@/components/button/CornerButton.vue';
   import EditModal from '@/components/modals/EditModal.vue';
-  import ViewModal from '@/components/modals/ViewModal.vue';
   import LoadingBar from '@/components/utility/LoadingBar.vue';
 
   import '@fullcalendar/core/vdom' // solves problem with Vite
@@ -64,8 +63,29 @@
   import nlLocale from '@fullcalendar/core/locales/nl';
 
   export default {
-    props: ['id'],
-    components: { CornerButton, EditModal, ViewModal, LoadingBar, FullCalendar },
+    components: { CornerButton, EditModal, LoadingBar, FullCalendar },
+    data() {
+      return {
+        EventEnum: EventEnum,
+        events: [],
+        event: null,
+        picture: null,
+
+        EditModal: { show: false, title: '' },
+
+        path: 'events',
+
+        calendarOptions: {
+          plugins: [ dayGridPlugin, interactionPlugin ],
+          locale: nlLocale,
+          initialView: 'dayGridMonth',
+          dateClick: this.handleDateClick,
+          events: [ /* { title: 'event 1', start: '2023-02-08', end: '2023-02-09' }, */ ],
+          eventClick: this.handleEventClick
+        }
+      };
+    },
+    created() { this.getTechnicaEvent() },
     methods: {
       // Firebase storage methods
       async getPhoto(fileName = '') { return await getPhoto(this.path, fileName) },
@@ -89,7 +109,6 @@
         this.$router.go(this.$router.currentRoute)
       },
 
-      toggleViewModal() { this.ViewModal.show = !this.ViewModal.show; },
       onClickEvent(event) {
         var activity = this.events.find(calenderEvent => calenderEvent.id.includes(event.id))
         this.EditModal.title = 'Evenement aanpassen';
@@ -139,31 +158,8 @@
           this.calendarOptions.events.push(calenderEvent.json)
         });
       }
-    },
-    data() {
-      return {
-        EventEnum: EventEnum,
-        events: [],
-        event: null,
-        picture: null,
-
-        EditModal: { show: false, title: '' },
-        ViewModal: { show: false, title: '' },
-
-        path: 'events',
-
-        calendarOptions: {
-          plugins: [ dayGridPlugin, interactionPlugin ],
-          locale: nlLocale,
-          initialView: 'dayGridMonth',
-          dateClick: this.handleDateClick,
-          events: [ /* { title: 'event 1', start: '2023-02-08', end: '2023-02-09' }, */ ],
-          eventClick: this.handleEventClick
-        }
-      };
-    },
-    created() { this.getTechnicaEvent() }
-}
+    }
+  }
 </script>
 
 <style scoped>

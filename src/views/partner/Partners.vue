@@ -55,7 +55,6 @@
   import LoadingBar from '@/components/utility/LoadingBar.vue';
 
   export default {
-    props: ['id'],
     components: { EditModal, CornerButton, LoadingBar },
     data() {
       return {
@@ -67,10 +66,7 @@
         EditModal: { show: false, existingItem: false, title: '' }
       };
     },
-    async created() {
-      await this.getPartner()
-      this.applyRouteID(this.id)
-    },
+    async created() { await this.getPartner() },
     methods: {
       // Firebase storage methods
       async getPhoto(fileName = '') { return await getPhoto(this.path, fileName) },
@@ -113,19 +109,6 @@
 
       // Edit values
       getTitle() { return this.EditModal.existingItem ? 'Partner aanpassen' : 'Partner toevoegen' },
-
-      // Apply route ID
-      applyRouteID(id) {
-        if (id) {
-          console.log(id)
-          // Find the value
-          const index = this.partners.findIndex(partner => {
-            const lowerID = String(id).toLowerCase()
-            // Try name
-            if (partner.name.toLowerCase() == lowerID) return true
-          })
-        }
-      },
       
       // Change data modal
       toggleEditModal() { this.EditModal.show = !this.EditModal.show; },

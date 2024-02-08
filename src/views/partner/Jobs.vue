@@ -92,7 +92,6 @@
   import LoadingBar from '@/components/utility/LoadingBar.vue';
 
   export default {
-    props: ['id'],
     components: { CornerButton, InputButtonField, EditModal, LoadingBar },
     data() {
       return {
@@ -112,7 +111,6 @@
     async created() {
       await this.getPartner()
       await this.getJob()
-      //this.applyRouteID(this.id)
     },
     methods: {
       // Firebase storage methods
