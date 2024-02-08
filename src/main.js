@@ -9,7 +9,7 @@ import store from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faFacebook, faGoogleDrive, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons'
-import { faAngleDown, faBeer, faDownload, faEnvelope, faEye, faEyeSlash, 
+import { faAngleDown, faBeer, faDownload, faEnvelope, faEye, faEyeSlash, faGraduationCap,
          faLocationDot, faMagnifyingGlass, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
 // https://fontawesome.com/icons/dropbox?s=solid&f=brands
@@ -23,6 +23,7 @@ library.add(
   faEyeSlash,
   faFacebook,
   faGoogleDrive,
+  faGraduationCap,
   faInstagram,
   faLinkedin,
   faLocationDot,
