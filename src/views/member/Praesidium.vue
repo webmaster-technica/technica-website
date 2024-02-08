@@ -62,11 +62,11 @@
         <div v-if="lid.name != ''">
           <div class="person-wrap" @dblclick="changeData($event, lid)" @click="showData($event, lid)">
             <hover-image :image="lid.picture" :image-alt="lid.picture_alt"></hover-image>
-            <h3 class="title top-shift">{{ lid.name }} {{ lid.surname }}</h3>
-            <h3 class="sub-title bottom-shift">
+            <h4 class="title top-shift">{{ lid.name }} {{ lid.surname }}</h4>
+            <h4 class="sub-title bottom-shift">
               {{ lid.role.name }}
               <template v-if="lid.secondRole.value != -1"> & {{ lid.secondRole.name }}</template>
-            </h3>
+            </h4>
           </div>
         </div>
 
@@ -85,22 +85,22 @@
                     <font-awesome-icon class="icon" :icon="{ prefix: 'fab', iconName: 'linkedin' }"/>
                   </a>
                 </h4>
-                <h5 class="sub-title">
+                <h6 class="sub-title">
                   <b v-if="columnSize > 1">{{ gridItem.role.name }}</b>
                   <a v-if="gridItem.role.mail">
                     <span v-if="columnSize > 1"> - </span>
                     <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'envelope' }"/>
                     <a :href="'mailto:' + gridItem.role.mail">{{ gridItem.role.mail }}</a>
                   </a>
-                </h5>
-                <h5 class="sub-title" v-if="gridItem.secondRole.value != -1">
+                </h6>
+                <h6 class="sub-title" v-if="gridItem.secondRole.value != -1">
                   <b v-if="columnSize > 1">{{ gridItem.secondRole.name }}</b>
                   <a v-if="gridItem.secondRole.mail">
                     <span v-if="columnSize > 1"> - </span>
                     <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'envelope' }"/>
                     <a :href="'mailto:' + gridItem.mail">{{ gridItem.secondRole.mail }}</a>
                   </a>
-                </h5>
+                </h6>
                 <div>
                   <span>{{ gridItem.course }}</span>
                   <a v-if="gridItem.division">: {{ gridItem.division }}</a>
@@ -115,7 +115,8 @@
 
       </div>
     </div>
-    <div v-else><h3 class="loading">Loading preasidium ...</h3></div>
+    <div v-else><loading-bar :path="path"></loading-bar></div>
+
     <!-- Add button -->
     <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button>
   </div>
@@ -125,13 +126,16 @@
   import { getData, postData, putData, delData, getPhoto, postPhoto, delPhoto } from '@/firebase';
   import { Praesidium, FirePraesidium } from '@/classes';
   import { RoleEnum } from '@/enums';
-  import HoverImage from '@/components/HoverImage.vue';
+
   import CornerButton from '@/components/button/CornerButton.vue';
+  import HoverImage from '@/components/image/HoverImage.vue';
+  import ImageTextBlock from '@/components/image/ImageTextBlock.vue';
   import EditModal from '@/components/modals/EditModal.vue';
+  import LoadingBar from '@/components/utility/LoadingBar.vue';
 
   export default {
     props: ['id'],
-    components: { EditModal, CornerButton, HoverImage },
+    components: { CornerButton, HoverImage, EditModal, LoadingBar },
     data() {
       return {
         RoleEnum: RoleEnum,
@@ -349,7 +353,7 @@
 </script>
 
 <style scoped>
-  h3 { color: #ffffff; font-family: 'Cabin Condensed', sans-serif; }
+  h4 { color: #ffffff; font-family: 'Cabin Condensed', sans-serif; }
   .title { font-size: x-large; font-weight: bold; }
   .sub-title { font-size: large; }
   .top-shift { margin-top: -96px; }
@@ -401,11 +405,11 @@
   @media screen and (max-width: 960px) {
     .data-row { width: 656px; }
     .data-row.visible { height: 160px; }
-    .data-image { visibility: collapse; height: 0px; }
+    .data-image { display: none; }
   }
   @media screen and (max-width: 640px) {
     .data-row { width: 320px; margin-top: -8px; }
     .data-row.visible { height: 160px; }
-    .data-image { visibility: collapse; }
+    .data-image { display: none; }
   }
 </style>

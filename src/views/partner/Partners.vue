@@ -6,9 +6,9 @@
       <!-- Name -->
       <input class="column-2" v-model="partner.name" type="text" placeholder="Voornaam" required/>
       <!-- website -->
-      <input class="column-2" v-model="partner.website" type="text" placeholder="website" required/>
+      <input class="column-2" v-model="partner.website" type="text" placeholder="Website-Link" required/>
       <!-- index -->
-      <input class="column-2" v-model="partner.index" type="number" placeholder="index" v-if="EditModal.existingItem" required/>
+      <input class="column-2" v-model="partner.index" type="number" placeholder="Index" v-if="EditModal.existingItem" required/>
     </template>
     <!-- Image field -->
     <template v-slot:image>
@@ -39,7 +39,8 @@
         </div>
       </div>
     </div>
-    <div v-else><h3 class="loading">Loading partners ...</h3></div>
+    <div v-else><loading-bar :path="path"></loading-bar></div>
+
     <!-- Add button -->
     <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button>
   </div>
@@ -48,12 +49,14 @@
 <script>
   import { getData, postData, putData, delData, getPhoto, postPhoto, delPhoto } from '@/firebase';
   import { Partner, FirePartner } from '@/classes';
+  
   import CornerButton from '@/components/button/CornerButton.vue';
   import EditModal from '@/components/modals/EditModal.vue';
+  import LoadingBar from '@/components/utility/LoadingBar.vue';
 
   export default {
     props: ['id'],
-    components: { EditModal, CornerButton },
+    components: { EditModal, CornerButton, LoadingBar },
     data() {
       return {
         partners: [],
@@ -184,21 +187,15 @@
 </script>
 
 <style scoped>
-  h3 { color: #ffffff; font-family: 'Cabin Condensed', sans-serif; }
-  .title { font-size: x-large; font-weight: bold; }
-  .sub-title { font-size: large; }
-  .top-shift { margin-top: -96px; }
-  .bottom-shift { margin-bottom: 48px; }
-
   .partner { display: inline-flex; }
   .partner-wrap {
-    max-width: 296px;
+    width: 296px;
     max-height: 170px;
     margin: 12px;
     transition: all 0.25s ease-in-out;
   }
   .partner-wrap:hover {
-    max-width: 300px;
+    width: 300px;
     max-height: 172px;
     margin: 8px;
   }

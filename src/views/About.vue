@@ -72,11 +72,9 @@
 </template>
 
 <script>
-  import ImageTextBlock from '@/components/ImageTextBlock.vue';
+  import ImageTextBlock from '@/components/image/ImageTextBlock.vue';
 
-  export default {
-    components: { ImageTextBlock },
-  }
+  export default { components: { ImageTextBlock } }
 
 </script>
 

@@ -1,116 +1,125 @@
 <template>
   <div id="main">
-    <div class="flex-full">  <!-- Intro -->
+    <!-- Intro -->
+    <div class="full-block">
       Indien u lid wilt worden, kunt u onderstaand formulier invullen. <br>
       Zodra wij dit ontvangen hebben, zullen wij contact met u opnemen om alles te regelen; lidkaart, lidgeld, ...
     </div>
 
+    <!-- Input -->
     <form ref="form" @submit.prevent="submitForm">
-      <div class="flex-medium">  <!-- Input -->
-        <div class="data padded-block">
-          <h3 ref="name">Voornaam*</h3>
-          <input v-model="member.name" name="name" type="text" required/>
+      <div class="row">
+        <div class="medium-block">
+          <div class="data padded-block">
+            <h6 ref="name">Voornaam*</h6>
+            <input v-model="member.name" name="name" type="text" required/>
+          </div>
         </div>
-      </div>
-      <div class="flex-medium">
-        <div class="data padded-block">
-          <h3 ref="surname">Achternaam*</h3>
-          <input v-model="member.surname" name="surname" type="text" required/>
+        <div class="medium-block">
+          <div class="data padded-block">
+            <h6 ref="surname">Achternaam*</h6>
+            <input v-model="member.surname" name="surname" type="text" required/>
+          </div>
         </div>
       </div>
 
-      <div class="flex-full">
+      <div class="row"></div>
+      <div class="full-block">
         <div class="data padded-block">
-          <h3 ref="birthday">Geboortedatum*</h3>
+          <h6 ref="birthday">Geboortedatum*</h6>
           <input v-model="member.birthday" name="birthday" type="date" required/>
         </div>
       </div>
 
-      <div class="flex-large">
-        <div class="data padded-block">
-          <h3 ref="study">Studierichting*</h3>
-          <input v-model="member.study" name="study" type="text" required/>
+      <div class="row">
+        <div class="large-block">
+          <div class="data padded-block">
+            <h6 ref="study">Studierichting*</h6>
+            <input v-model="member.study" name="study" type="text" required/>
+          </div>
         </div>
-      </div>
-      <div class="flex-small">
-        <div class="data padded-block">
-          <h3 ref="yearOfStudy">Jaar in studierichting*</h3>
-          <input v-model="member.yearOfStudy" name="yearOfStudy" type="number" required/>
-        </div>
-      </div>
-
-      <div class="flex-large">
-        <div class="data padded-block">
-          <h3 ref="email">Email*</h3>
-          <input v-model="member.email" name="email" type="email" required/>
-        </div>
-      </div>
-      <div class="flex-small">
-        <div class="data padded-block">
-          <h3 ref="gsm">GSM nr*</h3>
-          <input v-model="member.gsm" name="gsm" type="tel" required/>
+        <div class="small-block">
+          <div class="data padded-block">
+            <h6 ref="yearOfStudy">Studiejaar*</h6>
+            <input v-model="member.yearOfStudy" name="yearOfStudy" type="number" required/>
+          </div>
         </div>
       </div>
 
-      <div class="flex-large">
-        <div class="data padded-block">
-          <h3 ref="street">Straat*</h3>
-          <input v-model="member.street" name="street" type="text" required/>
+      <div class="row">
+        <div class="large-block">
+          <div class="data padded-block">
+            <h6 ref="email">Email*</h6>
+            <input v-model="member.email" name="email" type="email" required/>
+          </div>
         </div>
-      </div>
-      <div class="flex-small">
-        <div class="data padded-block">
-          <h3 ref="houseNr">Huis nr*</h3>
-          <input v-model="member.houseNr" name="houseNr" type="number" required/>
-        </div>
-      </div>
-
-      <div class="flex-large">
-        <div class="data padded-block">
-          <h3 ref="city">Stad*</h3>
-          <input v-model="member.city" name="city" type="text" required/>
-        </div>
-      </div>
-      <div class="flex-small">
-        <div class="data padded-block">
-          <h3 ref="postcode">Postcode*</h3>
-          <input v-model="member.postcode" name="postcode" type="number" required/>
+        <div class="small-block">
+          <div class="data padded-block">
+            <h6 ref="gsm">GSM nr*</h6>
+            <input v-model="member.gsm" name="gsm" type="tel" required/>
+          </div>
         </div>
       </div>
 
-      <!-- <div class="flex-smaller"> <!- Image ->
-        <div id="image" class="padded-block" ref="image">
-          <label for="picture">Foto*</label>
-          <input @change="onFileChange" id="picture" type="file" accept=".png, .jpg, .jpeg" required/>
+      <div class="row">
+        <div class="large-block">
+          <div class="data padded-block">
+            <h6 ref="street">Straat*</h6>
+            <input v-model="member.street" name="street" type="text" required/>
+          </div>
         </div>
-      </div>
-      <div class="flex-larger">
-        <div class="padded-block">
-          <img :src="member.image" v-if="member.image" alt="">
-        </div>
-      </div> -->
-
-      <div class="flex-smaller" style="padding-top: 16px;" ref="dopen"><label for="">Dopen*</label></div> <!-- Dopen -->
-      <div class="flex-larger">
-        <div id="dopen" class="padded-block">
-          <label><input type="radio" value="Ja" name="dopen(ja)" v-model="member.dopen" required/>Ja</label>
-          <label><input type="radio" value="Nee" name="dopen(nee)" v-model="member.dopen" required/>Nee</label>
+        <div class="small-block">
+          <div class="data padded-block">
+            <h6 ref="houseNr">Huis nr*</h6>
+            <input v-model="member.houseNr" name="houseNr" type="number" required/>
+          </div>
         </div>
       </div>
 
-      <div class="flex-smallest" style="padding-top: 12px;"> <!-- Privacy -->
-        <input v-model="member.privacy" type="checkbox" required/>
-      </div>
-      <div class="flex-largest">
-        <div class="data padded-block" ref="privacy">
-          Ik ga akkoord met de algemene voorwaarden en het 
-          <b><a href="/assets/pdfs/privacy_policy.pdf" target="_blank">Privacybeleid</a></b> 
-          van Technica*
+      <div class="row">
+        <div class="large-block">
+          <div class="data padded-block">
+            <h6 ref="city">Stad*</h6>
+            <input v-model="member.city" name="city" type="text" required/>
+          </div>
+        </div>
+        <div class="small-block">
+          <div class="data padded-block">
+            <h6 ref="postcode">Postcode*</h6>
+            <input v-model="member.postcode" name="postcode" type="number" required/>
+          </div>
         </div>
       </div>
 
-      <div class="flex-full"> <!-- Confirm -->
-        <button @click="submitForm" type="submit" class="call-to-action">Verstuur</button>
+      <div class="row">
+        <div class="smaller-block" ref="dopen"><label for="">Dopen*</label></div> <!-- Dopen -->
+        <div class="larger-block">
+          <div id="dopen" class="padded-block">
+            <label><input type="radio" value="Ja" name="dopen(ja)" v-model="member.dopen" required/>Ja</label>
+            <label><input type="radio" value="Nee" name="dopen(nee)" v-model="member.dopen" required/>Nee</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Privacy -->
+        <div class="smallest-block">
+          <input v-model="member.privacy" type="checkbox" required/>
+        </div>
+        <div class="largest-block">
+          <div class="data padded-block" ref="privacy">
+            Ik ga akkoord met de algemene voorwaarden en het 
+            <b><a href="/assets/pdfs/privacy_policy.pdf" target="_blank">Privacybeleid</a></b> 
+            van Technica*
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Confirm -->
+        <div class="full-block">
+          <button @click="submitForm" type="submit" class="call-to-action">Verstuur</button>
+        </div>
       </div>
     </form>
     
@@ -120,7 +129,9 @@
 
 <script>
   import { getExcel, getExcelLink, postExcel, delExcel } from '@/firebase';
+
   import CornerButton from '@/components/button/CornerButton.vue';
+  
   import emailjs from '@emailjs/browser';
 
   export default {
@@ -134,13 +145,6 @@
       }
     },
     methods: {
-      // onFileChange(event) {
-      //   var files = event.target.files
-      //   if (!files.length) return
-      //   const reader = new FileReader()
-      //   reader.readAsDataURL(files[0])
-      //   reader.onload = () => (this.member.image = reader.result)
-      // },
       submitForm(event) {
         if (this.member) {
           this.filledForm = true
@@ -225,35 +229,54 @@
     margin: 0%;
   }
 
-  .flex-full { flex: 0 0 512px; }
-  .flex-largest { flex: 0 0 480px; }
-  .flex-larger { flex: 0 0 384px; }
-  .flex-large { flex: 0 0 320px; }
-  .flex-medium { flex: 0 0 256px; }
-  .flex-small { flex: 0 0 192px; }
-  .flex-smaller { flex: 0 0 128px; }
-  .flex-smallest { flex: 0 0 32px; }
+  .row > * { display: inline-block; }
 
+  .smallest-block > * { transform: translateY(-12px); }
   .padded-block { padding: 8px; }
 
   .data { text-align: left; }
-  .data > h3 {
-    margin-left: 2px;
+  .data > h6 {
+    margin-left: 1px;
     margin-bottom: 2px;
   }
   .data > input { width: 100%; }
 
-  /* #image > label {
-    display: block;
-    border: 1px solid #555;
-    background-color: #e7e7e7;
-    width: 100%;
-  } */
-
-  #dopen { display: flex; }
-
-  #dopen > label { width: 50%; }
+  #dopen label { display: inline-block; width: 50%; }
 
   .not-filled { color: crimson !important; }
+
+  @media screen and (min-width: 512px) {
+    .full-block     { width: 512px; }
+    .largest-block  { width: 448px; }
+    .larger-block   { width: 384px; }
+    .large-block    { width: 320px; }
+    .medium-block   { width: 256px; }
+    .small-block    { width: 192px; }
+    .smaller-block  { width: 128px; }
+    .smallest-block { width: 64px; }
+  }
+
+  @media screen and (max-width: 512px) {
+    .row { width: 100%; }
+    .full-block     { width: 100%; }
+    .largest-block  { width: 87.5%; }
+    .larger-block   { width: 75%; }
+    .large-block    { width: 62.5%; }
+    .medium-block   { width: 50%; }
+    .small-block    { width: 37.5%; }
+    .smaller-block  { width: 25%; }
+    .smallest-block { width: 12.5%; }
+  }
+
+  @media screen and (max-width: 256px) {
+    .full-block     { width: 256px; }
+    .largest-block  { width: 224px; }
+    .larger-block   { width: 192px; }
+    .large-block    { width: 160px; }
+    .medium-block   { width: 128px; }
+    .small-block    { width: 96px; }
+    .smaller-block  { width: 64px; }
+    .smallest-block { width: 32px; }
+  }
   
 </style>

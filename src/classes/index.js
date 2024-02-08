@@ -103,12 +103,12 @@ export class FirePartner extends Partner {
 }
 
 export class Job {
-  constructor(name = '', course = '', location = '', partnerID = '', pdf = '') {
+  constructor(name = '', course = '', location = '', partner = '', pdf = '') {
 
     this.name = name
     this.course = course
     this.location = location
-    this.partnerID = partnerID
+    this.partner = partner
     this.pdf = pdf
   }
 
@@ -117,14 +117,14 @@ export class Job {
       name: this.name,
       course: this.course,
       location: this.location,
-      partnerID: this.partnerID,
+      partner: this.partner,
       pdf: this.pdf
     }
   }
 }
 export class FireJob extends Job {
-  constructor(id = '', {name, course, location, partnerID, pdf} = null) {
-    super(name, course, location, partnerID, pdf)
+  constructor(id = '', {name, course, location, partner, pdf} = null) {
+    super(name, course, location, partner, pdf)
     this.id = id
   }
 }

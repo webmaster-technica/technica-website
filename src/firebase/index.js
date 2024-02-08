@@ -46,6 +46,26 @@ export async function delExcel(fileName = '') {
   deleteObject(storageRef)
 }
 
+/* PDF */
+export async function getPDF(fileName = '') {
+  const storageRef = ref(storage, `jobs/${fileName}`)
+  const url = await getDownloadURL(storageRef)
+  return url
+}
+export async function postPDF(fileName = '', file = null) {
+  // https://stackoverflow.com/a/46327909
+  var blob = file.slice(0, file.size, '.pdf'); 
+  file = new File([blob], fileName, {type: 'application/pdf'});
+
+  const storageRef = ref(storage, `jobs/${fileName}`)
+  const uBytes = await uploadBytes(storageRef, file)
+  return uBytes.metadata.name
+}
+export async function delPDF(fileName = '') {
+  const storageRef = ref(storage, `jobs/${fileName}`)
+  deleteObject(storageRef)
+}
+
 /* Photo */
 export async function getPhoto(storageName = '', fileName = '') {
   const storageRef = ref(storage, `${storageName}/${fileName}`)
@@ -91,13 +111,13 @@ export async function getData(collectionName = '', filtering = [], ordering = ''
   return data
 }
 export async function postData(collectionName = '', jsonData = null) {
-  // console.log(jsonData)
+  console.log('post', jsonData)
   const docRef = await addDoc(collection(db, collectionName), jsonData);
-  // console.log("Document was created with ID:", docRef.id);
+  console.log("Document was created with ID:", docRef.id);
   return docRef.id
 }
 export async function putData(collectionName = '', id = '', jsonData = null) {
-  //console.log(jsonData)
+  console.log('pu', jsonData)
   await updateDoc(doc(db, collectionName, id), jsonData);
 }
 export async function delData(collectionName = '', id = '') {

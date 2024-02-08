@@ -20,14 +20,14 @@
 </script>
 
 <style scoped>
-  .input-button-field { display: flex; width: 100%; }
+  .input-button-field {
+    display: flex;
+    width: 100%;
+  }
+  .input-button-field > * { border-radius: 2px; }
   .input-button-field > button { width: 36px; }
 
-  .input-button-field > *:not(button) {
-    flex-grow: 1;
-    flex-shrink: 1;
-  }
-  .input-button-field > :slotted(*) {
+  .input-button-field > *:not(button), .input-button-field > :slotted(*) {
     flex-grow: 1;
     flex-shrink: 1;
   }

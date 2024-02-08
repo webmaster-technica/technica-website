@@ -53,6 +53,7 @@
   #main {
     /* Center main */
     max-width: 1280px;
+    min-width: 256px;
     min-height: 100%;
     margin-top: 32px;
     margin-bottom: 32px;
@@ -65,15 +66,15 @@
     margin: auto;
   }
 
-  h2 {
-    font-size: 50px;
-    font-weight: 512;
-    text-transform: uppercase;
-  }
+  h1, h3, h5 { text-transform: uppercase; }
+  h1 { font-size: 48px; }
+  h2 { font-size: 42px; }
+  h3 { font-size: 36px; }
+  h4 { font-size: 30px; }
+  h5 { font-size: 24px; }
+  h6 { font-size: 18px; }
 
-  h3.loading {
-    padding: auto;
-  }
+  b { font-weight: 512; }
 
   button[disabled] {
     /* Disable button */
@@ -99,6 +100,7 @@
 
   a { text-decoration: none; }
   img { width: 100%; }
+  ul { list-style: none; }
 
   @media screen and (max-width: 960px) {
     .topnav a {

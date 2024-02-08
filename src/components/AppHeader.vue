@@ -1,55 +1,76 @@
 <template>
-  <header id="top-header" :style="{ backgroundImage: 'url(' + headerBackgroundImage() + ')' }">
-    <!-- 'linear-gradient(to bottom, rgba(0,0,0,0), rgba(17, 95, 154, 0.6) 75%, rgba(255, 255, 255, 1)), url(' + headerBackgroundImage() + ')' -->
+  <header :style="{ backgroundImage: 'url(' + headerBackgroundImage() + ')' }">
 
-    <nav :class="colorMode"> <!-- Navigation -->
+    <!-- Navigation -->
+    <nav>
 
-      <div id="logo"> <!-- Logo -->
+      <!-- Logo -->
+      <div id="logo">
         <router-link :to="{ name: routes.home.name }">
           <img :src="modeLogo()">
         </router-link>
       </div>
 
-      <div id="tabs"> <!-- Tabs -->
-        <div :class="'vert-center ' + colorMode">
+      <div id="routes">
+        <!-- Hamburger -->
+        <div id="hamburger">
+          <hamburger-button @toggleHamburger="toggleHamburger($event)"></hamburger-button>
+        </div>
+        <!-- Routes -->
+        <div id="tabs"> <!-- v-if="!showHamburger || hamburgerClicked" -->
           <div class="dropdown tab">
-            <router-link class="dropdown-button" :to="{ name: routes.about.name }">{{ routes.about.title }}</router-link>
-            <font-awesome-icon class="dropdown-icon" :icon="{ prefix: 'fas', iconName: 'angle-down' }"/>
-            <div :class="'dropdown-content ' + colorMode">
-              <router-link :to="{ name: routes.praesidium.name }">{{ routes.praesidium.title }}</router-link>
-              <router-link :to="{ name: routes.history.name }">{{ routes.history.title }}</router-link>
-            </div>
+            <h6 class="dropdown-button">
+              <router-link :to="{ name: routes.about.name }"><b>{{ routes.about.title }}</b></router-link>
+              <font-awesome-icon class="dropdown-icon" :icon="{ prefix: 'fas', iconName: 'angle-down' }"/>
+            </h6>
+            <h6 class="dropdown-content">
+              <router-link :to="{ name: routes.praesidium.name }"><b>{{ routes.praesidium.title }}</b></router-link>
+              <router-link :to="{ name: routes.history.name }"><b>{{ routes.history.title }}</b></router-link>
+            </h6>
           </div>
-
-          <div class="tab"><router-link :to="{ name: routes.events.name }">{{ routes.events.title }}</router-link></div>
-          <div class="tab"><router-link :to="{ name: routes.join.name }">{{ routes.join.title }}</router-link></div>
-
+          <h6 class="tab"><router-link :to="{ name: routes.events.name }"><b>{{ routes.events.title }}</b></router-link></h6>
+          <h6 class="tab"><router-link :to="{ name: routes.join.name }"><b>{{ routes.join.title }}</b></router-link></h6>
           <div class="dropdown tab">
-            <router-link class="dropdown-button" :to="{ name: routes.partners.name }">{{ routes.partners.title }}</router-link>
-            <font-awesome-icon class="dropdown-icon" :icon="{ prefix: 'fas', iconName: 'angle-down' }"/>
-            <div :class="'dropdown-content ' + colorMode">
-              <router-link :to="{ name: routes.jobs.name }">{{ routes.jobs.title }}</router-link>
-            </div>
+            <h6 class="dropdown-button">
+              <router-link :to="{ name: routes.partners.name }"><b>{{ routes.partners.title }}</b></router-link>
+              <font-awesome-icon class="dropdown-icon" :icon="{ prefix: 'fas', iconName: 'angle-down' }"/>
+            </h6>
+            <h6 class="dropdown-content">
+              <router-link :to="{ name: routes.jobs.name }"><b>{{ routes.jobs.title }}</b></router-link>
+            </h6>
           </div>
-
-          <div class="tab"><router-link :to="{ name: routes.shop.name }">{{ routes.shop.title }}</router-link></div>
-          <div class="tab"><a @click="toggleLoginModal">Login</a></div>
+          <h6 class="tab"><router-link :to="{ name: routes.shop.name }"><b>{{ routes.shop.title }}</b></router-link></h6>
+          <h6 class="tab"><a @click="toggleLoginModal"><b>Login</b></a></h6>
         </div>
       </div>
     </nav>
 
-    <div id="text"> <!-- Text -->
+    <div id="header-text"> <!-- Header text -->
       <div v-if="currentRouteName() == 'Home'" class="left-align">
-        <h1>TECHNICA,<br/>De faculteitsvereniging in Antwerpen</h1>
-        <p>Elektromechanica, Integrale veiligheid, Energiemanagement en Elektronica-ICT</p>
-        <p>Elektromechanische systemen, HVAC-Systemen-Klimatiesatiesystemen, Werforganisatie en Internet of Things</p>
+        <h2>TECHNICA,<br/>De faculteitsvereniging in Antwerpen</h2>
+        <h5>
+          <span>Elektromechanica,</span>&nbsp;
+          <span>Integrale veiligheid,</span>&nbsp;
+          <span>Energiemanagement</span>&nbsp;
+          <span>en</span>&nbsp;
+          <span>Elektronica-ICT</span>
+        </h5>
+        <h5>
+          <span>Elektromechanische systemen,</span>&nbsp;
+          <span>HVAC-Systemen-Klimatiesatiesystemen,</span>&nbsp;
+          <span>Werforganisatie</span>&nbsp;
+          <span>en</span>&nbsp;
+          <span>Internet of Things</span>
+        </h5>
         <br><br><br><br>
       </div>
       <div v-else-if="currentRouteName() == 'NotFound'" class="left-align">
-        <h1>Error 404 - Page not found</h1>
-        <p>Het ziet ernaar uit dat je verdwaaldt bent. Er staan nu 2 keuzes voor je:</p>
-        <p>&nbsp;&nbsp;&nbsp; Klik op de blauwe knop en je zal teruggebracht worden naar de veiligheid van de hoofdpagina.</p>
-        <p>&nbsp;&nbsp;&nbsp; Klik op de rode knop en verken wat het internet te offeren heeft, niet wetende waar je zult belanden.</p>
+        <h2>Error 404 - Page not found</h2>
+        <h5>Het ziet ernaar uit dat je verdwaaldt bent. Er staan nu 2 keuzes voor je:</h5>
+        <ul>
+          <li><h6>Klik op de blauwe knop en je zal teruggebracht worden naar de veiligheid van de hoofdpagina.</h6></li>
+          <li><h6>Klik op de rode knop en verken wat het internet te offeren heeft, niet wetende waar je zult belanden.</h6></li>
+        </ul>
         <br><br><br><br>
       </div>
     </div>
@@ -57,40 +78,57 @@
 </template>
 <!--https://www.youtube.com/watch?v=jWf4xpdCXsM-->
 <script>
+  import HamburgerButton from '@/components/button/HamburgerButton.vue';
+
   export default {
     emits: ["toggleLoginModal"],
+    components: { HamburgerButton },
     data() {
-      return { 
+      return {
+        hamburgerClicked: false,
+        showHamburger: false,
         routes: {
-          home:       {name: 'Home',        title: 'Technica'},
-          about:      {name: 'About',       title: 'Over ons'},
-          praesidium: {name: 'Praesidium',  title: 'Praesidium'},
+          home:       {name: 'Home',        title: 'Technica'    },
+          about:      {name: 'About',       title: 'Over ons'    },
+          praesidium: {name: 'Praesidium',  title: 'Praesidium'  },
           history:    {name: 'History',     title: 'Geschiedenis'},
-          events:     {name: 'Events',      title: 'Evenementen'},
-          join:       {name: 'Join',        title: 'Lid worden'},
-          partners:   {name: 'Partners',    title: 'Partners'},
-          jobs:       {name: 'Jobs',        title: 'Vacature'},
-          shop:       {name: 'Shop',        title: 'Shop'}
+          events:     {name: 'Events',      title: 'Evenementen' },
+          join:       {name: 'Join',        title: 'Lid worden'  },
+          partners:   {name: 'Partners',    title: 'Partners'    },
+          jobs:       {name: 'Jobs',        title: 'Vacature'    },
+          shop:       {name: 'Shop',        title: 'Shop'        }
         },
         routeImages: [
-          {name: 'Home',        image: 'olv_kathedraal.jpg',  darkMode: false},
-          {name: 'About',       image: 'praesidium.jpg',      darkMode: false},
-          {name: 'Praesidium',  image: 'praesidium.jpg',      darkMode: false},
-          {name: 'History',     image: 'praesidium.jpg',      darkMode: false},
-          {name: 'Events',      image: 'bierfiets.jpg',       darkMode: false},
-          {name: 'Join',        image: 'doop.jpg',            darkMode: false},
-          {name: 'Partners',    image: 'shaking_hands.jpg',   darkMode: true },
-          {name: 'Jobs',        image: 'shaking_hands.jpg',   darkMode: true },
-          {name: 'Shop',        image: 'olv_kathedraal.jpg',  darkMode: false},
-          {name: 'NotFound',    image: 'not_found.png',       darkMode: false}
-        ],
-        colorMode: 'light-mode'
+          {name: 'Home',        image: 'olv_kathedraal.jpg'},
+          {name: 'About',       image: 'praesidium.jpg'    },
+          {name: 'Praesidium',  image: 'praesidium.jpg'    },
+          {name: 'History',     image: 'praesidium.jpg'    },
+          {name: 'Events',      image: 'bierfiets.jpg'     },
+          {name: 'Join',        image: 'doop.jpg'          },
+          {name: 'Partners',    image: 'shaking_hands.jpg' },
+          {name: 'Jobs',        image: 'shaking_hands.jpg' },
+          {name: 'Shop',        image: 'shop.png'          },
+          {name: 'NotFound',    image: 'not_found.png'     }
+        ]
         // https://stackoverflow.com/a/56569951
         // https://www.telerik.com/blogs/passing-variables-to-css-on-a-vue-component
       }
     },
+    created() { this.onResize() },
+    mounted() { this.$nextTick(() => { window.addEventListener('resize', this.onResize); }) },
+    beforeDestroy() { window.removeEventListener('resize', this.onResize); },
     methods: {
       toggleLoginModal() { this.$emit('toggleLoginModal'); },
+      toggleHamburger(event) { 
+        const hamburgerClicked = event
+        const routes = document.getElementById('routes')
+        if (hamburgerClicked) {
+          if (!routes.classList.contains('show-bar')) routes.classList.add('show-bar')
+        } else {
+          if (routes.classList.contains('show-bar')) routes.classList.remove('show-bar')
+        }
+      },
+      onResize() { this.showHamburger = window.innerWidth < 880 },
       currentRouteName() { return this.$route.name; },
       headerBackgroundImage() {
         var imagePath = require('@/assets/images/background/olv_kathedraal.jpg')
@@ -103,14 +141,7 @@
         return imagePath
       },
       modeLogo() {
-      var imagePath = require('@/assets/images/logo/schild_wit.png')
-      this.routeImages.forEach(routeImage => {
-          // console.log(this.currentRouteName(), routeImage.name, this.currentRouteName() == routeImage.name)
-          if (this.currentRouteName() == routeImage.name) {
-            imagePath = require('@/assets/images/logo/' + (routeImage.darkMode ? 'schild.png' : 'schild_wit.png'))
-            this.colorMode = routeImage.darkMode ? 'dark-mode' : 'light-mode'
-          }
-        });
+        var imagePath = require('@/assets/images/logo/schild_wit.png')
         return imagePath
       },
     }
@@ -118,116 +149,132 @@
 </script>
 
 <style scoped>
-  header { margin: 0 0 auto 0; }
-
-  header#top-header {
+  header {
     width: 100%;
     height: 700px;
+    margin: 0 0 auto 0;
     background-size: cover;
     background-position: center;
     clip-path: polygon(0 0, 0 83%, 50% 100%, 100% 83%, 100% 0);
   }
 
   nav {
-    padding: 16px 7%;
+    padding: 16px 7% 48px 7%;
     display: flex;
     justify-content: space-between;
+    background-image: linear-gradient(rgba(53,53,53,0.53), rgba(53,53,53,0));
+    z-index: 7;
   }
 
-  nav div#logo a img { max-width: 64px; }
+  #logo img { width: 64px; transition: width 0.5s ease-in-out; }
+  #logo img:hover { width: 80px; }
 
-  .vert-center { 
-    top: 20%;
-    position: relative;
-    display: inline-block;
-    border-radius: 4px;
+  #hamburger { display: none; }
+
+  #tabs { position: relative; top: 20%; }
+
+  #tabs .tab { 
+    display: inline-block; 
+    padding: 12px;
   }
-  .vert-center.dark-mode { background-color: rgba(255,255,255,0.5); }
-
-  nav div { display: inline-block; }
-
-  nav a {
-    font-weight: bolder;
+  #tabs a {
+    color: #ffffff;
     text-decoration: none;
   }
 
-  nav.light-mode a { color: #ffffff; }
-  nav.dark-mode a { color: #115F9A; }
-
-  nav.light-mode a.router-link-exact-active { color: #D3D3D3; }
-  nav.dark-mode a.router-link-exact-active { color: #353535; }
-
-  nav div.tab { padding: 12px; }
-
-  /* The container <div> - needed to position the dropdown content */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
+  #tabs a:hover { color: #D3D3D3; }
+  #tabs a.router-link-exact-active { color: #D3D3D3; }
 
   /* Dropdown Button */
-  .dropdown-button {
-    font-weight: bold;
-    font-size: 16px;
-    border: none;
-    padding-right: 4px;
-  }
-
-  .light-mode .dropdown-icon { color: #ffffff; }
-  .dark-mode .dropdown-icon { color: #115F9A; }
+  #tabs .dropdown-button a { padding-right: 4px; }
+  #tabs .dropdown-button:hover a, .dropdown-button:hover .dropdown-icon { color: #D3D3D3; }
+  #tabs .dropdown-icon { color: #ffffff; }
 
   /* Dropdown Content (Hidden by Default) */
-  .dropdown-content {
+  #tabs .dropdown-content {
     text-align: left;
     display: none;
     position: absolute;
-    z-index: 1;
-
-    margin-top: 12px;
-    margin-left: -12px;
-    border-radius: 4px;
   }
-  .dropdown-content.dark-mode { background-color: rgba(255,255,255,0.5); }
 
   /* Links inside the dropdown */
-  .dropdown-content * {
-    margin: 0 12px 12px 12px;
-    text-decoration: none;
+  #tabs .dropdown-content * {
     display: block;
+    margin-top: 12px;
   }
 
   /* Change color of dropdown links on hover */
-  .light-mode .dropdown-content *:hover {color: #D3D3D3;}
-  .dark-mode .dropdown-content *:hover {color: #353535;}
-
-  /* Change the background color of the dropdown button when the dropdown content is shown */
-  .dropdown:hover .dropdown-button {}
+  #tabs .dropdown-content *:hover { color: #D3D3D3; }
 
   /* Show the dropdown menu on hover */
-  .dropdown:hover .dropdown-content {display: block;}
+  #tabs .dropdown:hover .dropdown-content { display: block; }
 
-  #text { min-height: 500px; }
+  #header-text { min-height: 500px; }
+
+  #header-text span { display: inline-block; }
 
   .left-align {
     padding: 0 7%;
-    width: 69%;
+    width: 75%;
     text-align: left;
   }
 
-  #top-header h1 {
-    font-size: 48px;
-    text-transform: none;
-    color: #fff;
-    user-select: none;
+  header h2, header h5, header h6, header li { color: #fff; }
+
+  header h2 {
     font-family: 'Cabin Condensed', sans-serif;
-    padding: 0.67em 0;
+    padding-bottom: 32px;
     font-weight: bold;
   }
 
-  #top-header p {
-    color: #fff;
-    margin: 1em 0;
-    line-height: 1.2;
-    font-size: 21px;
+  header h5 { text-transform: none; }
+
+  header h5, header li { margin: 1em 0; }
+
+  @media screen and (max-width: 960px) {
+    .left-align { width: 83%; }
+  }
+  @media screen and (max-width: 880px) {
+    /* Center logo */
+    #logo { margin: auto; }
+    #logo a img { width: 128px; transition: width 0.5s ease-in-out; }
+    #logo a img:hover { width: 160px; }
+
+    /* Make routes fixed */
+    #routes {
+      position: absolute;
+      top: 0; right: 0;
+      width: 0; height: 100%;
+      transition: width 0.5s ease-in-out;
+      background-color: #1471B7;
+    }
+    #routes.show-bar { width: 144px; }
+
+    /* Make hamburger appear */
+    #hamburger {
+      padding: 16px;
+      display: block;
+      float: right;
+      z-index: 10;
+    }
+
+    /* Put tabs beneath each other */
+    #tabs { top: 64px;  }
+    #tabs .tab {
+      display: block; 
+      padding: 12px;
+      text-align: left;
+      white-space: nowrap;
+    }
+    #tabs .dropdown-icon { display: none; }
+    #tabs .dropdown-content {
+      text-align: left;
+      display: block;
+      position: relative;
+    }
+    #tabs .dropdown-content * { margin-top: 24px; }
+
+    /* Remove header text */
+    #header-text { display: none; }
   }
 </style>

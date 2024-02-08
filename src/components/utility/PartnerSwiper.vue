@@ -1,6 +1,6 @@
 <template>
   <div v-if="partners.length != 0" id="swiper">
-    <h2 class="h1 center">Ontmoet Onze <span>Partners</span></h2>
+    <h1><b>Ontmoet Onze <span>Partners</span></b></h1>
     <swiper-container :slides-per-view="slidesPerView" :autoplay="true" :speed="500" :loop="true">
       <swiper-slide v-for="partnerItem in partners" :key="partnerItem.id" class="align-center">
         <div class="partner-wrap">
@@ -52,11 +52,7 @@
 
 <style scoped>
   #swiper h2 {
-    font-size: 50px;
-    font-weight: 512;
     margin: 24px;
-
-    text-transform: uppercase;
     color: #252525;
   }
   #swiper span { color: #35597E; }

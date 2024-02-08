@@ -2,7 +2,7 @@
   <!-- Text -->
   <div class="row">
     <div id="praeses" class="text-block" v-if="praeses">
-      <h2 class="center">Wie <span>zijn wij</span></h2>
+      <h1 class="center"><b>Wie <span>zijn wij</span></b></h1>
       <image-text-block imageAlign="left">
         <template v-slot:image>
           <img :src="praeses.picture" alt="">
@@ -27,7 +27,7 @@
   <!-- Events -->
   <div class="row">
     <div id="activities">
-      <h2 id="left-align">Activiteiten</h2>
+      <h2 id="left-align"><b>Activiteiten</b></h2>
     </div>
   </div>
   <!-- Toon hetvolgende feetsje, soc event & cantus -->
@@ -46,8 +46,9 @@
   import { getData } from '@/firebase';
   import { FirePraesidium } from '@/classes';
   import { QueryEnum } from '@/enums';
-  import ImageTextBlock from '@/components/ImageTextBlock.vue';
-  import PartnerSwiper from '@/components/PartnerSwiper.vue';
+  
+  import ImageTextBlock from '@/components/image/ImageTextBlock.vue';
+  import PartnerSwiper from '@/components/utility/PartnerSwiper.vue';
 
   export default {
     components: { ImageTextBlock, PartnerSwiper },

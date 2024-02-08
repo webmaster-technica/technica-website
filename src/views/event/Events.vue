@@ -26,6 +26,7 @@
     </template>
   </edit-modal>
   
+  <!-- The main view -->
   <div id="main">
     <!--add plus button-->
     <!--turn into modal:
@@ -34,11 +35,12 @@
       gives a bool for delete
       returns a click event for change data
     -->
-    <div v-if="events.length">
-      <FullCalendar :options="calendarOptions"/>
-      <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button>
-    </div>
-    <div v-else><h3 class="loading">Loading events ...</h3></div>
+    <div v-if="events.length"></div>
+    <div v-else><loading-bar :path="path"></loading-bar></div>
+    <FullCalendar :options="calendarOptions"/>
+
+    <!-- Add button -->
+    <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button>
   </div>
   <!--<router-link :to="{ name: 'EventDetails', params: { id: event.name } }">
     <h3>{{ event.name }} - {{ event.partner }}</h3>
@@ -50,9 +52,10 @@
   import { TechnicaEvent, FireTechnicaEvent, FullCalenderEvent } from '@/classes'
   import { EventEnum } from '@/enums';
 
+  import CornerButton from '@/components/button/CornerButton.vue';
   import EditModal from '@/components/modals/EditModal.vue';
   import ViewModal from '@/components/modals/ViewModal.vue';
-  import CornerButton from '@/components/button/CornerButton.vue';
+  import LoadingBar from '@/components/utility/LoadingBar.vue';
 
   import '@fullcalendar/core/vdom' // solves problem with Vite
   import FullCalendar from '@fullcalendar/vue3'
@@ -62,7 +65,7 @@
 
   export default {
     props: ['id'],
-    components: { EditModal, ViewModal, CornerButton, FullCalendar },
+    components: { CornerButton, EditModal, ViewModal, LoadingBar, FullCalendar },
     methods: {
       // Firebase storage methods
       async getPhoto(fileName = '') { return await getPhoto(this.path, fileName) },

@@ -6,6 +6,8 @@
   </div>
 </template>
 
+<script></script>
+
 <style scoped>
   button {
     width: 37%;

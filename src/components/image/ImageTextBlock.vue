@@ -36,8 +36,8 @@
   }
 
   @media screen and (max-width: 1024px) {
-    .image-text .image-column { visibility: collapse; }
-    .image-text .text-column{ text-align: center; }
+    .image-text .image-column { display: none; }
+    .image-text .text-column { text-align: center; }
   }
 
 </style>

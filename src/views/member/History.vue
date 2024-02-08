@@ -75,16 +75,16 @@
       <div v-for="lid in members" :key="lid.id" class="persons">
         <!-- <div class="person-wrap" @dblclick="changeData($event, lid)"> -->
         <div class="person-wrap" @click="changeData($event, lid)">
-          <h3 class="title">{{ lid.name }} {{ lid.surname }}</h3>
+          <h4 class="title">{{ lid.name }} {{ lid.surname }}</h4>
           <template v-for="role in lid.roles">
-            <h3 class="sub-title" :value="role">
+            <h4 class="sub-title" :value="role">
               <span>{{ role.role.name }}:</span> {{ role.year }} - {{ incrementYear(role.year) }}
-            </h3>
+            </h4>
           </template>
         </div>
       </div>
     </div>
-    <div v-else><h3 class="loading">Loading history ...</h3></div>
+    <div v-else><loading-bar :path="path"></loading-bar></div>
     <!-- Add button -->
     <corner-button title="Add" icon="plus" @confirm="changeData($event)"/>
   </div>
@@ -94,12 +94,14 @@
   import { getData, postData, putData, delData } from '@/firebase';
   import { Member, FireMember } from '@/classes';
   import { QueryEnum, RoleEnum, getRoleEnumFromValue } from '@/enums';
+  
   import CornerButton from '@/components/button/CornerButton.vue';
   import InputButtonField from '@/components/button/InputButtonField.vue';
   import EditModal from '@/components/modals/EditModal.vue';
+  import LoadingBar from '@/components/utility/LoadingBar.vue';
 
   export default {
-    components: { CornerButton, InputButtonField, EditModal },
+    components: { CornerButton, InputButtonField, EditModal, LoadingBar },
     data() {
       return {
         RoleEnum: RoleEnum,
@@ -267,7 +269,7 @@
 </script>
 
 <style scoped>
-  h3 { color: #353535; }
+  h4 { color: #353535; }
   .title { 
     font-size: x-large;
     color: #115F9A;
