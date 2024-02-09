@@ -110,12 +110,11 @@
 
   /* Overwrite modal */
   #cafe h2, #cafe p, #campus h2, #campus p { padding: 0 32px 0 32px; }
-
   #cafe { background-image: linear-gradient(rgba(0, 0, 0, 0.69), rgba(0, 0, 0, 0.69)), url('../assets/images/background/t_vervolg.jpg'); }
   #cafe h2 { color: #ffffff; }
   #cafe p { color: #ffffff; }
 
-  #campus { background-image: linear-gradient(rgba(0, 0, 0, 0.13), rgba(0, 0, 0, 0.13)), url('../assets/images/background/campus_ellerman.jpg'); }
+  #campus { background-image: linear-gradient(rgba(255, 255, 255, 0.37), rgba(255, 255, 255, 0.37)), url('../assets/images/background/campus_ellerman.jpg'); }
 
   @media screen and (max-width: 800px) {
     .paraaf.left-of-text { visibility: collapse; }

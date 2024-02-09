@@ -184,9 +184,10 @@
         let queryFilter = null
         switch (queryType) {
           case 'name':
-              queryFilter = {field: 'name', operator: QueryEnum.EQUAL, value: event}
+            if (event) queryFilter = {field: 'name', operator: QueryEnum.EQUAL, value: event}
             break;
           case 'role':
+            if (this.filter.role) {
               // Get current date
               const date = new Date()
               // Get current year after June else take the previous one
@@ -196,22 +197,27 @@
               var values = []
               for (let year = 1961; year <= currentYear; year++) { values.push({ role: this.filter.role.value, year: year }) }
               queryFilter = {field: 'roles', operator: QueryEnum.DB_ARRAY_CONTAINS_ANY, value: values}
+            }
             break;
           case 'year':
+            if (event) {
               // Create all values on which one can filter (All functions of that year)
               var values = []
               for (const role in RoleEnum) if (RoleEnum.hasOwnProperty(role) && RoleEnum[role] != RoleEnum.NULL) {
-                values.push({ role: RoleEnum[role].value, year: event })
+                values.push({ role: RoleEnum[role].value, year: event})
               }
               console.log(event)
               queryFilter = {field: 'roles', operator: QueryEnum.DB_ARRAY_CONTAINS_ANY, value: values}
+            }
             break;
           default: break;
         }
-        // Get the data
-        let filters = [queryFilter]
-        if (!this.filter.seeAll) filters.push({field: 'approved', operator: QueryEnum.EQUAL, value: true})
-        this.getMember(filters)
+        if (queryFilter) {
+          // Get the data
+          let filters = [queryFilter]
+          if (!this.filter.seeAll) filters.push({field: 'approved', operator: QueryEnum.EQUAL, value: true})
+          this.getMember(filters)
+        }
       },
 
       // Edit values

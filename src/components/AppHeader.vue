@@ -40,7 +40,6 @@
             </h6>
           </div>
           <h6 class="tab"><router-link :to="{ name: routes.shop.name }"><b>{{ routes.shop.title }}</b></router-link></h6>
-          <h6 class="tab"><a @click="toggleLoginModal"><b>Login</b></a></h6>
         </div>
       </div>
     </nav>
@@ -81,7 +80,6 @@
   import HamburgerButton from '@/components/button/HamburgerButton.vue';
 
   export default {
-    emits: ["toggleLoginModal"],
     components: { HamburgerButton },
     data() {
       return {
@@ -91,7 +89,7 @@
           home:       {name: 'Home',        title: 'Technica'    },
           about:      {name: 'About',       title: 'Over ons'    },
           praesidium: {name: 'Praesidium',  title: 'Praesidium'  },
-          history:    {name: 'History',     title: 'Geschiedenis'},
+          history:    {name: 'History',     title: 'Stamboom'    },
           events:     {name: 'Events',      title: 'Evenementen' },
           join:       {name: 'Join',        title: 'Lid worden'  },
           partners:   {name: 'Partners',    title: 'Partners'    },
@@ -118,7 +116,6 @@
     mounted() { this.$nextTick(() => { window.addEventListener('resize', this.onResize); }) },
     beforeDestroy() { window.removeEventListener('resize', this.onResize); },
     methods: {
-      toggleLoginModal() { this.$emit('toggleLoginModal'); },
       toggleHamburger(event) { 
         const hamburgerClicked = event
         const routes = document.getElementById('routes')
@@ -162,7 +159,7 @@
     padding: 16px 7% 48px 7%;
     display: flex;
     justify-content: space-between;
-    background-image: linear-gradient(rgba(53,53,53,0.53), rgba(53,53,53,0));
+    background-image: linear-gradient(rgba(37,37,37,0.69), rgba(37,37,37,0.37), rgba(37,37,37,0));
     z-index: 7;
   }
 
@@ -186,9 +183,8 @@
   #tabs a.router-link-exact-active { color: #D3D3D3; }
 
   /* Dropdown Button */
-  #tabs .dropdown-button a { padding-right: 4px; }
   #tabs .dropdown-button:hover a, .dropdown-button:hover .dropdown-icon { color: #D3D3D3; }
-  #tabs .dropdown-icon { color: #ffffff; }
+  #tabs .dropdown-icon { color: #ffffff; padding-left: 4px; }
 
   /* Dropdown Content (Hidden by Default) */
   #tabs .dropdown-content {
@@ -234,7 +230,7 @@
   @media screen and (max-width: 960px) {
     .left-align { width: 83%; }
   }
-  @media screen and (max-width: 880px) {
+  @media screen and (max-width: 800px) {
     /* Center logo */
     #logo { margin: auto; }
     #logo a img { width: 128px; transition: width 0.5s ease-in-out; }
@@ -246,8 +242,10 @@
       top: 0; right: 0;
       width: 0; height: 100%;
       transition: width 0.5s ease-in-out;
-      background-color: #1471B7;
+      background-image: url('../assets/images/background/tandwiel_verticaal.png');
+      /* background-color: #1471B7; */
     }
+    #routes *:not(#hamburger, #hamburger > *) {width: 0;}
     #routes.show-bar { width: 144px; }
 
     /* Make hamburger appear */
@@ -255,24 +253,25 @@
       padding: 16px;
       display: block;
       float: right;
-      z-index: 10;
     }
 
     /* Put tabs beneath each other */
-    #tabs { top: 64px;  }
+    #tabs { top: 64px; }
     #tabs .tab {
       display: block; 
-      padding: 12px;
+      padding: 18px;
       text-align: left;
       white-space: nowrap;
+      display: none;
     }
+    .show-bar #tabs .tab { display: block; }
     #tabs .dropdown-icon { display: none; }
     #tabs .dropdown-content {
       text-align: left;
       display: block;
       position: relative;
     }
-    #tabs .dropdown-content * { margin-top: 24px; }
+    #tabs .dropdown-content * { margin-top: 36px; }
 
     /* Remove header text */
     #header-text { display: none; }

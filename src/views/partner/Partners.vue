@@ -176,6 +176,7 @@
     max-height: 170px;
     margin: 12px;
     transition: all 0.25s ease-in-out;
+    cursor: pointer;
   }
   .partner-wrap:hover {
     width: 300px;

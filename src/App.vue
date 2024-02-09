@@ -1,10 +1,10 @@
 <template>
-  <app-header @toggleLoginModal="toggleLoginModal"/>
+  <app-header/>
   <div id="root">
     <login-modal v-if="showLoginModal" @toggleLoginModal="toggleLoginModal"/>
     <router-view/>
   </div>
-  <app-footer/>
+  <app-footer @toggleLoginModal="toggleLoginModal"/>
 </template>
 
 <script>
@@ -97,6 +97,8 @@
   input[type="file"] {
     display: none;
   }
+
+  button, select, input[type="checkbox"], input[type="radio"] { cursor: pointer; }
 
   a { text-decoration: none; }
   img { width: 100%; }

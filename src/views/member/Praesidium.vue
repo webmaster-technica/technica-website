@@ -377,6 +377,7 @@
     width: 320px;
     padding: 8px;
     transition: all 0.25s ease-in-out;
+    cursor: pointer;
   }
   .person-wrap:hover {
     width: 324px;

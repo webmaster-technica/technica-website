@@ -8,9 +8,10 @@
         https://stackoverflow.com/questions/70823149/webpack-cannot-load-pdf-file-module-parse-failed-you-may-need-an-appropriate-lo
         https://stackoverflow.com/questions/55500187/how-to-download-a-pdf-in-vue
       -->
-      <h6 class="hover"><a class="hover" href="#">APP</a></h6> |
-      <h6 class="hover"><a class="hover" href="/assets/pdfs/privacy_policy.pdf" target="_blank">Privacybeleid</a></h6> |
-      <h6 class="hover"><a class="hover" href="/assets/pdfs/statuten.pdf" target="_blank">Statuten</a></h6>
+      <h6 class="hover"><a href="#">APP</a></h6> |
+      <h6 class="hover"><a href="/assets/pdfs/privacy_policy.pdf" target="_blank">Privacybeleid</a></h6> |
+      <h6 class="hover"><a href="/assets/pdfs/statuten.pdf" target="_blank">Statuten</a></h6> |
+      <h6 class="hover"><a @click="toggleLoginModal">Login</a></h6>
     </div>
     &emsp;
     <div class="footer-links">
@@ -23,7 +24,7 @@
     </div>
     &emsp;
     <div class="footer-text">
-      <h6>Website door <div class="hover"><a class="hover" href="https://www.linkedin.com/in/thomas-kramp-0bb52220a/">Thomas Kramp</a></div></h6>
+      <h6>Website door <div class="hover"><a href="https://www.linkedin.com/in/thomas-kramp-0bb52220a/">Thomas Kramp</a></div></h6>
     </div>
   </footer>
 </template>
@@ -32,9 +33,13 @@
   import { computed } from 'vue'
 
   export default {
+    emits: ["toggleLoginModal"],
     setup() {
       const year = computed(() => new Date().getFullYear())
       return { year }
+    },
+    methods: {
+      toggleLoginModal() { this.$emit('toggleLoginModal'); }
     }
   }
 </script>
@@ -50,21 +55,19 @@
 
   .footer-text { transform: translateY(-7px); }
 
-  a {
+  footer a {
     color: #C6C6C6;
     margin: 4px;
     text-decoration: none;
+    cursor: pointer;
   }
 
   footer div, footer div > * { display: inline-block; }
 
   div .hover :hover { color: #3272b0; }
 
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 1024px) {
     footer > div { display: block; }
     .footer-text { transform: translateY(0); }
-  }
-  @media screen and (max-width: 800px) {
-    
   }
 </style>

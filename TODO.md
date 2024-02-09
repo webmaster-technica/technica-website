@@ -5,6 +5,7 @@
 
 # Global
 - Praesidium: data layout
+- Change shortcut logo
 
 # Home
 - Voeg 'Upcomming Events' bar toe. Toon de eerstvolgende SOC, Cantus, Feest ... event. (stap 6)
@@ -24,6 +25,7 @@
 
 # Lid Worden
 - Send email confirmation at sign-in (nadien)
+- https://mailchimp.com/
 
 # Partners (Done)
 
@@ -35,5 +37,13 @@
 # Login
 - Zorg dat de authenticatie werkt (stap 7)
 - betere styling
+- login in footer (verstoppen)
 
 # Error (Done)
+
+# Notes
+- Hamburger close on nav
+- About opacity behind text (for readability)
+- Praesidium open speed alright, close speed needs to be faster
+- History page filter combine
+- Join add button (ik ben geen student)
