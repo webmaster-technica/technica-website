@@ -204,9 +204,7 @@
       condenseRoles(data) {
         // Sort roles by role and year
         const sortedRoles = data.roles.slice().sort((a, b) => {
-          if (a.role === b.role) {
-            return a.year - b.year;
-          }
+          if (a.role === b.role) return a.year - b.year;
           return a.role - b.role;
         });
 

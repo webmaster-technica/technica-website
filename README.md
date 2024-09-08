@@ -36,6 +36,8 @@ get free [domain](https://www.noip.com/).
 ### FireBase
  - https://www.koderhq.com/tutorial/vue/firebase-firestore/
    - npm install firebase
+   - npm install -g firebase-tools
+   - firebase login
 
 ### FontAwesome
  - https://fontawesome.com/docs/web/use-with/vue/

@@ -4,7 +4,7 @@
     <!- Input fields ->
     <template v-slot:inputs>
       <!- Name ->
-      <input class="column-2" v-model="partner.name" type="text" placeholder="Voornaam" required/>
+      <input class="column-2" v-model="partner.name" type="text" placeholder="Naam" required/>
       <!- website ->
       <input class="column-2" v-model="partner.website" type="text" placeholder="Website-Link" required/>
       <!- index ->
@@ -42,7 +42,7 @@
     <div v-else><loading-bar :path="path"></loading-bar></div>
 
     <!-- Add button -->
-    <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button>
+    <!-- <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button> -->
   </div>
 </template>
 
