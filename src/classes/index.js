@@ -77,6 +77,20 @@ export class FireMember extends Member {
   }
 }
 
+export class CondensedMember extends Member {
+  constructor(id = '', name, surname, roles, approved) {
+    super(name, surname, roles, approved)
+    this.id = id
+  }
+}
+export class MemberRole extends Member {
+  constructor(role, start, end) {
+    super(name, surname, roles, approved)
+    this.id = id
+  }
+}
+
+
 export class Partner {
   constructor(name = '', website = '', index = 0, logo = 'https://firebasestorage.googleapis.com/v0/b/technica-website-defc6.appspot.com/o/praesidium%2Fanoniem.png?alt=media&token=5862e3df-b5ed-4114-a20e-8c56ce8e2871') {
 

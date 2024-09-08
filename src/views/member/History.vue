@@ -1,12 +1,12 @@
 <template>
   <!-- The model is used to edit data -->
-  <edit-modal v-if="EditModal.show" :title="getTitle()" @closeEditModal="toggleEditModal()"> <!-- @confirm="confirm" -->
-    <!-- Input fields -->
+  <!-- <edit-modal v-if="EditModal.show" :title="getTitle()" @closeEditModal="toggleEditModal()"> <!- @confirm="confirm" ->
+    <!- Input fields ->
     <template v-slot:inputs>
-      <!-- Name -->
+      <!- Name ->
       <input class="column-2" v-model="member.name" type="text" placeholder="Voornaam" required/>
       <input class="column-2" v-model="member.surname" type="text" placeholder="Achternaam" required/>
-      <!-- New Role -->
+      <!- New Role ->
       <select class="column-2" v-model="newRole.role">
         <option disabled selected value="">Functie</option>
         <template v-for="role in RoleEnum">
@@ -16,7 +16,7 @@
       <div class="column-2 button-column">
         <input-button-field type="number" placeholder="Jaar (semester 1)" icon="plus" @buttonClick="addRole($event)"/>
       </div>
-      <!-- Roles -->
+      <!- Roles ->
       <template v-for="(mRole, index) in member.roles">
         <select class="column-2" v-model="member.roles[index].role">
           <option disabled selected value="">Functie</option>
@@ -32,7 +32,7 @@
           </input-button-field>
         </div>
       </template>
-      <!-- Allowed -->
+      <!- Allowed ->
       <div class="column-1" style="">
         <div style="flex: 0 0 32px; transform: translateY(-3px);">
           <input v-model="member.approved" type="checkbox" required/>
@@ -42,12 +42,12 @@
         </div>
       </div>
     </template>
-    <!-- Buttons -->
+    <!- Buttons ->
     <template v-slot:buttons>
       <div class="column-2"><button @click="confirm()">{{ getTitle() }}</button></div>
       <div class="column-2" v-if="EditModal.existingItem"><button @click="delMember($event, member.id)">Delete</button></div>
     </template>
-  </edit-modal>
+  </edit-modal> -->
 
   <!-- The main view -->
   <div id="main">
@@ -65,20 +65,20 @@
         </template>
       </input-button-field>
       <input-button-field type="number" placeholder="Jaar (semester 1)" icon="magnifying-glass" @buttonClick="searchMembers($event, 'year')"/>
-      <div id="checkbox">
+      <!-- <div id="checkbox">
         See all: <div style="transform: translateY(-5px);"><input v-model="filter.seeAll" type="checkbox" required/></div>
-      </div>
+      </div> -->
     </div>
 
     <!-- Grid -->
-    <div v-if="members.length">
-      <div v-for="lid in members" :key="lid.id" class="persons">
+    <div v-if="condensedMembers.length">
+      <div v-for="lid in condensedMembers" :key="lid.id" class="persons">
         <!-- <div class="person-wrap" @dblclick="changeData($event, lid)"> -->
         <div class="person-wrap" @click="changeData($event, lid)">
           <h4 class="title">{{ lid.name }} {{ lid.surname }}</h4>
           <template v-for="role in lid.roles">
             <h4 class="sub-title" :value="role">
-              <span>{{ role.role.name }}:</span> {{ role.year }} - {{ incrementYear(role.year) }}
+              <span>{{ role.role.name }}:</span> {{ role.startYear }} - {{ incrementYear(role.endYear) }}
             </h4>
           </template>
         </div>
@@ -86,7 +86,7 @@
     </div>
     <div v-else><loading-bar :path="path"></loading-bar></div>
     <!-- Add button -->
-    <corner-button title="Add" icon="plus" @confirm="changeData($event)"/>
+    <!-- <corner-button title="Add" icon="plus" @confirm="changeData($event)"/> -->
   </div>
 </template>
 
@@ -107,6 +107,7 @@
         RoleEnum: RoleEnum,
         members: [],
         member: null,
+        condensedMembers: [],
 
         EditModal: { show: false, existingItem: false },
         newRole: { role: null, year: null },
@@ -125,14 +126,17 @@
       var values = []
       for (const role in RoleEnum) if (RoleEnum.hasOwnProperty(role) && RoleEnum[role] != RoleEnum.NULL) values.push({ role: RoleEnum[role].value, year: year })
       // Get the data
+      this.sorter = 
       this.getMember([
-        {field: 'approved', operator: QueryEnum.EQUAL, value: true},
-        {field: 'roles', operator: QueryEnum.DB_ARRAY_CONTAINS_ANY, value: values}
-      ])
+          {field: 'roles', operator: QueryEnum.DB_ARRAY_CONTAINS_ANY, value: values},
+          {field: 'approved', operator: QueryEnum.EQUAL, value: true}
+        ],
+        { type: 'year', value: year }
+      )
     },
     methods: {
       // Firebase database methods
-      async getMember(filters) {
+      async getMember(filters, sorter) {
         // Prepare filters
         let requests = []
         let baseFilters = []
@@ -158,13 +162,99 @@
         // Get data
         this.members = []
         requests.forEach(async request => {
+          // Send request
           let filter = baseFilters.slice()
           filter.push(request)
           const docs = await getData(this.path, filter)
+          
+          // Get data
           docs.forEach((doc) => { this.members.push(new FireMember(doc.id, doc.data()));})
-          this.members.sort(function(a, b) { return 64 * (a.roles[0].year - b.roles[0].year) + (a.roles[0].role.value - b.roles[0].role.value) })
+          
+          switch (sorter.type) {
+            case 'name':
+            // Filter by name
+              this.members.sort(function(a, b) { return 64 * (a.roles[0].year - b.roles[0].year) + (a.roles[0].role.value - b.roles[0].role.value) })
+              break;
+            case 'role':
+              // Filter by role
+              this.members.sort(function(a, b) {
+                const a_Index = a.roles.findIndex((role) => role.role.value == sorter.value)
+                const b_Index = b.roles.findIndex((role) => role.role.value == sorter.value)
+                return a.roles[a_Index].year - b.roles[b_Index].year
+              })
+              break;
+            case 'year':
+              // Filter by year
+              this.members.sort(function(a, b) {
+                const a_Index = a.roles.findIndex((role) => role.year == sorter.value)
+                const b_Index = b.roles.findIndex((role) => role.year == sorter.value)
+                return a.roles[a_Index].role.value - b.roles[b_Index].role.value
+              })
+              break;
+            default: break;
+          }
+
+          // Edit data (so that subsequent years are condensed to 1 line)
+          this.condensedMembers = []
+          this.members.forEach((member) => {this.condensedMembers.push(this.condenseRoles(member)) })
+          //console.log(this.condensedMembers)
         })
       },
+
+      condenseRoles(data) {
+        // Sort roles by role and year
+        const sortedRoles = data.roles.slice().sort((a, b) => {
+          if (a.role === b.role) {
+            return a.year - b.year;
+          }
+          return a.role - b.role;
+        });
+
+        const condensedRoles = [];
+        let currentRole = null;
+        let startYear = null;
+        let endYear = null;
+
+        for (const role of sortedRoles) {
+          if (currentRole === null) {
+            // Initialize with the first role
+            currentRole = role.role;
+            startYear = role.year;
+            endYear = role.year;
+          } else if (role.role === currentRole && role.year === endYear + 1) {
+            // Continue with the same role and consecutive year
+            endYear = role.year;
+          } else {
+            // Push the previous role and year range
+            condensedRoles.push({
+              role: currentRole,
+              startYear: startYear,
+              endYear: endYear
+            });
+          
+            // Reset for the new role
+            currentRole = role.role;
+            startYear = role.year;
+            endYear = role.year;
+          }
+        }
+      
+        // Push the last collected role and year range
+        if (currentRole !== null) {
+          condensedRoles.push({
+            role: currentRole,
+            startYear: startYear,
+            endYear: endYear
+          });
+        }
+
+        // Return the updated data structure
+        return {
+          ...data,
+          roles: condensedRoles
+        };
+      },
+
       async postMember() { this.member.id = await postData(this.path, this.member.json) },
       async putMember() { await putData(this.path, this.member.id, this.member.json) },
       async delMember(event, id) {
@@ -182,9 +272,13 @@
       // Search values
       searchMembers(event, queryType) {
         let queryFilter = null
+        let sorter = null
         switch (queryType) {
           case 'name':
-            if (event) queryFilter = {field: 'name', operator: QueryEnum.EQUAL, value: event}
+            if (event) {
+              queryFilter = {field: 'name', operator: QueryEnum.EQUAL, value: event}
+              sorter = {type: "name", value: event}
+            }
             break;
           case 'role':
             if (this.filter.role) {
@@ -197,6 +291,9 @@
               var values = []
               for (let year = 1961; year <= currentYear; year++) { values.push({ role: this.filter.role.value, year: year }) }
               queryFilter = {field: 'roles', operator: QueryEnum.DB_ARRAY_CONTAINS_ANY, value: values}
+
+              // Set sorter
+              sorter = { type: 'role', value: this.filter.role.value }
             }
             break;
           case 'year':
@@ -206,8 +303,9 @@
               for (const role in RoleEnum) if (RoleEnum.hasOwnProperty(role) && RoleEnum[role] != RoleEnum.NULL) {
                 values.push({ role: RoleEnum[role].value, year: event})
               }
-              console.log(event)
+              
               queryFilter = {field: 'roles', operator: QueryEnum.DB_ARRAY_CONTAINS_ANY, value: values}
+              sorter = {type: "year", value: event}
             }
             break;
           default: break;
@@ -216,7 +314,7 @@
           // Get the data
           let filters = [queryFilter]
           if (!this.filter.seeAll) filters.push({field: 'approved', operator: QueryEnum.EQUAL, value: true})
-          this.getMember(filters)
+          this.getMember(filters, sorter)
         }
       },
 
@@ -238,7 +336,8 @@
       // Change data modal
       toggleEditModal() { this.EditModal.show = !this.EditModal.show; },
       changeData(event, lid) {
-        this.member = lid ? lid : new Member()
+        const member = this.members.find((member) => member.id == lid.id)
+        this.member = member ? member : new Member()
         // !!this.member.id returns true of id exist
         this.EditModal.existingItem = !!lid
         this.toggleEditModal()

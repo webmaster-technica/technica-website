@@ -20,12 +20,12 @@
   .align-right > :nth-child(1) { order: 2; }
   .align-right > :nth-child(2) { order: 1; }
 
-  .image-text .image-column * { 
+  .image-column > :nth-child(1) { 
     width: 320px;
     height: 320px;
   }
 
-  .image-text .text-column {
+  .image-text {
     text-align: left;
     color: #35597E;
   }

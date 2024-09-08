@@ -46,19 +46,23 @@ get free [domain](https://www.noip.com/).
    - npm i --save @fortawesome/vue-fontawesome@latest-3
  - https://fontawesome.com/search
 
-### FullCalender
+### Calender
+#### Google Calender
+ - https://developers.google.com/calendar/api/guides
+   - npm install --save googleapis@59
+   - https://developers.google.com/calendar/api/guides/create-events#node.js
+#### FB events
+ - https://developers.facebook.com/docs/graph-api/get-started
+ - https://developers.facebook.com/docs/graph-api/reference/event/
+ - https://developers.facebook.com/docs/graph-api/reference/cover-photo/
+#### FullCalender
  - https://fullcalendar.io/docs/vue
-   - npm install --save @fullcalendar/core @fullcalendar/vue3
+   - npm uninstall --save @fullcalendar/core@5 @fullcalendar/vue3@5 @fullcalendar/google-calendar@5
    - init fullcalander: https://fullcalendar.io/docs/vue
    - documentation: https://fullcalendar.io/docs/intro
    - event click: https://fullcalendar.io/docs/eventClick
    - event object: https://fullcalendar.io/docs/event-object
-
-### EmailJS
- - https://www.freecodecamp.org/news/send-emails-from-your-vue-application/
-   - npm install emailjs-com --save
- - https://dashboard.emailjs.com/admin
- - https://www.youtube.com/watch?v=NgWGllOjkbs
+   - https://fullcalendar.io/docs/google-calendar
 
 ### Swiper
  - https://swiperjs.com/element#install--register-from-npm
@@ -67,3 +71,4 @@ get free [domain](https://www.noip.com/).
 ### Google Maps
  - https://vue-map.netlify.app/docs/
  - https://console.cloud.google.com/projectselector2/google/maps-apis/credentials?utm_source=Docs_CreateAPIKey&utm_content=Docs_maps-backend&authuser=3&rapt=AEjHL4OgRNZdd9WRQPUAqbRZur9tLkeg62GV4no42I4Utv2m74B855pkMcmHZN-GyHoXiyy0WkZMFc2aAVBAbBiirfN6m1fWc91u2nn54JqbIml-q7FLQeA
+ - https://developers.google.com/maps/documentation/javascript/

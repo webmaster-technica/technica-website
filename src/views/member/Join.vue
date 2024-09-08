@@ -123,7 +123,8 @@
       </div>
     </form>
     
-    <corner-button title="Download Ledenlijst" icon="download" @confirm="downloadData"></corner-button>
+    <!-- Download button -->
+    <!-- <corner-button title="Download Ledenlijst" icon="download" @confirm="downloadData"></corner-button> -->
   </div>
 </template>
 
@@ -131,8 +132,6 @@
   import { getExcel, getExcelLink, postExcel, delExcel } from '@/firebase';
 
   import CornerButton from '@/components/button/CornerButton.vue';
-  
-  import emailjs from '@emailjs/browser';
 
   export default {
     components: { CornerButton },
@@ -141,11 +140,17 @@
         /* CSV Methods */
         member: { name: '', surname: '', birthday: null, study: '', yearOfStudy: 0, email: '', gsm: '', 
                   street: '', houseNr: 0, city: '', postcode: 0, /*image: null,*/ dopen: 'Nee', privacy: false },
-        filledForm: false
+        filledForm: false,
+
+        form: {
+          name: ""
+        }
       }
     },
     methods: {
+      onload() { handleClientLoad() },
       submitForm(event) {
+        this.sendEmail()
         if (this.member) {
           this.filledForm = true
           for (let [key, value] of Object.entries(this.member)) {
@@ -210,11 +215,7 @@
 
       /* Email */
       // sendEmail() {
-      //   console.log(this.$refs.form)
-      //   emailjs.sendForm('service_yzmct1n', 'template_pc73wn5', this.$refs.form, 'zMoLN4-4D5U7o0vup').then(
-      //     (result) => { console.log('SUCCESS!', result.text); },
-      //     (error) => { console.log('FAILED...', error.text); }
-      //   );
+        
       // }
     }
   }

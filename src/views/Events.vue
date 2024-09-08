@@ -1,8 +1,8 @@
 <template>
   <!-- The model is used to edit data -->
-  <edit-modal v-if="EditModal.show" :title="EditModal.title" @closeEditModal="toggleEditModal" @confirm="confirm">
+  <!-- <edit-modal v-if="EditModal.show" :title="EditModal.title" @closeEditModal="toggleEditModal" @confirm="confirm">
     <template v-slot:inputs>
-      <!-- All input fields -->
+      <!- All input fields ->
       <input class="column-2" v-model="event.name" type="text" placeholder="Naam" required/>
       <input class="column-2" v-model="event.location" type="Location" placeholder="Locatie" required/>
       <input class="column-2" v-model="event.date" type="date" placeholder="Datum" required/>
@@ -17,30 +17,29 @@
       <textarea v-model="event.text" placeholder="Tekst" required></textarea>
     </template>
     <template v-slot:image>
-      <!-- Image field -->
+      <!- Image field ->
       <div class="image-div">
         <img :src="event.picture" v-if="event.picture" alt="">
         <label for="picture" class="button-label">Banner</label>
         <input @change="onFileChange" id="picture" type="file" accept="image/*" required/>
       </div>
     </template>
-  </edit-modal>
+  </edit-modal> -->
   
   <!-- The main view -->
   <div id="main">
-    <!--add plus button-->
-    <!--turn into modal:
-      gives a bool for add
-      gives a bool for edit
-      gives a bool for delete
-      returns a click event for change data
-    -->
-    <div v-if="events.length"></div>
+
+    <div v-if="events"> <!-- .length -->
+      <iframe v-if="callanderSize.large"        src="https://calendar.google.com/calendar/embed?height=666&wkst=2&ctz=Europe%2FBrussels&bgcolor=%23ffffff&showTitle=0&showPrint=0&showCalendars=0&showTz=0&hl=nl&src=Y181ZDJmMzJmN2Y1NmZiZWRhNjYzZTQwMjAxYzJmZWQxNWRmZjdhMDM4YWYxNjdmYzJkZDNjMzRiNmMxMDE4MTIwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285F4" style="border-width:0" width="960" height="640" frameborder="0" scrolling="no"></iframe>
+      <iframe v-else-if="callanderSize.medium"  src="https://calendar.google.com/calendar/embed?height=480&wkst=2&ctz=Europe%2FBrussels&bgcolor=%23ffffff&showTitle=0&showPrint=0&showCalendars=0&showTz=0&hl=nl&mode=MONTH&src=Y181ZDJmMzJmN2Y1NmZiZWRhNjYzZTQwMjAxYzJmZWQxNWRmZjdhMDM4YWYxNjdmYzJkZDNjMzRiNmMxMDE4MTIwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285F4" style="border-width:0" width="640" height="480" frameborder="0" scrolling="no"></iframe>
+      <iframe v-else                            src="https://calendar.google.com/calendar/embed?height=320&wkst=2&ctz=Europe%2FBrussels&bgcolor=%23ffffff&showTitle=0&showPrint=0&showCalendars=0&showTz=0&hl=nl&mode=WEEK&showTabs=0&src=Y181ZDJmMzJmN2Y1NmZiZWRhNjYzZTQwMjAxYzJmZWQxNWRmZjdhMDM4YWYxNjdmYzJkZDNjMzRiNmMxMDE4MTIwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285F4" style="border-width:0" width="320" height="320" frameborder="0" scrolling="no"></iframe>
+      <!-- On small screen -->
+      <!-- <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FBrussels&bgcolor=%23ffffff&showTitle=0&showPrint=0&showTz=0&showCalendars=0&mode=AGENDA&showTabs=0&showDate=0&showNav=0&src=Y19iYzgyMjU0OWI5OTVhZmVkN2MzMzBkZjc0YTRlYzJmNmQ3ZTFjMGRjMGE2ZDA5NjViNTAxOTNhNzg5OTIwOTRlQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285F4" class="calendar" frameborder="0" scrolling="no"></iframe> -->
+    </div>
     <div v-else><loading-bar :path="path"></loading-bar></div>
-    <FullCalendar :options="calendarOptions"/>
 
     <!-- Add button -->
-    <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button>
+    <!-- <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button> -->
   </div>
   <!--<router-link :to="{ name: 'EventDetails', params: { id: event.name } }">
     <h3>{{ event.name }} - {{ event.partner }}</h3>
@@ -49,21 +48,15 @@
 
 <script>
   import { getData, postData, putData, delData, getPhoto, postPhoto, delPhoto } from '@/firebase';
-  import { TechnicaEvent, FireTechnicaEvent, FullCalenderEvent } from '@/classes'
+  import { TechnicaEvent, FireTechnicaEvent } from '@/classes'
   import { EventEnum } from '@/enums';
 
   import CornerButton from '@/components/button/CornerButton.vue';
   import EditModal from '@/components/modals/EditModal.vue';
   import LoadingBar from '@/components/utility/LoadingBar.vue';
 
-  import '@fullcalendar/core/vdom' // solves problem with Vite
-  import FullCalendar from '@fullcalendar/vue3'
-  import dayGridPlugin from '@fullcalendar/daygrid'
-  import interactionPlugin from '@fullcalendar/interaction'
-  import nlLocale from '@fullcalendar/core/locales/nl';
-
   export default {
-    components: { CornerButton, EditModal, LoadingBar, FullCalendar },
+    components: { CornerButton, EditModal, LoadingBar },
     data() {
       return {
         EventEnum: EventEnum,
@@ -73,19 +66,14 @@
 
         EditModal: { show: false, title: '' },
 
-        path: 'events',
+        callanderSize: { large: true, medium: false },
 
-        calendarOptions: {
-          plugins: [ dayGridPlugin, interactionPlugin ],
-          locale: nlLocale,
-          initialView: 'dayGridMonth',
-          dateClick: this.handleDateClick,
-          events: [ /* { title: 'event 1', start: '2023-02-08', end: '2023-02-09' }, */ ],
-          eventClick: this.handleEventClick
-        }
+        path: 'events',
       };
     },
     created() { this.getTechnicaEvent() },
+    mounted() { this.$nextTick(() => { window.addEventListener('resize', this.changeCalanderSize); }) },
+    beforeDestroy() { window.removeEventListener('resize', this.changeCalanderSize); },
     methods: {
       // Firebase storage methods
       async getPhoto(fileName = '') { return await getPhoto(this.path, fileName) },
@@ -97,7 +85,7 @@
         const data = await getData(this.path, '', '', '')
         data.forEach((doc) => { this.events.push(new FireTechnicaEvent(doc.id, doc.data())); })
         // console.log(this.events);
-        this.addEventsToCalender()
+        //this.addEventsToCalender()
       },
       async postTechnicaEvent() { await postData(this.path, this.event.json) },
       async putTechnicaEvent() { await putData(this.path, this.event.id, this.event.json) },
@@ -122,6 +110,13 @@
         this.EditModal.title = this.event.id ? "event aanpassen" : "event toevoegen"
         this.picture = null
         this.toggleEditModal()
+      },
+
+      changeCalanderSize() {
+        const windowWidth = window.innerWidth
+        this.callanderSize.large = windowWidth > 960
+        this.callanderSize.medium = 960 >= windowWidth && windowWidth > 640
+        this.columnSize = windowWidth > 1008 ? 3 : windowWidth > 672 ? 2 : 1
       },
 
       async confirm() {
@@ -154,8 +149,6 @@
       addEventsToCalender(){
         this.calendarOptions.events = []
         this.events.forEach(event => {
-          let calenderEvent = new FullCalenderEvent(event.id, event.date, event.date, event.name, event.type ? event.type.color : '#3788d8')
-          this.calendarOptions.events.push(calenderEvent.json)
         });
       }
     }
@@ -163,5 +156,10 @@
 </script>
 
 <style scoped>
-.fc-event-title { font-weight: bold; }
+  .calendar {
+    padding: 0% 5%;
+    width: 90%;
+    height: 45vw;
+  }
+  .fc-event-title { font-weight: bold; }
 </style>
