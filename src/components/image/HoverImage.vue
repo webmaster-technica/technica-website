@@ -14,5 +14,8 @@
   img {
     vertical-align: bottom;
     width: 100%;
+
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
   }
 </style>

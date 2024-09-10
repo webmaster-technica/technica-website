@@ -64,7 +64,7 @@
           <div class="person-wrap" @dblclick="changeData($event, lid)">
             <!-- Set "lid.linkedin" to "true" to edit -->
             <a v-if="lid.linkedin" :href="lid.linkedin" target="_blank">
-              <hover-image class="person-image" :image="lid.picture" :image-alt="lid.picture_alt"></hover-image>
+              <hover-image :image="lid.picture" :image-alt="lid.picture_alt"></hover-image>
             </a>
             <hover-image v-else :image="lid.picture" :image-alt="lid.picture_alt"></hover-image>
             <h4 class="title top-shift">{{ lid.name }} {{ lid.surname }}</h4>
@@ -268,30 +268,24 @@
     width: 324px;
     padding: 4px;
   }
-  .person-image {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+
+  .bottom-card {
+    height: 18px;
+    margin-top: -10px;
+    padding-top: 10px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-image: url("../../assets/images/grunge.png");
   }
-
-.bottom-card {
-  height: 18px;
-  margin-top: -10px;
-  padding-top: 10px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  background-image: url("../../assets/images/grunge.png");
-}
-
-.info-card {
-  width: 100%;
-  height: 180px;
-}
-
-.info-card > * {
-  text-align: left;
-  padding: 4px 8px;
-  font-size: 16px;
-}
+  .info-card {
+    width: 100%;
+    height: 180px;
+  }
+  .info-card > * {
+    text-align: left;
+    padding: 4px 8px;
+    font-size: 16px;
+  }
 
   /* Overwrite modal */
   .person .image-column > * { padding-right: 8px; }
