@@ -1,22 +1,24 @@
 <template>
   <div id="main">
     <!-- Intro -->
-    <div class="full-block">
-      Indien u lid wilt worden, kunt u onderstaand formulier invullen. <br>
-      Zodra wij dit ontvangen hebben, zullen wij contact met u opnemen om alles te regelen; lidkaart, lidgeld, ...
+    <div class="large-font full-block">
+      <p class="padded-block">
+        Indien u lid wilt worden, kunt u onderstaand formulier invullen. 
+        Zodra wij dit ontvangen hebben, zullen wij contact met u opnemen om alles te regelen; lidkaart, lidgeld, ...
+      </p>    
     </div>
 
     <!-- Input -->
     <form ref="form" @submit.prevent="submitForm">
       <div class="row">
         <div class="medium-block">
-          <div class="data padded-block">
+          <div class="data large-font padded-block">
             <h6 ref="name">Voornaam*</h6>
             <input v-model="member.name" name="name" type="text" required/>
           </div>
         </div>
         <div class="medium-block">
-          <div class="data padded-block">
+          <div class="data large-font padded-block">
             <h6 ref="surname">Achternaam*</h6>
             <input v-model="member.surname" name="surname" type="text" required/>
           </div>
@@ -25,7 +27,7 @@
 
       <div class="row"></div>
       <div class="full-block">
-        <div class="data padded-block">
+        <div class="data large-font padded-block">
           <h6 ref="birthday">Geboortedatum*</h6>
           <input v-model="member.birthday" name="birthday" type="date" required/>
         </div>
@@ -33,13 +35,13 @@
 
       <div class="row">
         <div class="large-block">
-          <div class="data padded-block">
+          <div class="data large-font padded-block">
             <h6 ref="study">Studierichting*</h6>
             <input v-model="member.study" name="study" type="text" required/>
           </div>
         </div>
         <div class="small-block">
-          <div class="data padded-block">
+          <div class="data large-font padded-block">
             <h6 ref="yearOfStudy">Studiejaar*</h6>
             <input v-model="member.yearOfStudy" name="yearOfStudy" type="number" required/>
           </div>
@@ -48,13 +50,13 @@
 
       <div class="row">
         <div class="large-block">
-          <div class="data padded-block">
+          <div class="data large-font padded-block">
             <h6 ref="email">Email*</h6>
             <input v-model="member.email" name="email" type="email" required/>
           </div>
         </div>
         <div class="small-block">
-          <div class="data padded-block">
+          <div class="data large-font padded-block">
             <h6 ref="gsm">GSM nr*</h6>
             <input v-model="member.gsm" name="gsm" type="tel" required/>
           </div>
@@ -63,13 +65,13 @@
 
       <div class="row">
         <div class="large-block">
-          <div class="data padded-block">
+          <div class="data large-font padded-block">
             <h6 ref="street">Straat*</h6>
             <input v-model="member.street" name="street" type="text" required/>
           </div>
         </div>
         <div class="small-block">
-          <div class="data padded-block">
+          <div class="data large-font padded-block">
             <h6 ref="houseNr">Huis nr*</h6>
             <input v-model="member.houseNr" name="houseNr" type="number" required/>
           </div>
@@ -78,13 +80,13 @@
 
       <div class="row">
         <div class="large-block">
-          <div class="data padded-block">
+          <div class="data large-font padded-block">
             <h6 ref="city">Stad*</h6>
             <input v-model="member.city" name="city" type="text" required/>
           </div>
         </div>
         <div class="small-block">
-          <div class="data padded-block">
+          <div class="data large-font padded-block">
             <h6 ref="postcode">Postcode*</h6>
             <input v-model="member.postcode" name="postcode" type="number" required/>
           </div>
@@ -92,9 +94,9 @@
       </div>
 
       <div class="row">
-        <div class="smaller-block" ref="dopen"><label for="">Dopen*</label></div> <!-- Dopen -->
-        <div class="larger-block">
-          <div id="dopen" class="padded-block">
+        <div class="large-font smaller-block" ref="dopen"><label for="">Dopen*</label></div> <!-- Dopen -->
+        <div class="large-font larger-block">
+          <div id="dopen" class="large-font padded-block">
             <label><input type="radio" value="Ja" name="dopen(ja)" v-model="member.dopen" required/>Ja</label>
             <label><input type="radio" value="Nee" name="dopen(nee)" v-model="member.dopen" required/>Nee</label>
           </div>
@@ -107,10 +109,12 @@
           <input v-model="member.privacy" type="checkbox" required/>
         </div>
         <div class="largest-block">
-          <div class="data padded-block" ref="privacy">
-            Ik ga akkoord met de algemene voorwaarden en het 
-            <b><a href="/assets/pdfs/privacy_policy.pdf" target="_blank">Privacybeleid</a></b> 
-            van Technica*
+          <div class="data large-font padded-block" ref="privacy">
+            <p>
+              Ik ga akkoord met de algemene voorwaarden en het 
+              <b><a href="/assets/pdfs/privacy_policy.pdf" target="_blank">Privacybeleid</a></b> 
+              van Technica*
+            </p>
           </div>
         </div>
       </div>
@@ -118,7 +122,7 @@
       <div class="row">
         <!-- Confirm -->
         <div class="full-block">
-          <button @click="submitForm" type="submit" class="call-to-action">Verstuur</button>
+          <button @click="submitForm" type="submit" class="large-font call-to-action">Verstuur</button>
         </div>
       </div>
     </form>
@@ -222,7 +226,7 @@
 </script>
 
 <style scoped>
-  #main { max-width: 512px; }
+  #main { max-width: 1024px; min-width: 256px; }
 
   form {
     display: flex;
@@ -231,6 +235,7 @@
   }
 
   .row > * { display: inline-block; }
+  .large-font, .large-font > * { font-size: 1.2em; text-align: left; }
 
   .smallest-block > * { transform: translateY(-12px); }
   .padded-block { padding: 8px; }
@@ -240,24 +245,28 @@
     margin-left: 1px;
     margin-bottom: 2px;
   }
-  .data > input { width: 100%; }
-
-  #dopen label { display: inline-block; width: 50%; }
-
-  .not-filled { color: crimson !important; }
-
-  @media screen and (min-width: 512px) {
-    .full-block     { width: 512px; }
-    .largest-block  { width: 448px; }
-    .larger-block   { width: 384px; }
-    .large-block    { width: 320px; }
-    .medium-block   { width: 256px; }
-    .small-block    { width: 192px; }
-    .smaller-block  { width: 128px; }
-    .smallest-block { width: 64px; }
+  .data > input {
+    width: 100%;
   }
 
-  @media screen and (max-width: 512px) {
+  #dopen label {
+    text-align: center;
+    display: inline-block;
+    width: 50%;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .full-block     { width: 1024px; }
+    .largest-block  { width: 896px; }
+    .larger-block   { width: 768px; }
+    .large-block    { width: 640px; }
+    .medium-block   { width: 512px; }
+    .small-block    { width: 384px; }
+    .smaller-block  { width: 256px; }
+    .smallest-block { width: 128px; }
+  }
+
+  @media screen and (max-width: 1024px) {
     .row { width: 100%; }
     .full-block     { width: 100%; }
     .largest-block  { width: 87.5%; }
@@ -270,6 +279,7 @@
   }
 
   @media screen and (max-width: 256px) {
+    .row { width: 256px;}
     .full-block     { width: 256px; }
     .largest-block  { width: 224px; }
     .larger-block   { width: 192px; }

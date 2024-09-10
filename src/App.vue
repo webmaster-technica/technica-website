@@ -1,6 +1,6 @@
 <template>
   <app-header/>
-  <div id="root">
+   <div id="root">
     <login-modal v-if="showLoginModal" @toggleLoginModal="toggleLoginModal"/>
     <router-view/>
   </div>

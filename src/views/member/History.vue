@@ -374,17 +374,17 @@
 <style scoped>
   h4 { color: #353535; }
   .title { 
-    font-size: x-large;
+    font-size: 1.8em;
     color: #115F9A;
     font-weight: bold;
   }
-  .sub-title { font-size: large; }
+  .sub-title { font-size: 1.5em; }
   .sub-title > span { font-weight: bold; }
   .top-shift { margin-top: -96px; }
   .bottom-shift { margin-bottom: 48px; }
 
   #search > * { display: inline-flex; }
-  #search .input-button-field { width: 260px; padding: 8px; }
+  #search .input-button-field { width: 408px; padding: 8px; }
   #search #checkbox {
     width: 96x;
     padding: 8px;
@@ -392,7 +392,7 @@
 
   .persons { display: inline-flex; }
   .person-wrap { 
-    width: 296px;
+    width: 392px;
     padding: 8px;
     margin: 8px;
     background-image: url("../../assets/images/grunge.png");

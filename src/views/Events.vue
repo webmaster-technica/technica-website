@@ -30,9 +30,9 @@
   <div id="main">
 
     <div v-if="events"> <!-- .length -->
-      <iframe v-if="callanderSize.large"        src="https://calendar.google.com/calendar/embed?height=666&wkst=2&ctz=Europe%2FBrussels&bgcolor=%23ffffff&showTitle=0&showPrint=0&showCalendars=0&showTz=0&hl=nl&src=Y181ZDJmMzJmN2Y1NmZiZWRhNjYzZTQwMjAxYzJmZWQxNWRmZjdhMDM4YWYxNjdmYzJkZDNjMzRiNmMxMDE4MTIwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285F4" style="border-width:0" width="960" height="640" frameborder="0" scrolling="no"></iframe>
-      <iframe v-else-if="callanderSize.medium"  src="https://calendar.google.com/calendar/embed?height=480&wkst=2&ctz=Europe%2FBrussels&bgcolor=%23ffffff&showTitle=0&showPrint=0&showCalendars=0&showTz=0&hl=nl&mode=MONTH&src=Y181ZDJmMzJmN2Y1NmZiZWRhNjYzZTQwMjAxYzJmZWQxNWRmZjdhMDM4YWYxNjdmYzJkZDNjMzRiNmMxMDE4MTIwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285F4" style="border-width:0" width="640" height="480" frameborder="0" scrolling="no"></iframe>
-      <iframe v-else                            src="https://calendar.google.com/calendar/embed?height=320&wkst=2&ctz=Europe%2FBrussels&bgcolor=%23ffffff&showTitle=0&showPrint=0&showCalendars=0&showTz=0&hl=nl&mode=WEEK&showTabs=0&src=Y181ZDJmMzJmN2Y1NmZiZWRhNjYzZTQwMjAxYzJmZWQxNWRmZjdhMDM4YWYxNjdmYzJkZDNjMzRiNmMxMDE4MTIwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285F4" style="border-width:0" width="320" height="320" frameborder="0" scrolling="no"></iframe>
+      <iframe v-if="callanderSize.large"        src="https://calendar.google.com/calendar/embed?height=666&wkst=2&ctz=Europe%2FBrussels&bgcolor=%23ffffff&showTitle=0&showPrint=0&showCalendars=0&showTz=0&hl=nl&src=Y181ZDJmMzJmN2Y1NmZiZWRhNjYzZTQwMjAxYzJmZWQxNWRmZjdhMDM4YWYxNjdmYzJkZDNjMzRiNmMxMDE4MTIwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285F4" style="border-width:0" width="1200" height="800" frameborder="0" scrolling="no"></iframe>
+      <iframe v-else-if="callanderSize.medium"  src="https://calendar.google.com/calendar/embed?height=480&wkst=2&ctz=Europe%2FBrussels&bgcolor=%23ffffff&showTitle=0&showPrint=0&showCalendars=0&showTz=0&hl=nl&mode=MONTH&src=Y181ZDJmMzJmN2Y1NmZiZWRhNjYzZTQwMjAxYzJmZWQxNWRmZjdhMDM4YWYxNjdmYzJkZDNjMzRiNmMxMDE4MTIwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285F4" style="border-width:0" width="800" height="540" frameborder="0" scrolling="no"></iframe>
+      <iframe v-else                            src="https://calendar.google.com/calendar/embed?height=320&wkst=2&ctz=Europe%2FBrussels&bgcolor=%23ffffff&showTitle=0&showPrint=0&showCalendars=0&showTz=0&hl=nl&mode=WEEK&showTabs=0&src=Y181ZDJmMzJmN2Y1NmZiZWRhNjYzZTQwMjAxYzJmZWQxNWRmZjdhMDM4YWYxNjdmYzJkZDNjMzRiNmMxMDE4MTIwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285F4" style="border-width:0" width="540" height="320" frameborder="0" scrolling="no"></iframe>
       <!-- On small screen -->
       <!-- <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FBrussels&bgcolor=%23ffffff&showTitle=0&showPrint=0&showTz=0&showCalendars=0&mode=AGENDA&showTabs=0&showDate=0&showNav=0&src=Y19iYzgyMjU0OWI5OTVhZmVkN2MzMzBkZjc0YTRlYzJmNmQ3ZTFjMGRjMGE2ZDA5NjViNTAxOTNhNzg5OTIwOTRlQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285F4" class="calendar" frameborder="0" scrolling="no"></iframe> -->
     </div>
@@ -114,9 +114,8 @@
 
       changeCalanderSize() {
         const windowWidth = window.innerWidth
-        this.callanderSize.large = windowWidth > 960
-        this.callanderSize.medium = 960 >= windowWidth && windowWidth > 640
-        this.columnSize = windowWidth > 1008 ? 3 : windowWidth > 672 ? 2 : 1
+        this.callanderSize.large = windowWidth > 1240
+        this.callanderSize.medium = 1240 >= windowWidth && windowWidth > 830
       },
 
       async confirm() {

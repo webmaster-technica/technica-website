@@ -247,10 +247,10 @@
 
 <style scoped>
   h4 { color: #ffffff; font-family: 'Cabin Condensed', sans-serif; }
-  .title { font-size: x-large; font-weight: bold; }
-  .sub-title { font-size: large; }
-  .top-shift { margin-top: -96px; }
-  .bottom-shift { margin-bottom: 48px; }
+  .title { font-size: 1.8em; font-weight: bold; padding: 8px; }
+  .sub-title { font-size: 1.5; }
+  .top-shift { margin-top: -130px; }
+  .bottom-shift { margin-bottom: 42px; }
   
   a:link { color: #ffffff; }    /* unvisited link */
   a:visited { color: #ffffff; } /* visited link */
@@ -259,32 +259,30 @@
 
   .person { display: inline-flex; }
   .person-wrap {
-    width: 320px;
+    width: 392px;
     padding: 8px;
     transition: all 0.25s ease-in-out;
     cursor: pointer;
   }
   .person-wrap:hover {
-    width: 324px;
+    width: 400px;
     padding: 4px;
   }
 
   .bottom-card {
     height: 18px;
-    margin-top: -10px;
-    padding-top: 10px;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     background-image: url("../../assets/images/grunge.png");
   }
   .info-card {
     width: 100%;
-    height: 180px;
+    height: 200px;
   }
   .info-card > * {
     text-align: left;
     padding: 4px 8px;
-    font-size: 16px;
+    font-size: 1.2em;
   }
 
   /* Overwrite modal */
