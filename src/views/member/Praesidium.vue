@@ -1,15 +1,15 @@
 <template>
   <!-- The model is used to edit data -->
-  <edit-modal v-if="EditModal.show" :title="getTitle()" @closeEditModal="toggleEditModal">
-    <!-- Input fields -->
+  <!-- <edit-modal v-if="EditModal.show" :title="getTitle()" @closeEditModal="toggleEditModal">
+    <!- Input fields ->
     <template v-slot:inputs>
-      <!-- Name -->
+      <!- Name ->
       <input class="column-2" v-model="praesidium.name" type="text" placeholder="Voornaam" required/>
       <input class="column-2" v-model="praesidium.surname" type="text" placeholder="Achternaam" required/>
       <input class="column-2" v-model="praesidium.nickname" type="text" placeholder="Bijnaam" required/>
-      <!-- Drink -->
+      <!- Drink ->
       <input class="column-2" v-model="praesidium.drink" type="text" placeholder="Drankje" required/>
-      <!-- Roles -->
+      <!- Roles ->
       <select class="column-2" v-model="praesidium.role">
         <option disabled selected value="">Functie</option>
         <template v-for="role in RoleEnum">
@@ -22,16 +22,16 @@
           <option v-if="role.value <= 20 && role.value != -1" :value="role">{{ role.name }}</option>
         </template>
       </select>
-      <!-- Study -->
+      <!- Study ->
       <input class="column-2" v-model="praesidium.course" type="text" placeholder="Studierichting/Job" required/>
       <input class="column-2" v-model="praesidium.division" type="text" placeholder="Deelrichting" required/>
       <input class="column-2" v-model="praesidium.school" type="text" placeholder="School/Bedrijf" required/>
-      <!-- LinkedIn -->
+      <!- LinkedIn ->
       <input class="column-2" v-model="praesidium.linkedin" type="text" placeholder="LinkedIn" required/>
-      <!-- Text -->
+      <!- Text ->
       <textarea class="column-1" v-model="praesidium.text" placeholder="Tekst" required></textarea>
     </template>
-    <!-- Image field -->
+    <!- Image field ->
     <template v-slot:image>
       <div class="column-2">
         <img :src="praesidium.picture" v-if="praesidium.picture" alt="">
@@ -44,89 +44,73 @@
         <input @change="onFileChange($event, true)" id="picture_alt" type="file" accept="image/*" required/>
       </div>
     </template>
-    <!-- Buttons -->
+    <!- Buttons ->
     <template v-slot:buttons>
       <div class="column-2"><button @click="confirm()">{{ getTitle() }}</button></div>
       <div class="column-2" v-if="EditModal.existingItem">
         <button @click="delPraesidium($event, praesidium.id, `${praesidium.name}_${praesidium.surname}`)">Delete</button>
       </div>
     </template>
-  </edit-modal>
+  </edit-modal> -->
 
   <!-- The main view -->
   <div id="main">
-    <div v-if="grid.length">
-      <div v-for="lid in grid" :key="lid.id" class="person">
+    <div v-if="praesidia.length">
+      <div v-for="lid in praesidia" :key="lid.id" class="person">
 
         <!-- Praesidium Item -->
+         <!-- Onclick: gridItem.linkedin -->
         <div v-if="lid.name != ''">
-          <div class="person-wrap" @dblclick="changeData($event, lid)" @click="showData($event, lid)">
-            <hover-image :image="lid.picture" :image-alt="lid.picture_alt"></hover-image>
+          <div class="person-wrap" @dblclick="changeData($event, lid)">
+            <!-- Set "lid.linkedin" to "true" to edit -->
+            <a v-if="lid.linkedin" :href="lid.linkedin" target="_blank">
+              <hover-image :image="lid.picture" :image-alt="lid.picture_alt"></hover-image>
+            </a>
+            <hover-image v-else :image="lid.picture" :image-alt="lid.picture_alt"></hover-image>
             <h4 class="title top-shift">{{ lid.name }} {{ lid.surname }}</h4>
             <h4 class="sub-title bottom-shift">
               {{ lid.role.name }}
               <template v-if="lid.secondRole.value != -1"> & {{ lid.secondRole.name }}</template>
             </h4>
-          </div>
-        </div>
-
-        <!-- Data Row -->
-        <div v-else>
-          <div class="data-row">
-            <div v-if="gridItem">
-              <image-text-block imageAlign="left">
-                <template v-slot:image>
-                  <hover-image :image="gridItem.picture" :image-alt="gridItem.picture_alt" class="data-image"></hover-image>
-                </template>
-                <template v-slot:text>
-                  <h4 v-if="columnSize > 1">
-                    <span class="title">
-                      {{ gridItem.name }} {{ gridItem.surname }}
-                      <span v-if="gridItem.nickname"> ({{ gridItem.nickname }})</span>
-                    </span>
-                    <span v-if="gridItem.linkedin" :href="gridItem.linkedin">
-                      <font-awesome-icon class="icon" :icon="{ prefix: 'fab', iconName: 'linkedin' }"/>
-                    </span>
-                  </h4>
-                  <h6 class="sub-title">
-                    <b v-if="columnSize > 1">{{ gridItem.role.name }}</b>
-                    <span v-if="gridItem.role.mail">
-                      <span v-if="columnSize > 1"> - </span>
-                      <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'envelope' }"/>
-                      <span :href="'mailto:' + gridItem.role.mail">{{ gridItem.role.mail }}</span>
-                    </span>
-                  </h6>
-                  <h6 class="sub-title" v-if="gridItem.secondRole.value != -1">
-                    <b v-if="columnSize > 1">{{ gridItem.secondRole.name }}</b>
-                    <span v-if="gridItem.secondRole.mail">
-                      <span v-if="columnSize > 1"> - </span>
-                      <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'envelope' }"/>
-                      <span :href="'mailto:' + gridItem.mail">{{ gridItem.secondRole.mail }}</span>
-                    </span>
-                  </h6>
-                  <div>
-                    <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'graduation-cap' }"/>
-                    <b>{{ gridItem.course }}</b>
-                    <span v-if="gridItem.division">: {{ gridItem.division }}</span>
-                    <span v-if="gridItem.school">, {{ gridItem.school }}</span>
-                  </div>
-                  <div>
-                    <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'beer' }"/>
-                    <span>{{ gridItem.drink }}</span>
-                  </div>
-                  <div><span>{{ gridItem.text }}</span></div>
-                </template>
-              </image-text-block>
+            <div v-if="lid.role.mail" class="bottom-card info-card">
+              <!-- Mail 1 -->
+              <h6 class="sub-title">
+                <span v-if="lid.role.mail">
+                  <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'envelope' }"/>&nbsp;
+                  <span :href="'mailto:' + lid.role.mail">{{ lid.role.mail }}</span>
+                </span>
+              </h6>
+              <!-- Mail 2 -->
+              <h6 class="sub-title" v-if="lid.secondRole.value != -1">
+                <span v-if="lid.secondRole.mail">
+                  <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'envelope' }"/>&nbsp;
+                  <span :href="'mailto:' + lid.mail">{{ lid.secondRole.mail }}</span>
+                </span>
+              </h6>
+              <!-- Course -->
+              <div v-if="lid.course">
+                <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'graduation-cap' }"/>&nbsp;
+                <b>{{ lid.course }}</b>
+                <span v-if="lid.division">:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ lid.division }}</span>
+                <span v-if="lid.school">, {{ lid.school }}</span>
+              </div>
+              <!-- Drink -->
+              <div v-if="lid.drink">
+                <font-awesome-icon class="icon" :icon="{ prefix: 'fas', iconName: 'beer' }"/>&nbsp;
+                <span>{{ lid.drink }}</span>
+              </div>
+              <!-- Text -->
+              <div><span>{{ lid.text }}</span></div>
             </div>
+            <div v-else class="bottom-card"></div>
           </div>
         </div>
-
       </div>
     </div>
     <div v-else><loading-bar :path="path"></loading-bar></div>
 
     <!-- Add button -->
-    <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button>
+    <!-- <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button> -->
   </div>
 </template>
 
@@ -153,16 +137,9 @@
 
         path: 'praesidium',
         EditModal: { show: false, existingItem: false, title: '' },
-
-        grid: [],
-        gridItem: null,
-        columnSize: 0,
       };
     },
-    async created() {
-      await this.getPraesidium()
-      this.applyRouteID(this.id)
-    },
+    async created() { await this.getPraesidium() },
     mounted() { this.$nextTick(() => { window.addEventListener('resize', this.changeGrid); }) },
     beforeDestroy() { window.removeEventListener('resize', this.changeGrid); },
     methods: {
@@ -176,7 +153,6 @@
         this.changeColumnSize()
         const data = await getData(this.path, [], 'role')
         data.forEach((doc) => { this.praesidia.push(new FirePraesidium(doc.id, doc.data())); })
-        this.setGrid()
       },
       async postPraesidium() {
         // Add data remotely
@@ -212,97 +188,6 @@
       changeColumnSize() {
         const windowWidth = window.innerWidth
         this.columnSize = windowWidth > 1008 ? 3 : windowWidth > 672 ? 2 : 1
-      },
-
-      // Grid layout
-      setGrid() {
-        // Get an array
-        this.grid = []
-        this.grid = this.praesidia.slice()
-        const gridSize = this.grid.length
-
-        // Find indexes at which data blocks should be inserted
-        let inserts = []
-        for (let index = 0; index < gridSize; index += this.columnSize) { inserts.push(index + this.columnSize) }
-
-        // Apply insertions in reverse order so they don't intervene with each other
-        inserts.reverse()
-        inserts.forEach(insertion => {this.grid.splice(Math.min(insertion, gridSize), 0, new Praesidium())})
-      },
-      changeGrid() {
-        // Change the amount of columns
-        this.changeColumnSize()
-
-        // Change the grid layout
-        this.setGrid()
-
-        if (this.gridItem && this.gridItem.name != 0) {
-          // There was a data row shown before the grid change
-          this.showData(null, this.gridItem)
-        } else {
-          // No data was shown
-        }
-      },
-      delay(time, callback) { setTimeout(function(){ callback() }.bind(this), time); },
-      showData(event, lid) {
-        // Get index of selected item
-        const itemIndex = this.praesidia.findIndex(gridItem => gridItem.id == lid.id)
-        const rowIndex = Math.floor(itemIndex / this.columnSize)
-
-        if (this.gridItem == null) {
-          // Show data (reveal row)
-          this.gridItem = lid
-          const rows = document.querySelectorAll('.data-row');
-          this.delay(100, () => {rows[rowIndex].classList.add('visible');})
-
-        } else if (this.gridItem.id != lid.id) {
-          // Show new data
-          const rows = document.querySelectorAll('.data-row');
-          // Close old window
-          rows.forEach(row => { if (row.classList.contains('visible')) row.classList.remove('visible'); });
-          // Open new window
-          const newData = lid
-
-          // Execute code after 1.1 second (1100 ms)
-          this.delay(1100, () => {
-            // We first need to make the object null so the image can rerender
-            this.gridItem = null
-            
-            this.delay(100, () => {
-              this.gridItem = newData
-              rows[rowIndex].classList.add('visible');
-            })
-          })
-        } else {
-          // Hide old data
-          const rows = document.querySelectorAll('.visible');
-          rows.forEach(row => { if (row.classList.contains('visible')) row.classList.remove('visible'); });
-          this.delay(1100, () => {this.gridItem = null})
-        }
-      },
-
-      // Apply route ID
-      applyRouteID(id) {
-        if (id) {
-          console.log(id)
-          // Find the value
-          const index = this.praesidia.findIndex(gridItem => {
-            const lowerID = String(id).toLowerCase()
-            // Try first name
-            if (gridItem.name.toLowerCase() == lowerID) return true
-            // Try last name
-            if (gridItem.surname.toLowerCase() == lowerID) return true
-            // Try first and last name (without space)
-            if ((gridItem.name + gridItem.surname).toLowerCase() == lowerID) return true
-            // Try first and last name (with space)
-            if ((gridItem.name + ' ' + gridItem.surname).toLowerCase() == lowerID) return true
-            // Try role
-            if (gridItem.role.name.toLowerCase() == lowerID) return true
-          })
-
-          // If the ID is valid (index != -1) then continue with value
-          if (index != -1) { this.showData(null, this.praesidia[index]) }
-        }
       },
       
       // Change data modal
@@ -383,6 +268,10 @@
     width: 324px;
     padding: 4px;
   }
+  .person-wrap > img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
 
   /* Overwrite modal */
   .person .image-column > * { padding-right: 8px; }
@@ -392,24 +281,24 @@
   }
   .person .text-column h4, .person .text-column h6, .person .text-column div { padding-left: 8px; }
 
-  .data-row {
-    height: 0px;
-    width: 1008px;
-    background-color: #115F9A;
-    transition: height 1s ease-in-out;
-    overflow: hidden;
+  .bottom-card {
+    height: 18px;
+    margin-top: -10px;
+    padding-top: 10px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-image: url("../../assets/images/grunge.png");
   }
-  .data-row > * { visibility: visible; }
-  .data-row > div { display: flex; padding: 8px; }
-  .data-row.visible { height: 336px; }
-  .data-row svg { margin-right: 4px; }
 
-  @media screen and (max-width: 1008px) {
-    .data-row { width: 672px; }
-    .data-row.visible { height: 160px; }
+  .info-card {
+    width: 100%;
+    height: 180px;
   }
-  @media screen and (max-width: 672px) {
-    .data-row { width: 336px; }
-    .data-row.visible { height: 160px; }
+
+  .info-card > * {
+    text-align: left;
+    padding: 4px 8px;
+    font-size: 16px;
   }
+
 </style>

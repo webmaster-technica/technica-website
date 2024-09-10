@@ -27,7 +27,7 @@
   <!-- Events -->
   <div class="row">
     <div id="activities">
-      <h2 id="left-align"><b>Activiteiten</b></h2>
+      <h2 id="left-align"><b>Activiteiten (in bewerking)</b></h2>
     </div>
   </div>
   <!-- Toon hetvolgende feetsje, soc event & cantus -->
