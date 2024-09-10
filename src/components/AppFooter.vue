@@ -24,7 +24,7 @@
     </div>
     &emsp;
     <div class="footer-text">
-      <h6>Website door <div class="hover"><a href="https://www.linkedin.com/in/thomas-kramp-0bb52220a/">Thomas Kramp</a></div></h6>
+      <h6>Website door <div class="hover"><a href="https://www.linkedin.com/in/thomas-kramp-3s7m8/">Thomas Kramp</a></div></h6>
     </div>
   </footer>
 </template>
