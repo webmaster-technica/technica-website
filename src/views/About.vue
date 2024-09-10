@@ -38,8 +38,6 @@
 
   <!-- Stamcafé  -->
   <div class="row">
-          
-    
     <div id="cafe">
       <image-text-block imageAlign="right">
         <template v-slot:image>
@@ -59,19 +57,41 @@
     </div>
   </div>
 
-  <!-- Campus  -->
+  <!-- Campus Hallen  -->
   <div class="row">
-    <div id="campus">
+    <div id="campus-hallen">
       <image-text-block imageAlign="left">
         <template v-slot:image>
-          <GMapMap style="pointer-events: none" :center="schoolMarker" :zoom="17" map-type-id="hybrid" :options='options'>
-            <GMapMarker :key="1" :position="schoolMarker"/>
+          <GMapMap style="pointer-events: none" :center="schoolMarker1" :zoom="17" map-type-id="hybrid" :options='options'>
+            <GMapMarker :key="1" :position="schoolMarker1"/>
+          </GMapMap>
+        </template>
+        <template v-slot:text>
+          <h2 class="block-title">Campus Hallen</h2>
+          <p class="block-text">
+            
+          </p>
+        </template>
+      </image-text-block>
+    </div>
+  </div>
+
+  <!-- Campus Ellerman  -->
+  <div class="row">
+    <div id="campus-ellerman">
+      <image-text-block imageAlign="right">
+        <template v-slot:image>
+          <GMapMap style="pointer-events: none" :center="schoolMarker2" :zoom="17" map-type-id="hybrid" :options='options'>
+            <GMapMarker :key="1" :position="schoolMarker2"/>
           </GMapMap>
         </template>
         <template v-slot:text>
           <h2 class="block-title">Campus Ellerman</h2>
           <p class="block-text">
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+            fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+            fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+            fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
           </p>
         </template>
       </image-text-block>
@@ -86,7 +106,8 @@
   data() {
       return {
         cafeMarker: {lat: 51.2208291, lng: 4.4028461},
-        schoolMarker: {lat: 51.2298798, lng: 4.4177409},
+        schoolMarker1: {lat: 51.2295239, lng: 4.435822},
+        schoolMarker2: {lat: 51.2298798, lng: 4.4177409},
         options: { 
           disableDefaultUI: true, keyboardShortcuts: false, clickableLabels: false, clickableIcons: false,
           zoomControl: false, mapTypeControl: false, scaleControl: false, streetViewControl: false, rotateControl: false, fullscreenControl: false
@@ -130,12 +151,19 @@
   /* Overwrite modal */
   .vue-map-hidden { display: none;}
 
-  #cafe h2, #cafe p, #campus h2, #campus p { padding: 0 32px 0 32px; }
+  .row h2, .row p { padding: 0 32px 0 32px; }
+
   #cafe { background-image: linear-gradient(rgba(0, 0, 0, 0.69), rgba(0, 0, 0, 0.69)), url('../assets/images/background/t_vervolg.jpg'); }
   #cafe h2 { color: #ffffff; }
   #cafe p { color: #ffffff; }
 
-  #campus { background-image: linear-gradient(rgba(255, 255, 255, 0.37), rgba(255, 255, 255, 0.37)), url('../assets/images/background/campus_ellerman.jpg'); }
+  #campus-hallen { background-image: linear-gradient(rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), url('../assets/images/background/campus_hallen.jpg'); }
+  #campus-hallen h2 { color: #353535; }
+  #campus-hallen p { color: #353535; }
+
+  #campus-ellerman { background-image: linear-gradient(rgba(0, 0, 0, 0.37), rgba(0, 0, 0, 0.37)), url('../assets/images/background/campus_ellerman.jpg'); }
+  #campus-ellerman h2 { color: #ffffff; }
+  #campus-ellerman p { visibility: hidden; }
 
   @media screen and (max-width: 800px) {
     .paraaf.left-of-text { visibility: collapse; }
