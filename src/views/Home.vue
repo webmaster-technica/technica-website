@@ -98,7 +98,7 @@
   #praeses span { color: #35597E; }
 
   #activities {
-    height: 800px;
+    height: 480px;
     color: #fad900;
     padding: 64px 96px;
     background-size: cover;

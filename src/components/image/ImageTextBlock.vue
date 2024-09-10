@@ -22,8 +22,10 @@
 
   .image-column > :nth-child(1) { 
     width: 320px;
-    height: 320px;
+    border-radius: 8px;
   }
+
+  .vue-map-container { height: 320px; }
 
   .image-text {
     text-align: left;
