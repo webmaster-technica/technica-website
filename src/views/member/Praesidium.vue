@@ -1,15 +1,15 @@
 <template>
   <!-- The model is used to edit data -->
-  <!-- <edit-modal v-if="EditModal.show" :title="getTitle()" @closeEditModal="toggleEditModal">
-    <!- Input fields ->
+  <edit-modal v-if="state.DEBUG && EditModal.show" :title="getTitle()" @closeEditModal="toggleEditModal">
+    <!-- Input fields -->
     <template v-slot:inputs>
-      <!- Name ->
+      <!-- Name -->
       <input class="column-2" v-model="praesidium.name" type="text" placeholder="Voornaam" required/>
       <input class="column-2" v-model="praesidium.surname" type="text" placeholder="Achternaam" required/>
       <input class="column-2" v-model="praesidium.nickname" type="text" placeholder="Bijnaam" required/>
-      <!- Drink ->
+      <!-- Drink -->
       <input class="column-2" v-model="praesidium.drink" type="text" placeholder="Drankje" required/>
-      <!- Roles ->
+      <!-- Roles -->
       <select class="column-2" v-model="praesidium.role">
         <option disabled selected value="">Functie</option>
         <template v-for="role in RoleEnum">
@@ -22,16 +22,16 @@
           <option v-if="role.value <= 20 && role.value != -1" :value="role">{{ role.name }}</option>
         </template>
       </select>
-      <!- Study ->
+      <!-- Study -->
       <input class="column-2" v-model="praesidium.course" type="text" placeholder="Studierichting/Job" required/>
       <input class="column-2" v-model="praesidium.division" type="text" placeholder="Deelrichting" required/>
       <input class="column-2" v-model="praesidium.school" type="text" placeholder="School/Bedrijf" required/>
-      <!- LinkedIn ->
+      <!-- LinkedIn -->
       <input class="column-2" v-model="praesidium.linkedin" type="text" placeholder="LinkedIn" required/>
-      <!- Text ->
+      <!-- Text -->
       <textarea class="column-1" v-model="praesidium.text" placeholder="Tekst" required></textarea>
     </template>
-    <!- Image field ->
+    <!-- Image field -->
     <template v-slot:image>
       <div class="column-2">
         <img :src="praesidium.picture" v-if="praesidium.picture" alt="">
@@ -44,14 +44,14 @@
         <input @change="onFileChange($event, true)" id="picture_alt" type="file" accept="image/*" required/>
       </div>
     </template>
-    <!- Buttons ->
+    <!-- Buttons -->
     <template v-slot:buttons>
       <div class="column-2"><button @click="confirm()">{{ getTitle() }}</button></div>
       <div class="column-2" v-if="EditModal.existingItem">
         <button @click="delPraesidium($event, praesidium.id, `${praesidium.name}_${praesidium.surname}`)">Delete</button>
       </div>
     </template>
-  </edit-modal> -->
+  </edit-modal>
 
   <!-- The main view -->
   <div id="main">
@@ -62,8 +62,7 @@
          <!-- Onclick: gridItem.linkedin -->
         <div v-if="lid.name != ''">
           <div class="person-wrap" @dblclick="changeData($event, lid)">
-            <!-- Set "lid.linkedin" to "true" to edit -->
-            <a v-if="lid.linkedin" :href="lid.linkedin" target="_blank">
+            <a v-if="!state.DEBUG && lid.linkedin" :href="lid.linkedin" target="_blank">
               <hover-image :image="lid.picture" :image-alt="lid.picture_alt"></hover-image>
             </a>
             <hover-image v-else :image="lid.picture" :image-alt="lid.picture_alt"></hover-image>
@@ -110,7 +109,7 @@
     <div v-else><loading-bar :path="path"></loading-bar></div>
 
     <!-- Add button -->
-    <!-- <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button> -->
+    <corner-button v-if="state.DEBUG" title="Add" icon="plus" @confirm="changeData($event)"></corner-button>
   </div>
 </template>
 

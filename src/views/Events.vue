@@ -1,8 +1,8 @@
 <template>
   <!-- The model is used to edit data -->
-  <!-- <edit-modal v-if="EditModal.show" :title="EditModal.title" @closeEditModal="toggleEditModal" @confirm="confirm">
+  <edit-modal v-if="state.DEBUG && EditModal.show" :title="EditModal.title" @closeEditModal="toggleEditModal" @confirm="confirm">
     <template v-slot:inputs>
-      <!- All input fields ->
+      <!-- All input fields -->
       <input class="column-2" v-model="event.name" type="text" placeholder="Naam" required/>
       <input class="column-2" v-model="event.location" type="Location" placeholder="Locatie" required/>
       <input class="column-2" v-model="event.date" type="date" placeholder="Datum" required/>
@@ -17,14 +17,14 @@
       <textarea v-model="event.text" placeholder="Tekst" required></textarea>
     </template>
     <template v-slot:image>
-      <!- Image field ->
+      <!-- Image field -->
       <div class="image-div">
         <img :src="event.picture" v-if="event.picture" alt="">
         <label for="picture" class="button-label">Banner</label>
         <input @change="onFileChange" id="picture" type="file" accept="image/*" required/>
       </div>
     </template>
-  </edit-modal> -->
+  </edit-modal>
   
   <!-- The main view -->
   <div id="main">
@@ -39,7 +39,7 @@
     <div v-else><loading-bar :path="path"></loading-bar></div>
 
     <!-- Add button -->
-    <!-- <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button> -->
+    <corner-button v-if="state.DEBUG" title="Add" icon="plus" @confirm="changeData($event)"></corner-button>
   </div>
   <!--<router-link :to="{ name: 'EventDetails', params: { id: event.name } }">
     <h3>{{ event.name }} - {{ event.partner }}</h3>

@@ -1,16 +1,16 @@
 <template>
   <!-- The model is used to edit data -->
-  <!-- <edit-modal v-if="EditModal.show" :title="getTitle()" @closeEditModal="toggleEditModal">
-    <!- Input fields ->
+  <edit-modal v-if="state.DEBUG && EditModal.show" :title="getTitle()" @closeEditModal="toggleEditModal">
+    <!-- Input fields -->
     <template v-slot:inputs>
-      <!- Name ->
+      <!-- Name -->
       <input class="column-2" v-model="partner.name" type="text" placeholder="Naam" required/>
-      <!- website ->
+      <!-- website -->
       <input class="column-2" v-model="partner.website" type="text" placeholder="Website-Link" required/>
-      <!- index ->
+      <!-- index -->
       <input class="column-2" v-model="partner.index" type="number" placeholder="Index" v-if="EditModal.existingItem" required/>
     </template>
-    <!- Image field ->
+    <!-- Image field -->
     <template v-slot:image>
       <div class="column-2">
         <img :src="partner.logo" v-if="partner.logo">
@@ -18,31 +18,31 @@
         <input @change="onFileChange($event)" id="picture" type="file" accept="image/*" required/>
       </div>
     </template>
-    <!- Buttons ->
+    <!-- Buttons -->
     <template v-slot:buttons>
       <div class="column-2"><button @click="confirm()">{{ getTitle() }}</button></div>
       <div class="column-2" v-if="EditModal.existingItem">
         <button @click="delPartner($event, partner.id, partner.name)">Delete</button>
       </div>
     </template>
-  </edit-modal> -->
+  </edit-modal>
 
   <!-- The main view -->
   <div id="main">
     <div v-if="partners.length">
       <div v-for="partnerItem in partners" :key="partnerItem.id" class="partner">
         <div class="partner-wrap" @click="changeData($event, partnerItem)">
-          <a :href="partnerItem.website" target="_blank">
+          <img v-if="state.DEBUG" :src="partnerItem.logo">
+          <a   v-else :href="partnerItem.website" target="_blank">
             <img :src="partnerItem.logo">
           </a>
-          <!-- <img :src="partnerItem.logo"> -->
         </div>
       </div>
     </div>
     <div v-else><loading-bar :path="path"></loading-bar></div>
 
     <!-- Add button -->
-    <!-- <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button> -->
+    <corner-button v-if="state.DEBUG" title="Add" icon="plus" @confirm="changeData($event)"></corner-button>
   </div>
 </template>
 

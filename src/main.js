@@ -35,7 +35,16 @@ library.add(
   faTrashCan
 )
 
-createApp(App).use(store).use(router)
-.use(VueGoogleMaps, { load: { key: 'AIzaSyCSxy1OAmiwSOHzV3ZKVhLdRLzc1wqzV-g' } })
-.component('font-awesome-icon', FontAwesomeIcon)
-.mount('#app')
+const APP = createApp(App)
+
+APP.use(store)
+APP.use(router)
+APP.use(VueGoogleMaps, { load: { key: 'AIzaSyCSxy1OAmiwSOHzV3ZKVhLdRLzc1wqzV-g' } })
+
+APP.config.globalProperties.state = {
+  DEBUG: false
+} 
+
+APP.component('font-awesome-icon', FontAwesomeIcon)
+
+APP.mount('#app')

@@ -128,7 +128,7 @@
     </form>
     
     <!-- Download button -->
-    <!-- <corner-button title="Download Ledenlijst" icon="download" @confirm="downloadData"></corner-button> -->
+    <corner-button v-if="state.DEBUG" title="Download Ledenlijst" icon="download" @confirm="downloadData"></corner-button>
   </div>
 </template>
 
@@ -189,6 +189,9 @@
 
         // Change File
         await postExcel(fileName, csv)
+
+        this.member = { name: '', surname: '', birthday: null, study: '', yearOfStudy: 0, email: '', gsm: '', 
+                        street: '', houseNr: 0, city: '', postcode: 0, /*image: null,*/ dopen: 'Nee', privacy: false }
       },
       async downloadData() {
         let fileName = this.getFileName();
@@ -253,6 +256,8 @@
     display: inline-block;
     width: 50%;
   }
+
+  .not-filled { color: crimson !important; }
 
   @media screen and (min-width: 1024px) {
     .full-block     { width: 1024px; }

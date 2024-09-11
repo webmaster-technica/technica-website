@@ -1,12 +1,12 @@
 <template>
   <!-- The model is used to edit data -->
-  <!-- <edit-modal v-if="EditModal.show" :title="getTitle()" @closeEditModal="toggleEditModal()"> <!- @confirm="confirm" ->
-    <!- Input fields ->
+  <edit-modal v-if="state.DEBUG && EditModal.show" :title="getTitle()" @closeEditModal="toggleEditModal()"> <!-- @confirm="confirm" -->
+    <!-- Input fields -->
     <template v-slot:inputs>
-      <!- Name ->
+      <!-- Name -->
       <input class="column-2" v-model="member.name" type="text" placeholder="Voornaam" required/>
       <input class="column-2" v-model="member.surname" type="text" placeholder="Achternaam" required/>
-      <!- New Role ->
+      <!-- New Role -->
       <select class="column-2" v-model="newRole.role">
         <option disabled selected value="">Functie</option>
         <template v-for="role in RoleEnum">
@@ -16,7 +16,7 @@
       <div class="column-2 button-column">
         <input-button-field type="number" placeholder="Jaar (semester 1)" icon="plus" @buttonClick="addRole($event)"/>
       </div>
-      <!- Roles ->
+      <!-- Roles -->
       <template v-for="(mRole, index) in member.roles">
         <select class="column-2" v-model="member.roles[index].role">
           <option disabled selected value="">Functie</option>
@@ -32,7 +32,7 @@
           </input-button-field>
         </div>
       </template>
-      <!- Allowed ->
+      <!-- Allowed -->
       <div class="column-1" style="">
         <div style="flex: 0 0 32px; transform: translateY(-3px);">
           <input v-model="member.approved" type="checkbox" required/>
@@ -42,12 +42,12 @@
         </div>
       </div>
     </template>
-    <!- Buttons ->
+    <!-- Buttons -->
     <template v-slot:buttons>
       <div class="column-2"><button @click="confirm()">{{ getTitle() }}</button></div>
       <div class="column-2" v-if="EditModal.existingItem"><button @click="delMember($event, member.id)">Delete</button></div>
     </template>
-  </edit-modal> -->
+  </edit-modal>
 
   <!-- The main view -->
   <div id="main">
@@ -65,9 +65,9 @@
         </template>
       </input-button-field>
       <input-button-field type="number" placeholder="Jaar (semester 1)" icon="magnifying-glass" @buttonClick="searchMembers($event, 'year')"/>
-      <!-- <div id="checkbox">
+      <div v-if="state.DEBUG" id="checkbox">
         See all: <div style="transform: translateY(-5px);"><input v-model="filter.seeAll" type="checkbox" required/></div>
-      </div> -->
+      </div>
     </div>
 
     <!-- Grid -->
@@ -86,7 +86,7 @@
     </div>
     <div v-else><loading-bar :path="path"></loading-bar></div>
     <!-- Add button -->
-    <!-- <corner-button title="Add" icon="plus" @confirm="changeData($event)"/> -->
+    <corner-button v-if="state.DEBUG" title="Add" icon="plus" @confirm="changeData($event)"/>
   </div>
 </template>
 

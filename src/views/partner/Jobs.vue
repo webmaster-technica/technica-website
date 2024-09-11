@@ -1,15 +1,15 @@
 <template>
   <!-- The model is used to edit data -->
-  <!-- <edit-modal v-if="EditModal.show" :title="getTitle()" @closeEditModal="toggleEditModal">
-    <!- Input fields ->
+  <edit-modal v-if="state.DEBUG && EditModal.show" :title="getTitle()" @closeEditModal="toggleEditModal">
+    <!-- Input fields -->
     <template v-slot:inputs>
-      <!- Name ->
+      <!-- Name -->
       <input class="column-2" v-model="job.name" type="text" placeholder="Voornaam" required/>
-      <!- Course ->
+      <!-- Course -->
       <input class="column-2" v-model="job.course" type="text" placeholder="Richting" required/>
-      <!- Location ->
+      <!-- Location -->
       <input class="column-2" v-model="job.location" type="text" placeholder="Locatie" required/>
-      <!- Partner ->
+      <!-- Partner -->
       <select class="column-2" v-model="job.partner">
         <option disabled selected value="">Partner</option>
         <template v-for="partner in partners">
@@ -17,7 +17,7 @@
         </template>
       </select>
     </template>
-    <!- PDF field ->
+    <!-- PDF field -->
     <template v-slot:image>
       <div class="column-2">
         <label for="pdf" class="button-label">
@@ -30,14 +30,14 @@
         <input @change="onFileChange($event)" id="pdf" type="file" accept="application/pdf" required/>
       </div>
     </template>
-    <!- Buttons ->
+    <!-- Buttons -->
     <template v-slot:buttons>
       <div class="column-2"><button @click="confirm()">{{ getTitle() }}</button></div>
       <div class="column-2" v-if="EditModal.existingItem">
         <button @click="delJob($event, job.id, job.name)">Delete</button>
       </div>
     </template>
-  </edit-modal> -->
+  </edit-modal>
 
   <!-- The main view -->
   <div id="main">
@@ -78,7 +78,7 @@
     <div v-else><loading-bar :path="path"></loading-bar></div>
 
     <!-- Add button -->
-    <!-- <corner-button title="Add" icon="plus" @confirm="changeData($event)"></corner-button> -->
+    <corner-button v-if="state.DEBUG" title="Add" icon="plus" @confirm="changeData($event)"></corner-button>
   </div>
 </template>
 
