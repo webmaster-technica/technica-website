@@ -96,9 +96,9 @@
       <div class="row">
         <div class="large-font smaller-block" ref="dopen"><label for="">Dopen*</label></div> <!-- Dopen -->
         <div class="large-font larger-block">
-          <div id="dopen" class="large-font padded-block">
-            <label><input type="radio" value="Ja" name="dopen(ja)" v-model="member.dopen" required/>Ja</label>
-            <label><input type="radio" value="Nee" name="dopen(nee)" v-model="member.dopen" required/>Nee</label>
+          <div id="dopen" class="large-font padded-block" required>
+            <label><input type="radio" value="Ja" name="dopen(ja)" v-model="member.dopen"/>Ja</label>
+            <label><input type="radio" value="Nee" name="dopen(nee)" v-model="member.dopen"/>Nee</label>
           </div>
         </div>
       </div>
@@ -154,7 +154,6 @@
     methods: {
       onload() { handleClientLoad() },
       submitForm(event) {
-        this.sendEmail()
         if (this.member) {
           this.filledForm = true
           for (let [key, value] of Object.entries(this.member)) {
@@ -166,9 +165,9 @@
             }
           }
           if (this.filledForm) {
-            // console.log(this.member);
+            //console.log(this.member);
             this.addData();
-            this.sendEmail()
+            //this.sendEmail()
           }
         }
       },

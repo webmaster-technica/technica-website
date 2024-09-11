@@ -125,7 +125,7 @@
           if (routes.classList.contains('show-bar')) routes.classList.remove('show-bar')
         }
       },
-      onResize() { this.showHamburger = window.innerWidth < 880 },
+      onResize() { this.showHamburger = window.innerWidth < 1280 },
       currentRouteName() { return this.$route.name; },
       headerBackgroundImage() {
         var imagePath = require('@/assets/images/background/olv_kathedraal.jpg')
