@@ -98,9 +98,9 @@
         },
         routeImages: [
           {name: 'Home',        image: 'olv_kathedraal.jpg'},
-          {name: 'About',       image: 'praesidium_zot.jpg'    },
-          {name: 'Praesidium',  image: 'praesidium_zot.jpg'    },
-          {name: 'History',     image: 'praesidium_zot.jpg'    },
+          {name: 'About',       image: 'praesidium.jpg'    },
+          {name: 'Praesidium',  image: 'praesidium.jpg'    },
+          {name: 'History',     image: 'praesidium.jpg'    },
           {name: 'Events',      image: 'bierfiets.jpg'     },
           {name: 'Join',        image: 'doop.jpg'          },
           {name: 'Partners',    image: 'partner.jpg' },

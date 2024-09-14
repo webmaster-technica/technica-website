@@ -41,9 +41,7 @@ APP.use(store)
 APP.use(router)
 APP.use(VueGoogleMaps, { load: { key: 'AIzaSyCSxy1OAmiwSOHzV3ZKVhLdRLzc1wqzV-g' } })
 
-APP.config.globalProperties.state = {
-  DEBUG: false
-} 
+APP.config.globalProperties.state = { DEBUG: false } 
 
 APP.component('font-awesome-icon', FontAwesomeIcon)
 

@@ -16,6 +16,10 @@
 ```firebase deploy```
 [hosting](https://technica-website-defc6.firebaseapp.com/)
 
+## Debug/Edit mode
+To edit the data pages (praesidium, partner, ...) go to the [main.js](./src/main.js) file and set the ```DEBUG``` variable to ```true```.
+Make sure this variable is set to ```false``` when deploying.
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
@@ -26,11 +30,6 @@ gsutil cors set ~\technica-antwerpen\cors.json gs://**your-cloud-storage-bucket*
 ## domain tests
 get free [domain](https://www.noip.com/).
 [website domain link](http://technica1961.ddns.net)
-
-
-## TODO
-- Change join form into woth form tags (Join.vue)
-- Find beter way to refresh (Preasidium.vue)
 
 ## Package Instalment
 ### FireBase
