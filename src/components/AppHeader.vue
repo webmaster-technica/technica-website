@@ -39,7 +39,7 @@
               <router-link :to="{ name: routes.jobs.name }"><b>{{ routes.jobs.title }}</b></router-link>
             </h6>
           </div>
-          <h6 class="tab"><router-link :to="{ name: routes.shop.name }"><b>{{ routes.shop.title }}</b></router-link></h6>
+          <!-- <h6 class="tab"><router-link :to="{ name: routes.shop.name }"><b>{{ routes.shop.title }}</b></router-link></h6> -->
         </div>
       </div>
     </nav>
@@ -94,7 +94,7 @@
           join:       {name: 'Join',        title: 'Lid worden'  },
           partners:   {name: 'Partners',    title: 'Partners'    },
           jobs:       {name: 'Jobs',        title: 'Vacature'    },
-          shop:       {name: 'Shop',        title: 'Shop'        }
+          // shop:       {name: 'Shop',        title: 'Shop'        }
         },
         routeImages: [
           {name: 'Home',        image: 'olv_kathedraal.jpg'},
@@ -105,7 +105,7 @@
           {name: 'Join',        image: 'doop.jpg'          },
           {name: 'Partners',    image: 'partner.jpg' },
           {name: 'Jobs',        image: 'partner.jpg' },
-          {name: 'Shop',        image: 'shop.png'          },
+          // {name: 'Shop',        image: 'shop.png'          },
           {name: 'NotFound',    image: 'not_found.png'     }
         ]
         // https://stackoverflow.com/a/56569951

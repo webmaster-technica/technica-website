@@ -128,7 +128,7 @@
     </form>
     
     <!-- Download button -->
-    <corner-button v-if="state.DEBUG" title="Download Ledenlijst" icon="download" @confirm="downloadData"></corner-button>
+    <!--<corner-button v-if="state.DEBUG" title="Download Ledenlijst" icon="download" @confirm="downloadData"></corner-button>-->
   </div>
 </template>
 
